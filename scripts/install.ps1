@@ -1,4 +1,4 @@
-﻿# MCP FME - Universal 1-Command Installer
+# MCP FME - Universal 1-Command Installer
 # Model Context Protocol Server for Safe Software FME (2018.0 - 2026+)
 # Usage:
 #   irm https://raw.githubusercontent.com/mwjouini/fme-mcp-ultra/main/scripts/install.ps1 | iex
