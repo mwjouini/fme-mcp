@@ -124,6 +124,28 @@ def fme_preview_dataset(dataset_path: str, limit: int = 10) -> dict[str, Any]:
     return workspace_tools.fme_preview_dataset(dataset_path=dataset_path, limit=limit)
 
 
+@mcp_server.tool()
+def fme_audit_performance(workspace_path: str, strict_mode: bool = False) -> dict[str, Any]:
+    """Audit FME workspace for performance bottlenecks, heavy transformers, and unindexed inputs."""
+    return workspace_tools.fme_audit_performance(
+        workspace_path=workspace_path, strict_mode=strict_mode
+    )
+
+
+@mcp_server.tool()
+def fme_export_markdown_docs(
+    workspace_path: str,
+    output_file: str | None = None,
+    include_canvas_summary: bool = True,
+) -> dict[str, Any]:
+    """Generate clean markdown documentation from .fmw bookmarks, annotations, and metadata."""
+    return workspace_tools.fme_export_markdown_docs(
+        workspace_path=workspace_path,
+        output_file=output_file,
+        include_canvas_summary=include_canvas_summary,
+    )
+
+
 # ==============================================================================
 # SPATIAL TOOLS
 # ==============================================================================

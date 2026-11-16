@@ -1,0 +1,80 @@
+name: Build & Release Standalone Binaries
+
+on:
+  release:
+    types: [published]
+  push:
+    tags:
+      - "v*.*.*"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  build-binaries:
+    name: Build Standalone (${{ matrix.os }} - ${{ matrix.arch }})
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - os: windows-latest
+            arch: x64
+            binary_name: fme-mcp-ultra.exe
+            platform_alias: fme-mcp-ultra-windows-x64.exe
+          - os: ubuntu-latest
+            arch: x64
+            binary_name: fme-mcp-ultra
+            platform_alias: fme-mcp-ultra-linux-x64
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: "pip"
+
+      - name: Install Dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -e .
+          pip install pyinstaller>=6.0.0 shapely
+
+      - name: Build Standalone Binary with PyInstaller
+        run: |
+          python scripts/build_standalone.py --clean
+
+      - name: Smoke Test Standalone Binary (Windows)
+        if: runner.os == 'Windows'
+        run: |
+          .\dist\fme-mcp-ultra.exe version
+          .\dist\fme-mcp-ultra.exe doctor
+
+      - name: Smoke Test Standalone Binary (Linux)
+        if: runner.os == 'Linux'
+        run: |
+          chmod +x ./dist/fme-mcp-ultra
+          ./dist/fme-mcp-ultra version
+          ./dist/fme-mcp-ultra doctor
+
+      - name: Upload Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ matrix.platform_alias }}
+          path: |
+            dist/fme-mcp-ultra*
+          if-no-files-found: error
+
+      - name: Attach Binaries to GitHub Release
+        uses: softprops/action-gh-release@v2
+        if: github.event_name == 'release' || startsWith(github.ref, 'refs/tags/')
+        with:
+          files: |
+            dist/fme-mcp-ultra*
+          fail_on_unmatched_files: false
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

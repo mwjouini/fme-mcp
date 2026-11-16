@@ -93,14 +93,41 @@ flowchart TB
 
 ---
 
-## ⚡ Quickstart (Under 5 Minutes)
+## ⚡ 1-Command Universal Installation (Recommended)
 
-### Option 1: Run with `uvx` (Recommended)
+Get up and running immediately with **ZERO dependencies** — no Python, no `uv`, and no `uvx` needed!
+
+The universal installer automatically discovers your local **FME Form** installation, hooks into its native engine runtime or fetches the pre-built standalone binary, and **automatically configures Claude Desktop, Cursor, Antigravity, VS Code, and Windsurf**:
+
+### Windows (PowerShell)
+```powershell
+irm https://raw.githubusercontent.com/mwjouini/fme-mcp-ultra/main/scripts/install.ps1 | iex
+```
+
+### Linux / macOS (Bash)
+```bash
+curl -fsSL https://raw.githubusercontent.com/mwjouini/fme-mcp-ultra/main/scripts/install.sh | bash
+```
+
+> **✨ Key Highlights of the 1-Command Installer:**
+> - **Zero External Dependencies**: Operates out-of-the-box on standard systems without requiring Python, uv, or build tools.
+> - **Native FME Form Engine Detection**: Seamlessly detects FME Form (2018.0 through 2026+) via Windows Registry, environment variables (`FME_HOME`, `FME_DIR`), standard directories (`C:\Program Files\FME`, `/opt/fme`), and system `PATH`.
+> - **Auto-Configures AI Clients**: Instantly detects and writes ready-to-run MCP configurations for **Claude Desktop**, **Cursor**, **Antigravity**, **VS Code**, and **Windsurf**.
+> - **Instant Health Verification**: Automatically runs `fme-mcp-ultra doctor` to verify licenses, engine bindings, and spatial tools.
+
+---
+
+## 📦 Alternative Installation Options
+
+### Option A: Standalone Executable (GitHub Releases)
+Download pre-compiled self-contained single-file binaries (`fme-mcp-ultra.exe` for Windows, `fme-mcp-ultra` for Linux) directly from [GitHub Releases](https://github.com/mwjouini/fme-mcp-ultra/releases/latest) with no installation or Python required.
+
+### Option B: Run with `uvx` (For Python / uv Developers)
 ```bash
 uvx fme-mcp-ultra serve --transport stdio
 ```
 
-### Option 2: Standard `pip` Installation
+### Option C: Standard `pip` Installation
 ```bash
 pip install fme-mcp-ultra
 fme-mcp-ultra doctor
@@ -110,6 +137,9 @@ fme-mcp-ultra serve --transport stdio
 ---
 
 ## 🔌 MCP Client Configurations
+
+> [!TIP]
+> **Automatic Setup Available**: If you ran the [1-Command Universal Installation](#-1-command-universal-installation-recommended), your MCP clients (**Claude Desktop**, **Cursor**, **Antigravity**, **VS Code**, **Windsurf**) have already been auto-detected and configured! The manual configurations below are provided for custom setups or reference.
 
 ### 1. Claude Desktop
 Add this to `%APPDATA%\Claude\claude_desktop_config.json` (Windows) or `~/Library/Application Support/Claude/claude_desktop_config.json` (macOS):
@@ -187,8 +217,8 @@ To allow FME Workbench to report live translation events (status, duration, feat
 | Domain | Key Tools | Description |
 | :--- | :--- | :--- |
 | **Desktop Interactivity** | `fme_diagnose`, `fme_inspect_canvas`, `fme_open_in_workbench`, `fme_open_in_inspector`, `fme_preview_dataset` | Live environment diagnosis, XML canvas graph parsing, detached GUI launching, and instant dataset feature preview. |
-| **Workspaces** | `fme_discover_workspaces`, `fme_get_workspace`, `fme_run_workspace`, `fme_compare_workspaces` | Crawls directories, extracts published parameters, and executes `.fmw` workspaces. |
-| **Spatial Analysis** | `gis_reproject`, `gis_buffer`, `gis_validate_geometry` | High-precision CRS conversion (EPSG:4326 to 2154 / 3857), circular buffering, and polygon validation. |
+| **Workspaces** | `fme_discover_workspaces`, `fme_get_workspace`, `fme_run_workspace`, `fme_compare_workspaces`, `fme_audit_performance`, `fme_export_markdown_docs` | Crawls directories, extracts published parameters, audits performance bottlenecks, exports markdown documentation, and executes `.fmw` workspaces. |
+| **Spatial Analysis** | `gis_reproject`, `gis_buffer`, `gis_validate_geometry`, `gis_intersection`, `gis_difference`, `gis_simplify`, `gis_bounding_box` | High-precision CRS conversion (EPSG:4326 to 2154 / 3857), spatial boolean operations (intersection/difference), polygon simplification, bounding box extraction, circular buffering, and polygon validation. |
 | **Data Engineering** | `data_read_metadata`, `data_profile` | Column analysis, null counts, distinct value distribution, and format inspection. |
 | **Data Quality** | `quality_score_dataset`, `quality_generate_data_contract` | Computes completeness scores and generates standard Data Contract YAML. |
 | **Catalogue** | `catalog_register_asset`, `catalog_search_assets`, `catalog_get_lineage` | Registers datasets, performs semantic search, and maps upstream/downstream dependencies. |
