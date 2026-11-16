@@ -294,6 +294,11 @@
 
             # Check if existing standalone binary is already installed
             if ((Test-Path $targetExe) -and (-not $ForceOverwrite)) {
+                # Clean up any leftover legacy binaries
+                $legacyFiles = @((Join-Path $TargetDir "fme-mcp-ultra.exe"), (Join-Path $TargetDir "mcp-fme.exe"))
+                foreach ($lf in $legacyFiles) {
+                    if (Test-Path $lf) { try { Remove-Item -Path $lf -Force -ErrorAction SilentlyContinue } catch { } }
+                }
                 Write-Success "Existing standalone binary found at $targetExe (Use -Force to overwrite)"
                 return $targetExe
             }
@@ -309,7 +314,10 @@
             foreach ($candidate in $legacyCandidates) {
                 if ((Test-Path $candidate) -and (-not $ForceOverwrite)) {
                     if (-not $DryRunMode) {
-                        try { Copy-Item -Path $candidate -Destination $targetExe -Force } catch { }
+                        try {
+                            Copy-Item -Path $candidate -Destination $targetExe -Force
+                            Remove-Item -Path $candidate -Force -ErrorAction SilentlyContinue
+                        } catch { }
                     }
                     if (Test-Path $targetExe) {
                         Write-Success "Upgraded standalone binary to $targetExe"
@@ -326,9 +334,7 @@
             if ($repoRoot) {
                 $localDistBins = @(
                     (Join-Path $repoRoot "dist\fme-mcp.exe"),
-                    (Join-Path $repoRoot "dist\fme-mcp-ultra.exe"),
-                    (Join-Path (Split-Path -Parent $repoRoot) "dist\fme-mcp.exe"),
-                    (Join-Path (Split-Path -Parent $repoRoot) "dist\fme-mcp-ultra.exe")
+                    (Join-Path (Split-Path -Parent $repoRoot) "dist\fme-mcp.exe")
                 )
                 foreach ($localDistBin in $localDistBins) {
                     if (Test-Path $localDistBin) {
@@ -350,12 +356,8 @@
 
             # Download prebuilt standalone binary from GitHub Releases
             $downloadUrls = @(
-                "https://github.com/$Repository/releases/download/$ReleaseTag/fme-mcp-ultra.exe",
-                "https://github.com/$Repository/releases/download/$ReleaseTag/fme-mcp-ultra-windows-x64.exe",
-                "https://github.com/$Repository/releases/latest/download/fme-mcp-ultra.exe",
-                "https://github.com/$Repository/releases/latest/download/fme-mcp-ultra-windows-x64.exe",
-                "https://github.com/mwjouini/fme-mcp-ultra/releases/latest/download/fme-mcp-ultra.exe",
-                "https://github.com/mwjouini/fme-mcp-ultra/releases/latest/download/fme-mcp-ultra-windows-x64.exe"
+                "https://github.com/$Repository/releases/download/$ReleaseTag/fme-mcp.exe",
+                "https://github.com/$Repository/releases/latest/download/fme-mcp.exe"
             )
 
             if ($DryRunMode) {

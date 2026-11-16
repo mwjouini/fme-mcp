@@ -262,16 +262,6 @@ def build_binary(
         arch_checksum.write_text(f"{sha256_hash}  {arch_alias_name}\n", encoding="utf-8")
         print(f"[+] Created platform release alias: {arch_alias_path}")
 
-    # Also generate backward compatibility aliases if building primary fme-mcp binary
-    if binary_name == "fme-mcp":
-        for legacy_base in ("fme-mcp-ultra",):
-            legacy_target = output_dir / f"{legacy_base}{suffix}"
-            if legacy_target != target_path:
-                shutil.copy2(target_path, legacy_target)
-            legacy_arch = output_dir / f"{legacy_base}-{os_name}-{arch}{suffix}"
-            if legacy_arch != target_path:
-                shutil.copy2(target_path, legacy_arch)
-
     print("-" * 70)
     print("[+] Standalone binary successfully generated!")
     print(f"    Path:     {target_path}")
@@ -297,16 +287,6 @@ def build_binary(
         except Exception as e:
             print(f"[-] Standalone binary smoke test failed: {e}")
             sys.exit(1)
-
-    # Also create fme-mcp-ultra alias for legacy workflows
-    legacy_name = "fme-mcp-ultra.exe" if is_windows else "fme-mcp-ultra"
-    legacy_path = output_dir / legacy_name
-    if target_path.name != legacy_name:
-        try:
-            shutil.copy2(target_path, legacy_path)
-            print(f"[+] Created compatibility binary alias: {legacy_path}")
-        except Exception:
-            pass
 
     return target_path
 
