@@ -53,7 +53,7 @@ def ensure_bridge_started(host: str = DEFAULT_HOST, port: int = DEFAULT_PORT) ->
     return is_bridge_running(host, port)
 
 
-class MCPAgentBridgeTransformer:
+class MCPConnectorTransformer:
     """FME PythonCaller Transformer class for AI Agent & MCP integration."""
 
     def __init__(self) -> None:
@@ -141,3 +141,7 @@ class MCPAgentBridgeTransformer:
                 self.sock.close()
             self.sock = None
             self.connected = False
+
+
+# Backward compatibility alias
+MCPAgentBridgeTransformer = MCPConnectorTransformer

@@ -1,11 +1,11 @@
-"""Generator for MCPAgentBridge FME Custom Transformer (.fmx) and demo workspace (.fmw)."""
+"""Generator for MCPConnector FME Custom Transformer (.fmx) and demo workspace (.fmw)."""
 
 from __future__ import annotations
 
 import os
 from pathlib import Path
 
-FME_PYTHON_SOURCE = """# MCPAgentBridge FME Custom Transformer Script
+FME_PYTHON_SOURCE = """# MCPConnector FME Custom Transformer Script
 # Runs natively inside FME Form's embedded Python. Zero external setup.
 import contextlib
 import json
@@ -18,7 +18,7 @@ try:
 except ImportError:
     pass
 
-class MCPAgentBridgeTransformer:
+class MCPConnectorTransformer:
     def __init__(self):
         self.host = "127.0.0.1"
         self.port = 9877
@@ -111,9 +111,9 @@ def build_fmx_content() -> str:
 
     return f"""#! <?xml version="1.0" encoding="UTF-8" ?>
 #! <TRANSFORMER
-# TRANSFORMER_BEGIN MCPAgentBridge,1,Web,{guid},"Linked Always",Yes,NO_PARALLELISM,,No,25810,YES,No,,No,
+# TRANSFORMER_BEGIN MCPConnector,1,Web,{guid},"Linked Always",Yes,NO_PARALLELISM,,No,25810,YES,No,,No,
 #
-# <p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px;"><b>MCPAgentBridge</b> connects FME Workbench directly to AI Agents &amp; MCP Servers (Claude, Antigravity, Cursor, ChatGPT). Runs entirely within FME Form's embedded Python runtime - no external Python installation required on Windows.</p>
+# <p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px;"><b>MCPConnector</b> connects FME Workbench directly to AI Agents &amp; MCP Servers (Claude, Antigravity, Cursor, ChatGPT). Runs entirely within FME Form's embedded Python runtime - no external Python installation required on Windows.</p>
 # TRANSFORMER_END
 #!   ARCGIS_COMPATIBILITY="ARCGIS_AUTO"
 #!   ATTR_TYPE_ENCODING="SDF"
@@ -135,7 +135,7 @@ def build_fmx_content() -> str:
 #!   LAST_SAVE_BUILD="FME(R) 2025.2.0.0 (20251120 - Build 25810 - WIN64)"
 #!   LAST_SAVE_DATE="2026-11-10T15:00:00"
 #!   PYTHON_COMPATIBILITY="310+"
-#!   TITLE="MCPAgentBridge"
+#!   TITLE="MCPConnector"
 #!   WORKSPACE_VERSION="1"
 #!   XFORM_DEPRECATED="No"
 #!   ZOOM_SCALE="100"
@@ -186,8 +186,8 @@ def build_fmx_content() -> str:
 #!     <XFORM_ATTR ATTR_NAME="_ai_response" IS_USER_CREATED="false" FEAT_INDEX="0" />
 #!     <XFORM_PARM PARM_NAME="NEW_ATTRIBUTES" PARM_VALUE="_mcp_status _ai_action_used _ai_bridge_port _ai_response"/>
 #!     <XFORM_PARM PARM_NAME="PYTHONSOURCE" PARM_VALUE="{encoded_py}"/>
-#!     <XFORM_PARM PARM_NAME="PYTHONSYMBOL" PARM_VALUE="MCPAgentBridgeTransformer"/>
-#!     <XFORM_PARM PARM_NAME="XFORMER_NAME" PARM_VALUE="MCPAgentBridge_Caller"/>
+#!     <XFORM_PARM PARM_NAME="PYTHONSYMBOL" PARM_VALUE="MCPConnectorTransformer"/>
+#!     <XFORM_PARM PARM_NAME="XFORMER_NAME" PARM_VALUE="MCPConnector_Caller"/>
 #! </TRANSFORMER>
 #! </TRANSFORMERS>
 #! <FEAT_LINKS>
@@ -195,24 +195,24 @@ def build_fmx_content() -> str:
 #! </TRANSFORMER>
 # ============================================================================
 DEFAULT_MACRO WB_CURRENT_CONTEXT
-DEFAULT_MACRO MCPAgentBridge_WORKSPACE_NAME ""
-INCLUDE [puts {{MACRO WB_OLD_CONTEXT_$(MCPAgentBridge_WORKSPACE_NAME) $(WB_CURRENT_CONTEXT)}}; \\
-         puts {{MACRO WB_CURRENT_CONTEXT $(MCPAgentBridge_WORKSPACE_NAME)}}]
+DEFAULT_MACRO MCPConnector_WORKSPACE_NAME ""
+INCLUDE [puts {{MACRO WB_OLD_CONTEXT_$(MCPConnector_WORKSPACE_NAME) $(WB_CURRENT_CONTEXT)}}; \\
+         puts {{MACRO WB_CURRENT_CONTEXT $(MCPConnector_WORKSPACE_NAME)}}]
 
 FACTORY_DEF * TeeFactory \\
-   FACTORY_NAME "$(MCPAgentBridge_WORKSPACE_NAME)_Input_Splitter" \\
-   INPUT FEATURE_TYPE "$(MCPAgentBridge_WORKSPACE_NAME)_Input" \\
-   OUTPUT FEATURE_TYPE "$(MCPAgentBridge_WORKSPACE_NAME)_Input"
+   FACTORY_NAME "$(MCPConnector_WORKSPACE_NAME)_Input_Splitter" \\
+   INPUT FEATURE_TYPE "$(MCPConnector_WORKSPACE_NAME)_Input" \\
+   OUTPUT FEATURE_TYPE "$(MCPConnector_WORKSPACE_NAME)_Input"
 
 FACTORY_DEF {{*}} PythonFactory \\
-   FACTORY_NAME {{ $(MCPAgentBridge_WORKSPACE_NAME)_MCPAgentBridge_Caller }} \\
+   FACTORY_NAME {{ $(MCPConnector_WORKSPACE_NAME)_MCPConnector_Caller }} \\
    FLUSH_WHEN_GROUPS_CHANGE No \\
-   INPUT FEATURE_TYPE "$(MCPAgentBridge_WORKSPACE_NAME)_Input" \\
-   SYMBOL_NAME {{ MCPAgentBridgeTransformer }} \\
+   INPUT FEATURE_TYPE "$(MCPConnector_WORKSPACE_NAME)_Input" \\
+   SYMBOL_NAME {{ MCPConnectorTransformer }} \\
    SOURCE_CODE {{ {encoded_py} }} \\
-   OUTPUT {{ PYOUTPUT FEATURE_TYPE "$(MCPAgentBridge_WORKSPACE_NAME)_Output" }}
+   OUTPUT {{ PYOUTPUT FEATURE_TYPE "$(MCPConnector_WORKSPACE_NAME)_Output" }}
 
-INCLUDE [puts {{MACRO WB_CURRENT_CONTEXT $(WB_OLD_CONTEXT_$(MCPAgentBridge_WORKSPACE_NAME))}}]
+INCLUDE [puts {{MACRO WB_CURRENT_CONTEXT $(WB_OLD_CONTEXT_$(MCPConnector_WORKSPACE_NAME))}}]
 """
 
 
@@ -221,7 +221,7 @@ def main() -> None:
     transformers_dir = repo_root / "transformers"
     transformers_dir.mkdir(parents=True, exist_ok=True)
 
-    fmx_file = transformers_dir / "MCPAgentBridge.fmx"
+    fmx_file = transformers_dir / "MCPConnector.fmx"
     content = build_fmx_content()
     fmx_file.write_text(content, encoding="utf-8")
     print(f"Generated: {fmx_file} ({len(content)} bytes)")
@@ -229,11 +229,11 @@ def main() -> None:
     # Also deploy directly to user's FME Transformers folder if present
     user_fme_dir = Path(os.environ.get("USERPROFILE", "")) / "Documents" / "FME" / "Transformers"
     if user_fme_dir.exists():
-        target_fmx = user_fme_dir / "MCPAgentBridge.fmx"
+        target_fmx = user_fme_dir / "MCPConnector.fmx"
         target_fmx.write_text(content, encoding="utf-8")
         print(f"Deployed directly to FME User Transformers: {target_fmx}")
 
-    desktop_fmx = Path(os.environ.get("USERPROFILE", "")) / "Desktop" / "MCPAgentBridge.fmx"
+    desktop_fmx = Path(os.environ.get("USERPROFILE", "")) / "Desktop" / "MCPConnector.fmx"
     desktop_fmx.write_text(content, encoding="utf-8")
     print(f"Copied to Desktop for upload: {desktop_fmx}")
 

@@ -444,14 +444,14 @@ def test_fme_audit_performance_strict_mode(complex_sample_fmw: Path):
 
 
 def test_fme_audit_performance_real_workspace():
-    """Verify audit on repository example workspace MCPAgentBridge_Demo.fmw."""
-    demo_path = Path("examples/workbench/MCPAgentBridge_Demo.fmw")
+    """Verify audit on repository example workspace MCPConnector_Demo.fmw."""
+    demo_path = Path("examples/workbench/MCPConnector_Demo.fmw")
     if not demo_path.exists():
-        pytest.skip("examples/workbench/MCPAgentBridge_Demo.fmw not found")
+        pytest.skip("examples/workbench/MCPConnector_Demo.fmw not found")
 
     res = fme_audit_performance(str(demo_path))
     assert res["success"] is True
-    assert res["data"]["workspace_name"] == "MCPAgentBridge_Demo.fmw"
+    assert res["data"]["workspace_name"] == "MCPConnector_Demo.fmw"
     assert "performance_score" in res["data"]
 
 

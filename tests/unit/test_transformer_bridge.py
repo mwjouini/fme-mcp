@@ -6,6 +6,7 @@ from unittest.mock import MagicMock
 
 from fme_mcp.fme.transformer_bridge import (
     MCPAgentBridgeTransformer,
+    MCPConnectorTransformer,
     is_bridge_running,
 )
 
@@ -64,3 +65,10 @@ def test_transformer_bridge_connected_send():
     transformer.sock.sendall.assert_called_once()
     transformer.pyoutput.assert_called_once_with(feat)
     transformer.close()
+
+
+def test_mcp_connector_transformer_alias():
+    assert issubclass(MCPConnectorTransformer, object)
+    assert MCPAgentBridgeTransformer is MCPConnectorTransformer
+    conn = MCPConnectorTransformer()
+    assert conn.port == 9877

@@ -1,4 +1,4 @@
-"""Create a demo FME Workspace (.fmw) showing MCPAgentBridge in action."""
+"""Create a demo FME Workspace (.fmw) showing MCPConnector in action."""
 
 from __future__ import annotations
 
@@ -14,7 +14,7 @@ def build_demo_fmw() -> str:
     return f"""#! <?xml version="1.0" encoding="UTF-8" ?>
 #! <WORKSPACE
 #    Command line to run this workspace:
-#        "C:\\Program Files\\FME\\fme.exe" MCPAgentBridge_Demo.fmw
+#        "C:\\Program Files\\FME\\fme.exe" MCPConnector_Demo.fmw
 #!   ARCGIS_COMPATIBILITY="ARCGIS_AUTO"
 #!   ATTR_TYPE_ENCODING="SDF"
 #!   CATEGORY=""
@@ -31,7 +31,7 @@ def build_demo_fmw() -> str:
 #!   LAST_SAVE_BUILD="FME(R) 2025.2.0.0 (20251120 - Build 25810 - WIN64)"
 #!   LAST_SAVE_DATE="2026-11-10T15:00:00"
 #!   PYTHON_COMPATIBILITY="310+"
-#!   TITLE="MCPAgentBridge Demo"
+#!   TITLE="MCPConnector Demo"
 #!   WORKSPACE_VERSION="1"
 #! >
 #! <DATASETS>
@@ -104,8 +104,8 @@ def build_demo_fmw() -> str:
 #!     <XFORM_ATTR ATTR_NAME="_ai_response" IS_USER_CREATED="false" FEAT_INDEX="0" />
 #!     <XFORM_PARM PARM_NAME="NEW_ATTRIBUTES" PARM_VALUE="_mcp_status _ai_action_used _ai_bridge_port _ai_response"/>
 #!     <XFORM_PARM PARM_NAME="PYTHONSOURCE" PARM_VALUE="{encoded_py}"/>
-#!     <XFORM_PARM PARM_NAME="PYTHONSYMBOL" PARM_VALUE="MCPAgentBridgeTransformer"/>
-#!     <XFORM_PARM PARM_NAME="XFORMER_NAME" PARM_VALUE="MCPAgentBridge"/>
+#!     <XFORM_PARM PARM_NAME="PYTHONSYMBOL" PARM_VALUE="MCPConnectorTransformer"/>
+#!     <XFORM_PARM PARM_NAME="XFORMER_NAME" PARM_VALUE="MCPConnector"/>
 #! </TRANSFORMER>
 #! </TRANSFORMERS>
 #! <FEAT_LINKS>
@@ -146,21 +146,18 @@ FACTORY_DEF * TeeFactory \\
    sample_address "10 Rue de la Paix, 75002 Paris"
 
 FACTORY_DEF {{*}} PythonFactory \\
-   FACTORY_NAME MCPAgentBridge_Caller \\
+   FACTORY_NAME MCPConnector_Caller \\
    FLUSH_WHEN_GROUPS_CHANGE No \\
    INPUT FEATURE_TYPE Setup_AI_Params_OUTPUT \\
-   SYMBOL_NAME {{ MCPAgentBridgeTransformer }} \\
+   SYMBOL_NAME {{ MCPConnectorTransformer }} \\
    SOURCE_CODE {{ {encoded_py} }} \\
-   OUTPUT {{ PYOUTPUT FEATURE_TYPE MCPAgentBridge_OUTPUT }}
+   OUTPUT {{ PYOUTPUT FEATURE_TYPE MCPConnector_OUTPUT }}
 """
 
 
 def main() -> None:
     demo_file = (
-        Path(__file__).resolve().parent.parent
-        / "examples"
-        / "workbench"
-        / "MCPAgentBridge_Demo.fmw"
+        Path(__file__).resolve().parent.parent / "examples" / "workbench" / "MCPConnector_Demo.fmw"
     )
     content = build_demo_fmw()
     demo_file.write_text(content, encoding="utf-8")

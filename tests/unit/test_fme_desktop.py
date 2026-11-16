@@ -162,7 +162,7 @@ def test_fme_bridge_loopback_socket():
         assert last_evt["status"] == "SUCCESS"
         assert last_evt["result"]["event"] == "translation_started"
 
-        # Send feature action (as MCPAgentBridge transformer does)
+        # Send feature action (as MCPConnector transformer does)
         with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as sock:
             sock.connect(("127.0.0.1", port))
             sock.sendall(
