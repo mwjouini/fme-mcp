@@ -409,7 +409,7 @@
                         "    fme-mcp %*",
                         "    exit /b %ERRORLEVEL%",
                         ")",
-                        "python -m fme_mcp_ultra %* 2>nul",
+                        "python -m fme_mcp %* 2>nul",
                         "if %ERRORLEVEL% EQU 0 exit /b 0",
                         "uvx fme-mcp %*",
                         "exit /b %ERRORLEVEL%"
@@ -545,14 +545,14 @@
             Write-Step "Checking FME bundled Python for fme-mcp..."
             $fmeHasPackage = $false
             try {
-                $check = & $detectedFmePython -c "import fme_mcp_ultra; print('OK')" 2>$null
+                $check = & $detectedFmePython -c "import fme_mcp; print('OK')" 2>$null
                 if ($check -match "OK") { $fmeHasPackage = $true }
             } catch { }
 
             if ($fmeHasPackage) {
                 Write-Success "Using FME's bundled Python interpreter as runtime."
                 $finalServerCommand = $detectedFmePython
-                $finalServerArgs = @("-m", "fme_mcp_ultra", "serve", "--transport", "stdio")
+                $finalServerArgs = @("-m", "fme_mcp", "serve", "--transport", "stdio")
             } else {
                 Write-Warn "fme-mcp is not installed inside FME Python. Proceeding with Standalone Binary."
                 $finalServerCommand = Install-StandaloneBinary -TargetDir $InstallDir -Repository $Repo -ReleaseTag $Tag -DryRunMode:$DryRun -ForceOverwrite:$Force

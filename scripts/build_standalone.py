@@ -14,7 +14,6 @@ from __future__ import annotations
 import argparse
 import hashlib
 import platform
-import shutil
 import subprocess
 import sys
 import time
@@ -70,7 +69,7 @@ def create_entrypoint(temp_dir: Path) -> Path:
     code = (
         "# Auto-generated standalone entrypoint for FME MCP (fme-mcp)\n"
         "import sys\n"
-        "from fme_mcp_ultra.cli.main import cli\n\n"
+        "from fme_mcp.cli.main import cli\n\n"
         "if __name__ == '__main__':\n"
         "    cli()\n"
     )
@@ -115,37 +114,37 @@ def build_binary(
 
     # Core hidden imports required by fme-mcp and its dependencies
     hidden_imports = [
-        "fme_mcp_ultra",
-        "fme_mcp_ultra.cli",
-        "fme_mcp_ultra.cli.main",
-        "fme_mcp_ultra.core",
-        "fme_mcp_ultra.core.config",
-        "fme_mcp_ultra.core.errors",
-        "fme_mcp_ultra.core.logging",
-        "fme_mcp_ultra.core.schema",
-        "fme_mcp_ultra.fme",
-        "fme_mcp_ultra.fme.fme_bridge",
-        "fme_mcp_ultra.fme.fme_form_client",
-        "fme_mcp_ultra.fme.fme_flow_client",
-        "fme_mcp_ultra.fme.transformer_bridge",
-        "fme_mcp_ultra.fme.compatibility_layer",
-        "fme_mcp_ultra.fme.parameter_mapper",
-        "fme_mcp_ultra.security",
-        "fme_mcp_ultra.security.audit_log",
-        "fme_mcp_ultra.security.command_guard",
-        "fme_mcp_ultra.server",
-        "fme_mcp_ultra.server.mcp_server",
-        "fme_mcp_ultra.tools",
-        "fme_mcp_ultra.tools.ai.ai_tools",
-        "fme_mcp_ultra.tools.catalog.catalog_tools",
-        "fme_mcp_ultra.tools.datasets.dataset_tools",
-        "fme_mcp_ultra.tools.governance.governance_tools",
-        "fme_mcp_ultra.tools.mcp_federation.federation_tools",
-        "fme_mcp_ultra.tools.orchestration.workflow_tools",
-        "fme_mcp_ultra.tools.quality.quality_tools",
-        "fme_mcp_ultra.tools.spatial.spatial_tools",
-        "fme_mcp_ultra.tools.utilities.util_tools",
-        "fme_mcp_ultra.tools.workspaces.workspace_tools",
+        "fme_mcp",
+        "fme_mcp.cli",
+        "fme_mcp.cli.main",
+        "fme_mcp.core",
+        "fme_mcp.core.config",
+        "fme_mcp.core.errors",
+        "fme_mcp.core.logging",
+        "fme_mcp.core.schema",
+        "fme_mcp.fme",
+        "fme_mcp.fme.fme_bridge",
+        "fme_mcp.fme.fme_form_client",
+        "fme_mcp.fme.fme_flow_client",
+        "fme_mcp.fme.transformer_bridge",
+        "fme_mcp.fme.compatibility_layer",
+        "fme_mcp.fme.parameter_mapper",
+        "fme_mcp.security",
+        "fme_mcp.security.audit_log",
+        "fme_mcp.security.command_guard",
+        "fme_mcp.server",
+        "fme_mcp.server.mcp_server",
+        "fme_mcp.tools",
+        "fme_mcp.tools.ai.ai_tools",
+        "fme_mcp.tools.catalog.catalog_tools",
+        "fme_mcp.tools.datasets.dataset_tools",
+        "fme_mcp.tools.governance.governance_tools",
+        "fme_mcp.tools.mcp_federation.federation_tools",
+        "fme_mcp.tools.orchestration.workflow_tools",
+        "fme_mcp.tools.quality.quality_tools",
+        "fme_mcp.tools.spatial.spatial_tools",
+        "fme_mcp.tools.utilities.util_tools",
+        "fme_mcp.tools.workspaces.workspace_tools",
         "anyio._backends._asyncio",
         "uvicorn.logging",
         "uvicorn.loops",
@@ -161,7 +160,7 @@ def build_binary(
 
     # Packages to collect all data and submodules
     collect_packages = [
-        "fme_mcp_ultra",
+        "fme_mcp",
         "mcp",
         "starlette",
         "uvicorn",

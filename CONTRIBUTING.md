@@ -40,13 +40,13 @@ ruff check .
 ruff format --check .
 
 # Static Type Checking
-mypy src/fme_mcp_ultra
+mypy src/fme_mcp
 
 # Security Scans
-bandit -r src/fme_mcp_ultra
+bandit -r src/fme_mcp
 
 # Test Suite Execution
-pytest tests/ -v --cov=src/fme_mcp_ultra
+pytest tests/ -v --cov=src/fme_mcp
 ```
 
 ---

@@ -162,7 +162,7 @@ Add this to `%APPDATA%\Claude\claude_desktop_config.json` (Windows) or `~/Librar
   "mcpServers": {
     "fme-mcp": {
       "command": "py",
-      "args": ["-m", "fme_mcp_ultra.cli.main", "serve", "--transport", "stdio"]
+      "args": ["-m", "fme_mcp.cli.main", "serve", "--transport", "stdio"]
     }
   }
 }
@@ -174,7 +174,7 @@ Add this to `%APPDATA%\Claude\claude_desktop_config.json` (Windows) or `~/Librar
   "mcpServers": {
     "fme-mcp": {
       "command": "C:\\Program Files\\FME\\fme.exe",
-      "args": ["python", "-m", "fme_mcp_ultra.cli.main", "serve", "--transport", "stdio"]
+      "args": ["python", "-m", "fme_mcp.cli.main", "serve", "--transport", "stdio"]
     }
   }
 }

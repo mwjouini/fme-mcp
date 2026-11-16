@@ -2,15 +2,15 @@
 
 from pathlib import Path
 
-from fme_mcp_ultra.tools.catalog.catalog_tools import catalog_register_asset, catalog_search_assets
-from fme_mcp_ultra.tools.datasets.dataset_tools import data_profile, data_read_metadata
-from fme_mcp_ultra.tools.quality.quality_tools import quality_score_dataset
-from fme_mcp_ultra.tools.spatial.spatial_tools import (
+from fme_mcp.tools.catalog.catalog_tools import catalog_register_asset, catalog_search_assets
+from fme_mcp.tools.datasets.dataset_tools import data_profile, data_read_metadata
+from fme_mcp.tools.quality.quality_tools import quality_score_dataset
+from fme_mcp.tools.spatial.spatial_tools import (
     gis_buffer,
     gis_reproject,
     gis_validate_geometry,
 )
-from fme_mcp_ultra.tools.utilities.util_tools import (
+from fme_mcp.tools.utilities.util_tools import (
     util_ping,
     util_validate_coordinates,
     util_version,

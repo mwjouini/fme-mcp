@@ -4,7 +4,7 @@ from pathlib import Path
 
 import pytest
 
-from fme_mcp_ultra.tools.spatial.spatial_tools import (
+from fme_mcp.tools.spatial.spatial_tools import (
     GISBoundingBoxRequest,
     GISDifferenceRequest,
     GISIntersectionRequest,
@@ -14,7 +14,7 @@ from fme_mcp_ultra.tools.spatial.spatial_tools import (
     gis_intersection,
     gis_simplify,
 )
-from fme_mcp_ultra.tools.workspaces.workspace_tools import (
+from fme_mcp.tools.workspaces.workspace_tools import (
     fme_audit_performance,
     fme_export_markdown_docs,
 )

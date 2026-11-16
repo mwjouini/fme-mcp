@@ -4,17 +4,17 @@ from pathlib import Path
 
 import pytest
 
-from fme_mcp_ultra.core.errors import (
+from fme_mcp.core.errors import (
     CommandInjectionError,
     PathTraversalError,
     SecurityError,
     SSRFError,
 )
-from fme_mcp_ultra.security.command_guard import command_guard
-from fme_mcp_ultra.security.path_guard import PathGuard
-from fme_mcp_ultra.security.rbac import RBACEngine, Role
-from fme_mcp_ultra.security.redaction import redaction_engine
-from fme_mcp_ultra.security.ssrf_guard import SSRFGuard
+from fme_mcp.security.command_guard import command_guard
+from fme_mcp.security.path_guard import PathGuard
+from fme_mcp.security.rbac import RBACEngine, Role
+from fme_mcp.security.redaction import redaction_engine
+from fme_mcp.security.ssrf_guard import SSRFGuard
 
 
 def test_path_guard_allows_valid_subpath(tmp_path: Path):

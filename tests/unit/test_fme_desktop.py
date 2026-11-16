@@ -3,9 +3,9 @@
 from pathlib import Path
 from unittest.mock import MagicMock
 
-from fme_mcp_ultra.fme.fme_bridge import FMEBridgeClient, FMEBridgeServer
-from fme_mcp_ultra.fme.fme_form_client import fme_form_client
-from fme_mcp_ultra.tools.workspaces.workspace_tools import (
+from fme_mcp.fme.fme_bridge import FMEBridgeClient, FMEBridgeServer
+from fme_mcp.fme.fme_form_client import fme_form_client
+from fme_mcp.tools.workspaces.workspace_tools import (
     fme_diagnose,
     fme_inspect_canvas,
     fme_open_in_inspector,

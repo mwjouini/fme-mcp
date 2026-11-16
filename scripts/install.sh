@@ -252,8 +252,8 @@ else
 #!/usr/bin/env bash
 if command -v fme-mcp >/dev/null 2>&1; then
     exec fme-mcp "$@"
-elif command -v python3 >/dev/null 2>&1 && python3 -c "import fme_mcp_ultra" 2>/dev/null; then
-    exec python3 -m fme_mcp_ultra "$@"
+elif command -v python3 >/dev/null 2>&1 && python3 -c "import fme_mcp" 2>/dev/null; then
+    exec python3 -m fme_mcp "$@"
 elif command -v uvx >/dev/null 2>&1; then
     exec uvx fme-mcp "$@"
 else

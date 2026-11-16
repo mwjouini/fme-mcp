@@ -2,7 +2,7 @@
 
 import asyncio
 
-from fme_mcp_ultra.server.mcp_server import mcp_server
+from fme_mcp.server.mcp_server import mcp_server
 
 
 async def main():

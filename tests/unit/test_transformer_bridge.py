@@ -4,7 +4,7 @@ from __future__ import annotations
 
 from unittest.mock import MagicMock
 
-from fme_mcp_ultra.fme.transformer_bridge import (
+from fme_mcp.fme.transformer_bridge import (
     MCPAgentBridgeTransformer,
     is_bridge_running,
 )
