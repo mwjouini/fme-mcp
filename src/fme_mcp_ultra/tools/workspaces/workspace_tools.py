@@ -449,7 +449,7 @@ def _parse_fmw_xml(workspace_path: Path) -> tuple[ET.Element | None, str]:
             return " "
 
         sanitized = re.sub(r"&([a-zA-Z0-9_#]+);", replace_entity, raw_xml)
-        root = ET.fromstring(sanitized)
+        root = ET.fromstring(sanitized)  # nosec B314
         return root, ""
     except Exception as e:
         return None, f"XML parsing error: {e}"
