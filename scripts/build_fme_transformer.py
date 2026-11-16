@@ -119,13 +119,13 @@ def build_fmx_content() -> str:
 
     return f"""#! <?xml version="1.0" encoding="UTF-8" ?>
 #! <TRANSFORMER
-# TRANSFORMER_BEGIN MCPConnector,1,Web,{guid},"Linked Always",Yes,NO_PARALLELISM,,No,18284,YES,No,,No,
+# TRANSFORMER_BEGIN MCPConnector,1,Web,{guid},"Linked by Default",No,NO_PARALLELISM,,No,18284,YES,No,,No,
 #
 # <p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px;"><b>MCPConnector</b> connects FME Workbench directly to AI Agents &amp; MCP Servers (Claude, Antigravity, Cursor, ChatGPT). Runs entirely within FME Form's embedded Python runtime - no external Python installation required on Windows.</p>
 # TRANSFORMER_END
 #!   ARCGIS_COMPATIBILITY="ARCGIS_AUTO"
 #!   ATTR_TYPE_ENCODING="SDF"
-#!   BLOCKED_LOOPING="Yes"
+#!   BLOCKED_LOOPING="No"
 #!   CATEGORY="Web"
 #!   DESCRIPTION="&#10;&lt;p&gt;Connects FME Workbench directly to AI Agents and MCP servers using FME embedded Python.&lt;/p&gt;"
 #!   DOC_EXTENTS="1200 400"
@@ -139,9 +139,11 @@ def build_fmx_content() -> str:
 #!   FME_PROCESS_GROUPS_ORDERED="No"
 #!   FME_SERVER_SERVICES=""
 #!   FMX_ATTRIBUTE_PROPOGATION_MODE="AUTO"
-#!   FMX_INSERT_MODE="Linked Always"
+#!   FMX_INSERT_MODE="Linked by Default"
+#!   ITERATION_COUNT_ATTR=""
 #!   LAST_SAVE_BUILD="FME(R) 2018.0.0.0 (20180312 - Build 18284 - WIN64)"
 #!   LAST_SAVE_DATE="2026-11-10T15:00:00"
+#!   MAX_LOOP_ITERATIONS=""
 #!   PYTHON_COMPATIBILITY="38+"
 #!   TITLE="MCPConnector"
 #!   WORKSPACE_VERSION="1"
@@ -271,17 +273,22 @@ INCLUDE [puts {{MACRO WB_OLD_CONTEXT_$(MCPConnector_WORKSPACE_NAME) $(WB_CURRENT
 FACTORY_DEF * TeeFactory \\
    FACTORY_NAME "$(MCPConnector_WORKSPACE_NAME)_Input_Splitter" \\
    INPUT FEATURE_TYPE "$(MCPConnector_WORKSPACE_NAME)_Input" \\
-   OUTPUT FEATURE_TYPE "$(MCPConnector_WORKSPACE_NAME)_Input" \\
+   OUTPUT FEATURE_TYPE "$(MCPConnector_WORKSPACE_NAME)_Python_Input" \\
    "@EvaluateExpression(ATTR_CREATE_EXPR_PROPAGATE_MISSING_FDIV_TYPED,_ai_action,$($(MCPConnector_WORKSPACE_NAME)_AI_ACTION),UTF8, FEATURE_TYPE)" \\
    "@EvaluateExpression(ATTR_CREATE_EXPR_PROPAGATE_MISSING_FDIV_TYPED,_ai_bridge_port,$($(MCPConnector_WORKSPACE_NAME)_BRIDGE_PORT),UTF8, FEATURE_TYPE)"
 
 FACTORY_DEF {{*}} PythonFactory \\
    FACTORY_NAME {{ $(MCPConnector_WORKSPACE_NAME)_MCPConnector_Caller }} \\
    FLUSH_WHEN_GROUPS_CHANGE No \\
-   INPUT FEATURE_TYPE "$(MCPConnector_WORKSPACE_NAME)_Input" \\
+   INPUT FEATURE_TYPE "$(MCPConnector_WORKSPACE_NAME)_Python_Input" \\
    SYMBOL_NAME {{ MCPConnectorTransformer }} \\
    SOURCE_CODE {{ {encoded_py} }} \\
-   OUTPUT {{ PYOUTPUT FEATURE_TYPE "$(MCPConnector_WORKSPACE_NAME)_Output" }}
+   OUTPUT {{ PYOUTPUT FEATURE_TYPE "$(MCPConnector_WORKSPACE_NAME)_Python_Output" }}
+
+FACTORY_DEF * TeeFactory \\
+   FACTORY_NAME "$(MCPConnector_WORKSPACE_NAME)_Output_Collector" \\
+   INPUT FEATURE_TYPE "$(MCPConnector_WORKSPACE_NAME)_Python_Output" \\
+   OUTPUT FEATURE_TYPE "$(MCPConnector_WORKSPACE_NAME)_Output"
 
 INCLUDE [puts {{MACRO WB_CURRENT_CONTEXT $(WB_OLD_CONTEXT_$(MCPConnector_WORKSPACE_NAME))}}]
 """
