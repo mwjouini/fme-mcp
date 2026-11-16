@@ -1,14 +1,14 @@
-# Installation & Setup Guide
+# MCP FME - Installation & Setup Guide
 
-`fme-mcp-ultra` is designed for instant, frictionless deployment across enterprise GIS environments, developer workstations, and cloud infrastructure.
+**MCP FME** (`fme-mcp-ultra`) is designed for instant, frictionless deployment across enterprise GIS environments, developer workstations, and cloud infrastructure.
 
-Whether you have a full Python development environment or a locked-down enterprise workstation with only FME Form installed, `fme-mcp-ultra` works immediately out of the box.
+Whether you have a full Python development environment or a locked-down enterprise workstation with only Safe Software FME Form installed, **MCP FME** works immediately out of the box.
 
 ---
 
 ## 🚀 1-Command Universal Installation (Recommended)
 
-The fastest and easiest way to install and configure `fme-mcp-ultra` on your workstation. It requires **ZERO external dependencies** (no Python, no `uv`, and no `uvx` needed).
+The fastest and easiest way to install and configure **MCP FME** on your workstation. It requires **ZERO external dependencies** (no Python, no `uv`, and no `uvx` needed).
 
 ### Windows (PowerShell)
 
@@ -34,7 +34,7 @@ The 1-command installer automates the complete setup lifecycle in seconds:
 
 1. **Zero External Dependencies**:
    - You do **NOT** need Python, `uv`, `pip`, or git pre-installed.
-   - Everything runs in user-space (`%LOCALAPPDATA%\fme-mcp-ultra\bin` on Windows or `~/.local/bin` on Linux/macOS) — **no administrator / UAC elevation required**.
+   - Everything runs in user-space (`%LOCALAPPDATA%\mcp-fme\bin` or `%LOCALAPPDATA%\fme-mcp-ultra\bin` on Windows, `~/.local/bin` on Linux/macOS) — **no administrator / UAC elevation required**.
 
 2. **Native FME Form Engine Detection**:
    - Automatically queries the Windows Registry (`HKLM` and `HKCU` Safe Software keys), environment variables (`FME_HOME`, `FME_DIR`), and standard installation paths (`C:\Program Files\FME`, `/opt/fme`).
@@ -61,7 +61,7 @@ If you prefer to manually download the executable or run on an air-gapped machin
 2. Download the pre-built single-file binary for your operating system:
    - **Windows (x64)**: `fme-mcp-ultra-windows-x64.exe` (or `fme-mcp-ultra.exe`)
    - **Linux (x64)**: `fme-mcp-ultra-linux-x64`
-3. Place the binary in your `PATH` or in `%LOCALAPPDATA%\fme-mcp-ultra\bin`.
+3. Place the binary in your `PATH` or in `%LOCALAPPDATA%\mcp-fme\bin`.
 4. Test with:
    ```bash
    fme-mcp-ultra doctor
@@ -71,7 +71,7 @@ If you prefer to manually download the executable or run on an air-gapped machin
 
 ## ⚡ Developer & Package Manager Methods
 
-If you are a Python or GIS developer with Python or `uv` already installed, you can run or install `fme-mcp-ultra` via standard package managers.
+If you are a Python or GIS developer with Python or `uv` already installed, you can run or install **MCP FME** via standard package managers.
 
 ### Option A: Ephemeral Execution with `uvx`
 
@@ -103,11 +103,11 @@ fme-mcp-ultra doctor
 
 ## 🐳 Docker & Container Deployment
 
-For enterprise servers, Kubernetes clusters, or FME Flow environments, deploy `fme-mcp-ultra` using the official container image over Streamable HTTP (SSE):
+For enterprise servers, Kubernetes clusters, or FME Flow environments, deploy **MCP FME** using the official container image over Streamable HTTP (SSE):
 
 ```bash
 docker run -d \
-  --name fme-mcp-ultra \
+  --name mcp-fme \
   -p 8000:8000 \
   -e FME_MCP_TRANSPORT=streamable-http \
   -e FME_FLOW_URL="https://fme-flow.your-org.com" \
@@ -130,7 +130,7 @@ Example diagnostic output:
 
 ```text
 ============================================================
-              FME MCP ULTRA - DIAGNOSTIC REPORT             
+                   MCP FME - DIAGNOSTIC REPORT              
 ============================================================
 [OK] Operating System: Windows 11 (x64)
 [OK] FME Form Installation: C:\Program Files\FME (FME 2025.2 Build 25201)
@@ -140,7 +140,7 @@ Example diagnostic output:
 [OK] PathGuard Sandbox: Active (Enforcing realpath containment)
 [OK] CommandGuard: Active (Default-deny subprocess whitelist)
 [OK] SSRF Guard: Active (Blocking loopback, private RFC1918, and metadata APIs)
-[OK] MCP Clients Detected: Claude Desktop, Cursor, Antigravity, VS Code
+[OK] MCP Clients Detected: Claude Desktop, Cursor, Antigravity, VS Code, Windsurf
 ============================================================
 System status: READY TO SERVE
 ```
@@ -156,7 +156,7 @@ Edit `%APPDATA%\Claude\claude_desktop_config.json`:
 ```json
 {
   "mcpServers": {
-    "fme-mcp-ultra": {
+    "mcp-fme": {
       "command": "fme-mcp-ultra",
       "args": ["serve", "--transport", "stdio"]
     }
@@ -169,7 +169,7 @@ Add to `~/.cursor/mcp.json` or `~/.codeium/windsurf/mcp_config.json`:
 ```json
 {
   "mcpServers": {
-    "fme-mcp-ultra": {
+    "mcp-fme": {
       "command": "fme-mcp-ultra",
       "args": ["serve", "--transport", "stdio"]
     }
@@ -182,7 +182,7 @@ Add to your MCP settings:
 ```json
 {
   "mcpServers": {
-    "fme-mcp-ultra": {
+    "mcp-fme": {
       "command": "fme-mcp-ultra",
       "args": ["serve", "--transport", "stdio"]
     }

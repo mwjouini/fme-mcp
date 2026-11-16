@@ -1,4 +1,4 @@
-name: Build & Release Standalone Binaries
+name: MCP FME - Build & Release Standalone Binaries
 
 on:
   release:
@@ -13,7 +13,7 @@ permissions:
 
 jobs:
   build-binaries:
-    name: Build Standalone (${{ matrix.os }} - ${{ matrix.arch }})
+    name: Build MCP FME Standalone (${{ matrix.os }} - ${{ matrix.arch }})
     runs-on: ${{ matrix.os }}
     strategy:
       fail-fast: false
@@ -44,7 +44,7 @@ jobs:
           pip install -e .
           pip install pyinstaller>=6.0.0 shapely
 
-      - name: Build Standalone Binary with PyInstaller
+      - name: Build MCP FME Standalone Binary with PyInstaller
         run: |
           python scripts/build_standalone.py --clean
 
@@ -61,7 +61,7 @@ jobs:
           ./dist/fme-mcp-ultra version
           ./dist/fme-mcp-ultra doctor
 
-      - name: Upload Artifact
+      - name: Upload MCP FME Build Artifacts
         uses: actions/upload-artifact@v4
         with:
           name: ${{ matrix.platform_alias }}
@@ -69,7 +69,7 @@ jobs:
             dist/fme-mcp-ultra*
           if-no-files-found: error
 
-      - name: Attach Binaries to GitHub Release
+      - name: Attach MCP FME Binaries to GitHub Release
         uses: softprops/action-gh-release@v2
         if: github.event_name == 'release' || startsWith(github.ref, 'refs/tags/')
         with:

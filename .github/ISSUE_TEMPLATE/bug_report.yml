@@ -1,5 +1,5 @@
 name: Bug Report
-description: Create a report to help us improve fme-mcp-ultra
+description: Create a report to help us improve MCP FME
 title: "[BUG]: "
 labels: ["bug", "triage"]
 body:
@@ -10,7 +10,7 @@ body:
   - type: input
     id: version
     attributes:
-      label: fme-mcp-ultra Version
+      label: MCP FME Version
       placeholder: "1.0.0"
     validations:
       required: true
