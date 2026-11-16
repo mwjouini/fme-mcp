@@ -492,14 +492,14 @@ def _extract_workspace_components(root: ET.Element) -> dict[str, Any]:
         )
 
     bookmarks: list[dict[str, Any]] = []
-    for bm in root.findall(".//BOOKMARK"):
-        bm_id = bm.get("IDENTIFIER", "")
-        bm_name = bm.get("NAME", f"Bookmark {bm_id}")
-        bm_desc = _clean_html_text(bm.get("DESCRIPTION") or "")
-        bm_color = bm.get("PALETTE_COLOR") or bm.get("COLOUR") or "Default"
-        contents_ids = [x.strip() for x in bm.get("CONTENTS", "").split() if x.strip()]
-        top_left = bm.get("TOP_LEFT", "")
-        bottom_right = bm.get("BOTTOM_RIGHT", "")
+    for bm_node in root.findall(".//BOOKMARK"):
+        bm_id = bm_node.get("IDENTIFIER", "")
+        bm_name = bm_node.get("NAME", f"Bookmark {bm_id}")
+        bm_desc = _clean_html_text(bm_node.get("DESCRIPTION") or "")
+        bm_color = bm_node.get("PALETTE_COLOR") or bm_node.get("COLOUR") or "Default"
+        contents_ids = [x.strip() for x in bm_node.get("CONTENTS", "").split() if x.strip()]
+        top_left = bm_node.get("TOP_LEFT", "")
+        bottom_right = bm_node.get("BOTTOM_RIGHT", "")
 
         bbox = None
         if top_left and bottom_right:
@@ -535,11 +535,7 @@ def _extract_workspace_components(root: ET.Element) -> dict[str, Any]:
     for c in root.findall(".//COMMENT"):
         c_id = c.get("IDENTIFIER", "")
         raw_text = (
-            c.get("COMMENT_VALUE")
-            or c.get("DESCRIPTION")
-            or c.get("VALUE")
-            or c.get("TEXT")
-            or ""
+            c.get("COMMENT_VALUE") or c.get("DESCRIPTION") or c.get("VALUE") or c.get("TEXT") or ""
         )
         if not raw_text:
             raw_text = "".join(c.itertext()).strip()
@@ -709,34 +705,40 @@ def _generate_markdown_docs(
         "",
     ]
 
-    lines.extend([
-        "## ⚙️ Published User Parameters",
-        "",
-    ])
+    lines.extend(
+        [
+            "## ⚙️ Published User Parameters",
+            "",
+        ]
+    )
     if parameters:
-        lines.extend([
-            "| Parameter Name | Label / Prompt | Type | Default Value | Required |",
-            "|:---|:---|:---|:---|:---|",
-        ])
+        lines.extend(
+            [
+                "| Parameter Name | Label / Prompt | Type | Default Value | Required |",
+                "|:---|:---|:---|:---|:---|",
+            ]
+        )
         for p in parameters:
             req_str = "No" if p.get("optional") else "Yes"
             d_val = f"`{p['default_value']}`" if p.get("default_value") else "*None*"
-            lines.append(
-                f"| `{p['name']}` | {p['prompt']} | `{p['type']}` | {d_val} | {req_str} |"
-            )
+            lines.append(f"| `{p['name']}` | {p['prompt']} | `{p['type']}` | {d_val} | {req_str} |")
         lines.append("")
     else:
         lines.extend(["*No published parameters configured in this workspace.*", ""])
 
-    lines.extend([
-        "## 💾 Data Sources & Destinations",
-        "",
-    ])
+    lines.extend(
+        [
+            "## 💾 Data Sources & Destinations",
+            "",
+        ]
+    )
     if datasets:
-        lines.extend([
-            "| Direction | Format | Dataset / Connection |",
-            "|:---|:---|:---|",
-        ])
+        lines.extend(
+            [
+                "| Direction | Format | Dataset / Connection |",
+                "|:---|:---|:---|",
+            ]
+        )
         for d in datasets:
             dir_str = "📥 Input (Reader)" if d["role"] == "READER" else "📤 Output (Writer)"
             lines.append(f"| {dir_str} | `{d['format']}` | `{d['dataset'] or 'Default'}` |")
@@ -744,10 +746,12 @@ def _generate_markdown_docs(
     else:
         lines.extend(["*No explicit readers or writers declared in workspace header.*", ""])
 
-    lines.extend([
-        "## 🏗️ Workflow Architecture & Bookmarks",
-        "",
-    ])
+    lines.extend(
+        [
+            "## 🏗️ Workflow Architecture & Bookmarks",
+            "",
+        ]
+    )
     if bookmarks:
         for bm in bookmarks:
             lines.append(f"### 📑 Bookmark: {bm['name']}")
@@ -758,7 +762,9 @@ def _generate_markdown_docs(
             lines.append(f"- **ID:** `{bm['id']}`")
             lines.append(f"- **Palette / Color:** `{bm['color']}`")
             if bm["top_left"] and bm["bottom_right"]:
-                lines.append(f"- **Canvas Boundaries:** `({bm['top_left']})` to `({bm['bottom_right']})`")
+                lines.append(
+                    f"- **Canvas Boundaries:** `({bm['top_left']})` to `({bm['bottom_right']})`"
+                )
             lines.append("")
 
             enclosed_tf = bm["enclosed_transformers"]
@@ -781,16 +787,18 @@ def _generate_markdown_docs(
                 lines.append(f"#### Bookmark Annotations ({len(enclosed_ann)})")
                 lines.append("")
                 for ann in enclosed_ann:
-                    lines.append(f"- 💡 *\"{ann['text']}\"*")
+                    lines.append(f'- 💡 *"{ann["text"]}"*')
                 lines.append("")
     else:
         lines.extend(["*No visual bookmarks defined on the canvas.*", ""])
 
     standalone_ann = [a for a in annotations if a["bookmark_id"] is None]
-    lines.extend([
-        "## 💬 Canvas Annotations & Notes",
-        "",
-    ])
+    lines.extend(
+        [
+            "## 💬 Canvas Annotations & Notes",
+            "",
+        ]
+    )
     if standalone_ann:
         for ann in standalone_ann:
             pos_info = f" *(Position: `{ann['position']}`)*" if ann["position"] else ""
@@ -800,10 +808,12 @@ def _generate_markdown_docs(
     else:
         lines.extend(["*No standalone annotations present on the canvas.*", ""])
 
-    lines.extend([
-        "## 📊 Transformer Inventory & Distribution",
-        "",
-    ])
+    lines.extend(
+        [
+            "## 📊 Transformer Inventory & Distribution",
+            "",
+        ]
+    )
     if transformers:
         type_counts: dict[str, list[str]] = {}
         for t in transformers:
@@ -824,13 +834,15 @@ def _generate_markdown_docs(
         lines.extend(["*No transformers found in workspace.*", ""])
 
     if include_canvas_summary:
-        lines.extend([
-            "## 🔗 Canvas Connectivity Graph",
-            "",
-            f"- **Total Feature Links:** `{len(links)}`",
-            f"- **Active Connections:** `{len([lk for lk in links if lk.get('enabled', True)])}`",
-            "",
-        ])
+        lines.extend(
+            [
+                "## 🔗 Canvas Connectivity Graph",
+                "",
+                f"- **Total Feature Links:** `{len(links)}`",
+                f"- **Active Connections:** `{len([lk for lk in links if lk.get('enabled', True)])}`",
+                "",
+            ]
+        )
 
     return "\n".join(lines)
 
@@ -919,9 +931,7 @@ def fme_audit_performance(workspace_path: str, strict_mode: bool = False) -> dic
     }
     unconnected_rejected: list[dict[str, str]] = []
     for t in transformers:
-        c_ports = connected_ports.get(t["id"], set()).union(
-            connected_ports.get(t["name"], set())
-        )
+        c_ports = connected_ports.get(t["id"], set()).union(connected_ports.get(t["name"], set()))
         for p in t["output_ports"]:
             p_clean = p.strip()
             if p_clean.upper() in risky_port_names and p_clean.upper() not in c_ports:
@@ -930,9 +940,7 @@ def fme_audit_performance(workspace_path: str, strict_mode: bool = False) -> dic
                 )
 
     if unconnected_rejected:
-        sample_txt = ", ".join(
-            f"{u['transformer']}.{u['port']}" for u in unconnected_rejected[:4]
-        )
+        sample_txt = ", ".join(f"{u['transformer']}.{u['port']}" for u in unconnected_rejected[:4])
         bottlenecks.append(
             {
                 "type": "UNCONNECTED_REJECTED_PORTS",
