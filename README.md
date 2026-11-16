@@ -1,13 +1,13 @@
 <div align="center">
-  <img src="https://raw.githubusercontent.com/mwjouini/fme-mcp-ultra/main/docs/assets/logo.png" alt="FME MCP logo" width="160" height="160" style="margin-bottom: 12px;" />
+  <img src="https://raw.githubusercontent.com/mwjouini/fme-mcp/main/docs/assets/logo.png" alt="FME MCP logo" width="160" height="160" style="margin-bottom: 12px;" />
   <h1>FME MCP</h1>
   <p><strong>Universal, secure, production-grade Model Context Protocol (MCP) server for Safe Software FME (2018.0 – 2026+), FME Form, FME Flow, and spatial data engineering.</strong></p>
 
   <p>
     <a href="https://pypi.org/project/fme-mcp-ultra/"><img src="https://img.shields.io/pypi/v/fme-mcp-ultra.svg" alt="PyPI version" /></a>
     <a href="https://pypi.org/project/fme-mcp-ultra/"><img src="https://img.shields.io/pypi/dm/fme-mcp-ultra.svg" alt="PyPI Downloads" /></a>
-    <a href="https://github.com/mwjouini/fme-mcp-ultra/actions/workflows/ci.yml"><img src="https://github.com/mwjouini/fme-mcp-ultra/actions/workflows/ci.yml/badge.svg" alt="CI" /></a>
-    <a href="https://github.com/mwjouini/fme-mcp-ultra/actions/workflows/security.yml"><img src="https://github.com/mwjouini/fme-mcp-ultra/actions/workflows/security.yml/badge.svg" alt="Security Audit" /></a>
+    <a href="https://github.com/mwjouini/fme-mcp/actions/workflows/ci.yml"><img src="https://github.com/mwjouini/fme-mcp/actions/workflows/ci.yml/badge.svg" alt="CI" /></a>
+    <a href="https://github.com/mwjouini/fme-mcp/actions/workflows/security.yml"><img src="https://github.com/mwjouini/fme-mcp/actions/workflows/security.yml/badge.svg" alt="Security Audit" /></a>
     <a href="https://opensource.org/licenses/Apache-2.0"><img src="https://img.shields.io/badge/Licence-Apache_2.0-blue.svg" alt="Licence: Apache-2.0" /></a>
     <a href="https://www.python.org/"><img src="https://img.shields.io/badge/Python-3.10%20%7C%203.11%20%7C%203.12%20%7C%203.13-blue.svg" alt="Python: 3.10+" /></a>
     <a href="https://modelcontextprotocol.io/"><img src="https://img.shields.io/badge/MCP-2025--2026_Compliant-green.svg" alt="Model Context Protocol" /></a>
@@ -101,12 +101,12 @@ The universal installer automatically discovers your local **FME Form** installa
 
 ### Windows (PowerShell)
 ```powershell
-irm https://raw.githubusercontent.com/mwjouini/fme-mcp-ultra/main/scripts/install.ps1 | iex
+irm https://raw.githubusercontent.com/mwjouini/fme-mcp/main/scripts/install.ps1 | iex
 ```
 
 ### Linux / macOS (Bash)
 ```bash
-curl -fsSL https://raw.githubusercontent.com/mwjouini/fme-mcp-ultra/main/scripts/install.sh | bash
+curl -fsSL https://raw.githubusercontent.com/mwjouini/fme-mcp/main/scripts/install.sh | bash
 ```
 
 > **✨ Key Highlights of the 1-Command Installer:**

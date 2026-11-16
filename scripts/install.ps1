@@ -1,7 +1,7 @@
 # FME MCP - Universal 1-Command Installer
 # Model Context Protocol Server for Safe Software FME (2018.0 - 2026+)
 # Usage:
-#   irm https://raw.githubusercontent.com/mwjouini/fme-mcp-ultra/main/scripts/install.ps1 | iex
+#   irm https://raw.githubusercontent.com/mwjouini/fme-mcp/main/scripts/install.ps1 | iex
 
 & {
     function Start-Installer {
@@ -10,7 +10,7 @@
             [Parameter(Position = 0)]
             [string]$InstallDir = "$env:LOCALAPPDATA\fme-mcp\bin",
 
-            [string]$Repo = "mwjouini/fme-mcp-ultra",
+            [string]$Repo = "mwjouini/fme-mcp",
             [string]$Tag = "latest",
             [string]$FmeDir = "",
             [switch]$PreferFmePython,
@@ -36,10 +36,10 @@
         if ($Help) {
             Write-Host "FME MCP - Universal 1-Command Installer`n"
             Write-Host "Usage:"
-            Write-Host "    irm https://raw.githubusercontent.com/mwjouini/fme-mcp-ultra/main/scripts/install.ps1 | iex`n"
+            Write-Host "    irm https://raw.githubusercontent.com/mwjouini/fme-mcp/main/scripts/install.ps1 | iex`n"
             Write-Host "Parameters:"
             Write-Host "    -InstallDir <path>   Destination directory for standalone binary (default: `$env:LOCALAPPDATA\fme-mcp\bin)"
-            Write-Host "    -Repo <repo>         GitHub repository owner/repo (default: mwjouini/fme-mcp-ultra)"
+            Write-Host "    -Repo <repo>         GitHub repository owner/repo (default: mwjouini/fme-mcp)"
             Write-Host "    -Tag <tag>           Release tag to install (default: latest)"
             Write-Host "    -FmeDir <path>       Manual override path for FME Form installation"
             Write-Host "    -PreferFmePython     Use FME's bundled Python interpreter if available"
@@ -348,7 +348,9 @@
                 "https://github.com/$Repository/releases/download/$ReleaseTag/fme-mcp-ultra.exe",
                 "https://github.com/$Repository/releases/download/$ReleaseTag/fme-mcp-ultra-windows-x64.exe",
                 "https://github.com/$Repository/releases/latest/download/fme-mcp-ultra.exe",
-                "https://github.com/$Repository/releases/latest/download/fme-mcp-ultra-windows-x64.exe"
+                "https://github.com/$Repository/releases/latest/download/fme-mcp-ultra-windows-x64.exe",
+                "https://github.com/mwjouini/fme-mcp-ultra/releases/latest/download/fme-mcp-ultra.exe",
+                "https://github.com/mwjouini/fme-mcp-ultra/releases/latest/download/fme-mcp-ultra-windows-x64.exe"
             )
 
             if ($DryRunMode) {

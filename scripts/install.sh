@@ -4,14 +4,14 @@
 # Zero-dependency Model Context Protocol Server for Safe Software FME
 #
 # Usage:
-#   curl -fsSL https://raw.githubusercontent.com/mwjouini/fme-mcp-ultra/main/scripts/install.sh | bash
-#   curl -fsSL https://raw.githubusercontent.com/mwjouini/fme-mcp-ultra/main/scripts/install.sh | bash -s -- --dry-run
+#   curl -fsSL https://raw.githubusercontent.com/mwjouini/fme-mcp/main/scripts/install.sh | bash
+#   curl -fsSL https://raw.githubusercontent.com/mwjouini/fme-mcp/main/scripts/install.sh | bash -s -- --dry-run
 # ==============================================================================
 
 set -e
 
 # Default configurations
-REPO="mwjouini/fme-mcp-ultra"
+REPO="mwjouini/fme-mcp"
 TAG="latest"
 INSTALL_DIR="${HOME}/.local/share/fme-mcp/bin"
 FME_DIR_OVERRIDE=""

@@ -15,7 +15,7 @@ The fastest and easiest way to install and configure **FME MCP** on your worksta
 Open PowerShell (no administrator privileges required) and run:
 
 ```powershell
-irm https://raw.githubusercontent.com/mwjouini/fme-mcp-ultra/main/scripts/install.ps1 | iex
+irm https://raw.githubusercontent.com/mwjouini/fme-mcp/main/scripts/install.ps1 | iex
 ```
 
 ### Linux / macOS (Bash)
@@ -23,7 +23,7 @@ irm https://raw.githubusercontent.com/mwjouini/fme-mcp-ultra/main/scripts/instal
 Open your terminal and run:
 
 ```bash
-curl -fsSL https://raw.githubusercontent.com/mwjouini/fme-mcp-ultra/main/scripts/install.sh | bash
+curl -fsSL https://raw.githubusercontent.com/mwjouini/fme-mcp/main/scripts/install.sh | bash
 ```
 
 ---
@@ -199,7 +199,7 @@ If PowerShell blocks the installer script with an execution policy error (`runni
 
 ```powershell
 Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass
-irm https://raw.githubusercontent.com/mwjouini/fme-mcp-ultra/main/scripts/install.ps1 | iex
+irm https://raw.githubusercontent.com/mwjouini/fme-mcp/main/scripts/install.ps1 | iex
 ```
 
 ### FME Form in Non-Standard Path
@@ -207,7 +207,7 @@ If your FME Form is installed in a custom location, set the `FME_DIR` environmen
 
 ```powershell
 $env:FME_DIR = "D:\CustomSoftware\FME"
-irm https://raw.githubusercontent.com/mwjouini/fme-mcp-ultra/main/scripts/install.ps1 | iex
+irm https://raw.githubusercontent.com/mwjouini/fme-mcp/main/scripts/install.ps1 | iex
 ```
 
 ### Corporate Proxy Settings
@@ -216,7 +216,7 @@ If your organisation routes outbound traffic through an authenticated HTTP/HTTPS
 ```powershell
 $env:HTTP_PROXY = "http://proxy.your-company.com:8080"
 $env:HTTPS_PROXY = "http://proxy.your-company.com:8080"
-irm https://raw.githubusercontent.com/mwjouini/fme-mcp-ultra/main/scripts/install.ps1 | iex
+irm https://raw.githubusercontent.com/mwjouini/fme-mcp/main/scripts/install.ps1 | iex
 ```
 
 ### No Administrator Rights

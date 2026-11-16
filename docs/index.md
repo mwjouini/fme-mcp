@@ -1,5 +1,5 @@
 <div align="center">
-  <img src="https://raw.githubusercontent.com/mwjouini/fme-mcp-ultra/main/docs/assets/logo.png" alt="FME MCP logo" width="140" height="140" style="margin-bottom: 12px;" />
+  <img src="https://raw.githubusercontent.com/mwjouini/fme-mcp/main/docs/assets/logo.png" alt="FME MCP logo" width="140" height="140" style="margin-bottom: 12px;" />
   <h1>FME MCP</h1>
 </div>
 

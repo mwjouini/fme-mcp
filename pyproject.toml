@@ -71,14 +71,16 @@ docs = [
 ]
 
 [project.urls]
-Homepage = "https://github.com/mwjouini/fme-mcp-ultra"
-Documentation = "https://github.com/mwjouini/fme-mcp-ultra#readme"
-Repository = "https://github.com/mwjouini/fme-mcp-ultra.git"
-Issues = "https://github.com/mwjouini/fme-mcp-ultra/issues"
-Changelog = "https://github.com/mwjouini/fme-mcp-ultra/blob/main/CHANGELOG.md"
+Homepage = "https://github.com/mwjouini/fme-mcp"
+Documentation = "https://github.com/mwjouini/fme-mcp#readme"
+Repository = "https://github.com/mwjouini/fme-mcp.git"
+Issues = "https://github.com/mwjouini/fme-mcp/issues"
+Changelog = "https://github.com/mwjouini/fme-mcp/blob/main/CHANGELOG.md"
 
 [project.scripts]
+fme-mcp = "fme_mcp_ultra.cli.main:cli"
 fme-mcp-ultra = "fme_mcp_ultra.cli.main:cli"
+mcp-fme = "fme_mcp_ultra.cli.main:cli"
 
 [tool.hatch.build.targets.wheel]
 packages = ["src/fme_mcp_ultra"]
