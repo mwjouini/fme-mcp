@@ -1,4 +1,4 @@
-<#
+﻿<#
 .SYNOPSIS
     FME MCP Ultra - Universal 1-Command Installer.
 .DESCRIPTION
@@ -365,7 +365,7 @@ function Install-StandaloneBinary {
             Write-Warn "Generating a lightweight fallback launcher shim at $targetExe..."
             
             # Create a fallback launcher script wrapper so MCP clients can still execute
-            $shimContent = @"
+            $shimContent = @'
 @echo off
 REM FME MCP Ultra Launcher Shim
 where fme-mcp-ultra >nul 2>&1
@@ -377,7 +377,7 @@ python -m fme_mcp_ultra %* 2>nul
 if %ERRORLEVEL% EQU 0 exit /b 0
 uvx fme-mcp-ultra %*
 exit /b %ERRORLEVEL%
-"@
+'@
             $cmdShim = Join-Path $TargetDir "fme-mcp-ultra.cmd"
             Set-Content -Path $cmdShim -Value $shimContent -Encoding ASCII
             Write-Success "Installed fallback launcher shim: $cmdShim"
