@@ -170,7 +170,6 @@ def fme_enrich_geolocalisation(
         cwd / "ban_geocoder.py",
         cwd / "run_geolocalisation.py",
         cwd / "_scratch" / "run_geolocalisation.py",
-        cwd / "_scratch" / "run_geolocalisation_ultra.py",
         Path(__file__).resolve().parents[4] / "ban_geocoder.py",
         Path(__file__).resolve().parents[4] / "run_geolocalisation.py",
     ]
