@@ -192,9 +192,7 @@ echo ""
 # --- Step 2: Resolve Standalone Binary Runtime ---
 print_step "2/4: Resolving FME MCP runtime (zero dependencies)..."
 
-TARGET_EXE="${INSTALL_DIR}/fme-mcp-ultra"
-ALIAS_EXE="${INSTALL_DIR}/fme-mcp"
-ALIAS_EXE2="${INSTALL_DIR}/mcp-fme"
+TARGET_EXE="${INSTALL_DIR}/fme-mcp"
 OS_TYPE=$(uname -s | tr '[:upper:]' '[:lower:]')
 ARCH_TYPE=$(uname -m)
 
@@ -210,8 +208,9 @@ case "$ARCH_TYPE" in
         ;;
 esac
 
-PRIMARY_URL="https://github.com/${REPO}/releases/download/${TAG}/fme-mcp-ultra-linux-${ARCH}"
-FALLBACK_URL="https://github.com/${REPO}/releases/latest/download/fme-mcp-ultra"
+PRIMARY_URL="https://github.com/${REPO}/releases/download/${TAG}/fme-mcp-linux-${ARCH}"
+FALLBACK_URL="https://github.com/${REPO}/releases/latest/download/fme-mcp"
+FALLBACK_URL_LEGACY="https://github.com/${REPO}/releases/latest/download/fme-mcp-ultra"
 
 if [ "$DRY_RUN" = true ]; then
     print_detail "Target Binary" "$TARGET_EXE"
@@ -222,13 +221,15 @@ else
 
     if [ -f "$TARGET_EXE" ] && [ "$FORCE" = false ]; then
         print_success "Existing standalone binary found at $TARGET_EXE (Use --force to overwrite)"
-        [ ! -f "$ALIAS_EXE" ] && cp -f "$TARGET_EXE" "$ALIAS_EXE" 2>/dev/null || true
-        [ ! -f "$ALIAS_EXE2" ] && cp -f "$TARGET_EXE" "$ALIAS_EXE2" 2>/dev/null || true
+    elif [ -f "${INSTALL_DIR}/fme-mcp-ultra" ] && [ "$FORCE" = false ]; then
+        cp -f "${INSTALL_DIR}/fme-mcp-ultra" "$TARGET_EXE"
+        chmod +x "$TARGET_EXE"
+        print_success "Upgraded standalone binary to $TARGET_EXE"
     else
         DOWNLOAD_OK=false
         TMP_FILE=$(mktemp)
 
-        for url in "$PRIMARY_URL" "$FALLBACK_URL"; do
+        for url in "$PRIMARY_URL" "$FALLBACK_URL" "$FALLBACK_URL_LEGACY"; do
             print_step "Downloading standalone binary from $url..."
             if command -v curl >/dev/null 2>&1; then
                 if curl -fsSL -A "fme-mcp-installer" "$url" -o "$TMP_FILE" 2>/dev/null; then
@@ -246,10 +247,6 @@ else
         if [ "$DOWNLOAD_OK" = true ] && [ -s "$TMP_FILE" ]; then
             mv "$TMP_FILE" "$TARGET_EXE"
             chmod +x "$TARGET_EXE"
-            cp -f "$TARGET_EXE" "$ALIAS_EXE" 2>/dev/null || true
-            chmod +x "$ALIAS_EXE" 2>/dev/null || true
-            cp -f "$TARGET_EXE" "$ALIAS_EXE2" 2>/dev/null || true
-            chmod +x "$ALIAS_EXE2" 2>/dev/null || true
             print_success "Successfully installed FME MCP standalone binary to $TARGET_EXE"
         else
             rm -f "$TMP_FILE"
@@ -258,16 +255,12 @@ else
 
             cat << 'EOF' > "$TARGET_EXE"
 #!/usr/bin/env bash
-if command -v fme-mcp-ultra >/dev/null 2>&1; then
-    exec fme-mcp-ultra "$@"
-elif command -v fme-mcp >/dev/null 2>&1; then
+if command -v fme-mcp >/dev/null 2>&1; then
     exec fme-mcp "$@"
-elif command -v mcp-fme >/dev/null 2>&1; then
-    exec mcp-fme "$@"
 elif command -v python3 >/dev/null 2>&1 && python3 -c "import fme_mcp_ultra" 2>/dev/null; then
     exec python3 -m fme_mcp_ultra "$@"
 elif command -v uvx >/dev/null 2>&1; then
-    exec uvx fme-mcp-ultra "$@"
+    exec uvx fme-mcp "$@"
 else
     echo "[!] fme-mcp is not yet available in PATH." >&2
     exit 1

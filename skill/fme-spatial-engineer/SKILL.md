@@ -46,7 +46,7 @@ Add to your agent's MCP configuration:
   "mcpServers": {
     "fme-mcp": {
       "command": "uvx",
-      "args": ["fme-mcp-ultra", "serve", "--transport", "stdio"]
+      "args": ["fme-mcp", "serve", "--transport", "stdio"]
     }
   }
 }

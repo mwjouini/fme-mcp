@@ -80,7 +80,7 @@ def create_entrypoint(temp_dir: Path) -> Path:
 
 def build_binary(
     output_dir: Path,
-    binary_name: str = "fme-mcp-ultra",
+    binary_name: str = "fme-mcp",
     clean: bool = True,
     debug: bool = False,
     onefile: bool = True,
@@ -287,6 +287,16 @@ def build_binary(
         except Exception as e:
             print(f"[-] Standalone binary smoke test failed: {e}")
             sys.exit(1)
+
+    # Also create fme-mcp-ultra alias for legacy workflows
+    legacy_name = "fme-mcp-ultra.exe" if is_windows else "fme-mcp-ultra"
+    legacy_path = output_dir / legacy_name
+    if target_path.name != legacy_name:
+        try:
+            shutil.copy2(target_path, legacy_path)
+            print(f"[+] Created compatibility binary alias: {legacy_path}")
+        except Exception:
+            pass
 
     return target_path
 

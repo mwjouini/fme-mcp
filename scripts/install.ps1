@@ -284,9 +284,7 @@
                 [switch]$ForceOverwrite
             )
 
-            $targetExe = Join-Path $TargetDir "fme-mcp-ultra.exe"
-            $aliasExe = Join-Path $TargetDir "fme-mcp.exe"
-            $aliasExe2 = Join-Path $TargetDir "mcp-fme.exe"
+            $targetExe = Join-Path $TargetDir "fme-mcp.exe"
 
             if (-not $DryRunMode) {
                 if (-not (Test-Path $TargetDir)) {
@@ -294,22 +292,27 @@
                 }
             }
 
-            # Check if existing standalone binary is already installed in target or legacy directory
-            $prevInstalled = @(
-                $targetExe,
+            # Check if existing standalone binary is already installed
+            if ((Test-Path $targetExe) -and (-not $ForceOverwrite)) {
+                Write-Success "Existing standalone binary found at $targetExe (Use -Force to overwrite)"
+                return $targetExe
+            }
+
+            # Check if legacy binary (fme-mcp-ultra.exe or mcp-fme.exe) exists and upgrade to fme-mcp.exe
+            $legacyCandidates = @(
+                (Join-Path $TargetDir "fme-mcp-ultra.exe"),
+                (Join-Path $TargetDir "mcp-fme.exe"),
                 "$env:LOCALAPPDATA\fme-mcp\bin\fme-mcp-ultra.exe",
                 "$env:LOCALAPPDATA\mcp-fme\bin\fme-mcp-ultra.exe",
                 "$env:LOCALAPPDATA\fme-mcp-ultra\bin\fme-mcp-ultra.exe"
             )
-            foreach ($candidate in $prevInstalled) {
+            foreach ($candidate in $legacyCandidates) {
                 if ((Test-Path $candidate) -and (-not $ForceOverwrite)) {
-                    if ($candidate -ne $targetExe -and (-not $DryRunMode)) {
+                    if (-not $DryRunMode) {
                         try { Copy-Item -Path $candidate -Destination $targetExe -Force } catch { }
                     }
                     if (Test-Path $targetExe) {
-                        Write-Success "Existing standalone binary found at $targetExe (Use -Force to overwrite)"
-                        try { Copy-Item -Path $targetExe -Destination $aliasExe -Force -ErrorAction SilentlyContinue } catch { }
-                        try { Copy-Item -Path $targetExe -Destination $aliasExe2 -Force -ErrorAction SilentlyContinue } catch { }
+                        Write-Success "Upgraded standalone binary to $targetExe"
                         return $targetExe
                     }
                 }
@@ -321,25 +324,27 @@
                 $repoRoot = (Get-Location).Path
             }
             if ($repoRoot) {
-                $localDistBin = Join-Path $repoRoot "dist\fme-mcp-ultra.exe"
-                if (-not (Test-Path $localDistBin)) {
-                    $localDistBin = Join-Path (Split-Path -Parent $repoRoot) "dist\fme-mcp-ultra.exe"
-                }
-                if (Test-Path $localDistBin) {
-                    Write-Success "Found locally built binary: $localDistBin"
-                    if ($DryRunMode) {
-                        Write-Detail "Action (Dry-Run)" "Would copy $localDistBin -> $targetExe"
+                $localDistBins = @(
+                    (Join-Path $repoRoot "dist\fme-mcp.exe"),
+                    (Join-Path $repoRoot "dist\fme-mcp-ultra.exe"),
+                    (Join-Path (Split-Path -Parent $repoRoot) "dist\fme-mcp.exe"),
+                    (Join-Path (Split-Path -Parent $repoRoot) "dist\fme-mcp-ultra.exe")
+                )
+                foreach ($localDistBin in $localDistBins) {
+                    if (Test-Path $localDistBin) {
+                        Write-Success "Found locally built binary: $localDistBin"
+                        if ($DryRunMode) {
+                            Write-Detail "Action (Dry-Run)" "Would copy $localDistBin -> $targetExe"
+                            return $targetExe
+                        }
+                        try {
+                            Copy-Item -Path $localDistBin -Destination $targetExe -Force
+                        } catch {
+                            Write-Warn "Target binary is currently in use by an active MCP client. Keeping active binary."
+                        }
+                        Write-Success "Installed FME MCP binary to $targetExe"
                         return $targetExe
                     }
-                    try {
-                        Copy-Item -Path $localDistBin -Destination $targetExe -Force
-                    } catch {
-                        Write-Warn "Target binary is currently in use by an active MCP client. Keeping active binary."
-                    }
-                    try { Copy-Item -Path $localDistBin -Destination $aliasExe -Force } catch { }
-                    try { Copy-Item -Path $localDistBin -Destination $aliasExe2 -Force } catch { }
-                    Write-Success "Installed FME MCP binary to $targetExe"
-                    return $targetExe
                 }
             }
 
@@ -374,8 +379,6 @@
                     if ($fileSize -gt 1000000) {
                         try {
                             Move-Item -Path $tempFile -Destination $targetExe -Force
-                            Copy-Item -Path $targetExe -Destination $aliasExe -Force -ErrorAction SilentlyContinue
-                            Copy-Item -Path $targetExe -Destination $aliasExe2 -Force -ErrorAction SilentlyContinue
                         } catch {
                             Write-Warn "Binary at $targetExe is currently locked by a running process. Retaining active binary."
                         }
@@ -402,11 +405,6 @@
                     $shimLines = @(
                         "@echo off",
                         "REM FME MCP Launcher Shim",
-                        "where fme-mcp-ultra >nul 2>&1",
-                        "if %ERRORLEVEL% EQU 0 (",
-                        "    fme-mcp-ultra %*",
-                        "    exit /b %ERRORLEVEL%",
-                        ")",
                         "where fme-mcp >nul 2>&1",
                         "if %ERRORLEVEL% EQU 0 (",
                         "    fme-mcp %*",
@@ -414,16 +412,12 @@
                         ")",
                         "python -m fme_mcp_ultra %* 2>nul",
                         "if %ERRORLEVEL% EQU 0 exit /b 0",
-                        "uvx fme-mcp-ultra %*",
+                        "uvx fme-mcp %*",
                         "exit /b %ERRORLEVEL%"
                     )
-                    $cmdShim = Join-Path $TargetDir "fme-mcp-ultra.cmd"
+                    $cmdShim = Join-Path $TargetDir "fme-mcp.cmd"
                     $shimLines | Set-Content -Path $cmdShim -Encoding ASCII
-                    $fmeMcpShim = Join-Path $TargetDir "fme-mcp.cmd"
-                    $shimLines | Set-Content -Path $fmeMcpShim -Encoding ASCII
-                    $aliasShim = Join-Path $TargetDir "mcp-fme.cmd"
-                    $shimLines | Set-Content -Path $aliasShim -Encoding ASCII
-                    Write-Success "Installed fallback launcher shim: $cmdShim & $fmeMcpShim"
+                    Write-Success "Installed fallback launcher shim: $cmdShim"
                     return $cmdShim
                 }
             }

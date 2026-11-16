@@ -113,25 +113,25 @@ curl -fsSL https://raw.githubusercontent.com/mwjouini/fme-mcp/main/scripts/insta
 > - **Zero External Dependencies**: Operates out-of-the-box on standard systems without requiring Python, uv, or build tools.
 > - **Native FME Form Engine Detection**: Seamlessly detects FME Form (2018.0 through 2026+) via Windows Registry, environment variables (`FME_HOME`, `FME_DIR`), standard directories (`C:\Program Files\FME`, `/opt/fme`), and system `PATH`.
 > - **Auto-Configures AI Clients**: Instantly detects and writes ready-to-run MCP configurations for **Claude Desktop**, **Cursor**, **Antigravity**, **VS Code**, and **Windsurf**.
-> - **Instant Health Verification**: Automatically runs `fme-mcp-ultra doctor` to verify licenses, engine bindings, and spatial tools.
+> - **Instant Health Verification**: Automatically runs `fme-mcp doctor` to verify licenses, engine bindings, and spatial tools.
 
 ---
 
 ## 📦 Alternative Installation Options
 
 ### Option A: Standalone Executable (GitHub Releases)
-Download pre-compiled self-contained single-file binaries (`fme-mcp-ultra.exe` for Windows, `fme-mcp-ultra` for Linux) directly from [GitHub Releases](https://github.com/mwjouini/fme-mcp-ultra/releases/latest) with no installation or Python required.
+Download pre-compiled self-contained single-file binaries (`fme-mcp.exe` for Windows, `fme-mcp` for Linux) directly from [GitHub Releases](https://github.com/mwjouini/fme-mcp/releases/latest) with no installation or Python required.
 
 ### Option B: Run with `uvx` (For Python / uv Developers)
 ```bash
-uvx fme-mcp-ultra serve --transport stdio
+uvx fme-mcp serve --transport stdio
 ```
 
 ### Option C: Standard `pip` Installation
 ```bash
-pip install fme-mcp-ultra
-fme-mcp-ultra doctor
-fme-mcp-ultra serve --transport stdio
+pip install fme-mcp
+fme-mcp doctor
+fme-mcp serve --transport stdio
 ```
 
 ---
@@ -150,13 +150,13 @@ Add this to `%APPDATA%\Claude\claude_desktop_config.json` (Windows) or `~/Librar
   "mcpServers": {
     "fme-mcp": {
       "command": "uvx",
-      "args": ["fme-mcp-ultra", "serve", "--transport", "stdio"]
+      "args": ["fme-mcp", "serve", "--transport", "stdio"]
     }
   }
 }
 ```
 
-**Option B — With Python (`py` on Windows after `py -m pip install fme-mcp-ultra`):**
+**Option B — With Python (`py` on Windows after `py -m pip install fme-mcp`):**
 ```json
 {
   "mcpServers": {
@@ -187,7 +187,7 @@ Add to your client's MCP configuration settings:
 {
   "mcpServers": {
     "fme-mcp": {
-      "command": "fme-mcp-ultra",
+      "command": "fme-mcp",
       "args": ["serve", "--transport", "stdio"]
     }
   }
@@ -196,11 +196,11 @@ Add to your client's MCP configuration settings:
 
 ### 3. Streamable HTTP / Docker Deployment
 ```bash
-docker run -d --name fme-mcp-ultra \
+docker run -d --name fme-mcp \
   -p 8000:8000 \
   -e FME_FLOW_URL="https://fme-flow.your-org.com" \
   -e FME_FLOW_TOKEN="your-fme-flow-api-token" \
-  ghcr.io/mwjouini/fme-mcp-ultra:latest
+  ghcr.io/mwjouini/fme-mcp:latest
 ```
 
 ### 4. FME Workbench Desktop Live Hook
@@ -259,16 +259,16 @@ To allow FME Workbench to report live translation events (status, duration, feat
 
 ```bash
 # Verify environment and FME installation
-fme-mcp-ultra doctor
+fme-mcp doctor
 
 # Inspect a workspace file
-fme-mcp-ultra inspect path/to/workspace.fmw
+fme-mcp inspect path/to/workspace.fmw
 
 # Launch stdio server for desktop clients
-fme-mcp-ultra serve --transport stdio
+fme-mcp serve --transport stdio
 
 # Launch Streamable HTTP server
-fme-mcp-ultra serve --transport streamable-http --host 0.0.0.0 --port 8000
+fme-mcp serve --transport streamable-http --host 0.0.0.0 --port 8000
 ```
 
 ---

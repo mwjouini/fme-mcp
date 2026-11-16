@@ -49,7 +49,7 @@ The 1-command installer automates the complete setup lifecycle in seconds:
      - **Windsurf**: Configures `~/.codeium/windsurf/mcp_config.json`.
 
 4. **Automated Verification**:
-   - Executes `fme-mcp-ultra doctor` at the end of the installation to confirm FME Form licensing, build details, and tool availability.
+   - Executes `fme-mcp doctor` at the end of the installation to confirm FME Form licensing, build details, and tool availability.
 
 ---
 
@@ -57,14 +57,14 @@ The 1-command installer automates the complete setup lifecycle in seconds:
 
 If you prefer to manually download the executable or run on an air-gapped machine:
 
-1. Head to the [GitHub Releases](https://github.com/mwjouini/fme-mcp-ultra/releases/latest) page.
+1. Head to the [GitHub Releases](https://github.com/mwjouini/fme-mcp/releases/latest) page.
 2. Download the pre-built single-file binary for your operating system:
-   - **Windows (x64)**: `fme-mcp-ultra-windows-x64.exe` (or `fme-mcp-ultra.exe`)
-   - **Linux (x64)**: `fme-mcp-ultra-linux-x64`
+   - **Windows (x64)**: `fme-mcp-windows-x64.exe` (or `fme-mcp.exe`)
+   - **Linux (x64)**: `fme-mcp-linux-x64` (or `fme-mcp`)
 3. Place the binary in your `PATH` or in `%LOCALAPPDATA%\fme-mcp\bin`.
 4. Test with:
    ```bash
-   fme-mcp-ultra doctor
+   fme-mcp doctor
    ```
 
 ---
@@ -78,12 +78,12 @@ If you are a Python or GIS developer with Python or `uv` already installed, you 
 Run immediately without installing to your global environment:
 
 ```bash
-uvx fme-mcp-ultra serve --transport stdio
+uvx fme-mcp serve --transport stdio
 ```
 
 To run diagnostics:
 ```bash
-uvx fme-mcp-ultra doctor
+uvx fme-mcp doctor
 ```
 
 ### Option B: Standard `pip` Installation
@@ -91,12 +91,12 @@ uvx fme-mcp-ultra doctor
 Install into your active Python virtual environment or system Python:
 
 ```bash
-pip install fme-mcp-ultra
+pip install fme-mcp
 ```
 
 Verify your installation:
 ```bash
-fme-mcp-ultra doctor
+fme-mcp doctor
 ```
 
 ---
@@ -113,17 +113,17 @@ docker run -d \
   -e FME_FLOW_URL="https://fme-flow.your-org.com" \
   -e FME_FLOW_TOKEN="your-fme-flow-api-token" \
   -e FME_MCP_ALLOWED_DIRS="/data;/workspaces" \
-  ghcr.io/mwjouini/fme-mcp-ultra:latest
+  ghcr.io/mwjouini/fme-mcp:latest
 ```
 
 ---
 
-## 🔍 Verification: Running `fme-mcp-ultra doctor`
+## 🔍 Verification: Running `fme-mcp doctor`
 
 Run the built-in diagnostic tool to verify that your installation is healthy and ready to serve AI agents:
 
 ```bash
-fme-mcp-ultra doctor
+fme-mcp doctor
 ```
 
 Example diagnostic output:
@@ -157,7 +157,7 @@ Edit `%APPDATA%\Claude\claude_desktop_config.json`:
 {
   "mcpServers": {
     "fme-mcp": {
-      "command": "fme-mcp-ultra",
+      "command": "fme-mcp",
       "args": ["serve", "--transport", "stdio"]
     }
   }
@@ -170,7 +170,7 @@ Add to `~/.cursor/mcp.json` or `~/.codeium/windsurf/mcp_config.json`:
 {
   "mcpServers": {
     "fme-mcp": {
-      "command": "fme-mcp-ultra",
+      "command": "fme-mcp",
       "args": ["serve", "--transport", "stdio"]
     }
   }
@@ -183,7 +183,7 @@ Add to your MCP settings:
 {
   "mcpServers": {
     "fme-mcp": {
-      "command": "fme-mcp-ultra",
+      "command": "fme-mcp",
       "args": ["serve", "--transport", "stdio"]
     }
   }

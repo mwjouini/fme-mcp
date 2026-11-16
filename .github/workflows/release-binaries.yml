@@ -51,28 +51,30 @@ jobs:
       - name: Smoke Test Standalone Binary (Windows)
         if: runner.os == 'Windows'
         run: |
-          .\dist\fme-mcp-ultra.exe version
-          .\dist\fme-mcp-ultra.exe doctor
+          .\dist\fme-mcp.exe version
+          .\dist\fme-mcp.exe doctor
 
       - name: Smoke Test Standalone Binary (Linux)
         if: runner.os == 'Linux'
         run: |
-          chmod +x ./dist/fme-mcp-ultra
-          ./dist/fme-mcp-ultra version
-          ./dist/fme-mcp-ultra doctor
+          chmod +x ./dist/fme-mcp
+          ./dist/fme-mcp version
+          ./dist/fme-mcp doctor
 
       - name: Upload FME MCP Build Artifacts
         uses: actions/upload-artifact@v4
         with:
           name: ${{ matrix.platform_alias }}
           path: |
-            dist/fme-mcp-ultra*
+            dist/fme-mcp*
           if-no-files-found: error
 
       - name: Attach FME MCP Binaries to GitHub Release
         uses: softprops/action-gh-release@v2
         if: github.event_name == 'release' || startsWith(github.ref, 'refs/tags/')
         with:
+          files: |
+            dist/fme-mcp*
           files: |
             dist/fme-mcp-ultra*
           fail_on_unmatched_files: false

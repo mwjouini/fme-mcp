@@ -19,13 +19,13 @@ Locate your configuration file:
   "mcpServers": {
     "fme-mcp": {
       "command": "uvx",
-      "args": ["fme-mcp-ultra", "serve", "--transport", "stdio"]
+      "args": ["fme-mcp", "serve", "--transport", "stdio"]
     }
   }
 }
 ```
 
-### Method B: With Standard Python (After `py -m pip install fme-mcp-ultra`)
+### Method B: With Standard Python (After `py -m pip install fme-mcp`)
 For Windows users with Python installed (uses the built-in Windows `py` launcher):
 ```json
 {
@@ -58,7 +58,7 @@ If FME is installed in a non-standard path, or if you wish to restrict/allow exp
   "mcpServers": {
     "fme-mcp": {
       "command": "uvx",
-      "args": ["fme-mcp-ultra", "serve", "--transport", "stdio"],
+      "args": ["fme-mcp", "serve", "--transport", "stdio"],
       "env": {
         "FME_MCP_FME_DIR": "C:\\Program Files\\FME",
         "FME_MCP_ALLOWED_DIRS": "C:\\Workspaces;D:\\GIS_Data",
@@ -77,9 +77,9 @@ If FME is installed in a non-standard path, or if you wish to restrict/allow exp
 In Cursor Settings (`Features -> MCP Servers`), add:
 - **Name**: `fme-mcp`
 - **Type**: `command`
-- **Command**: `uvx fme-mcp-ultra serve --transport stdio`
+- **Command**: `fme-mcp serve --transport stdio`
 
-*(Or if installed in your Python environment: `fme-mcp-ultra serve --transport stdio`)*
+*(Or with uvx: `uvx fme-mcp serve --transport stdio`)*
 
 ---
 
@@ -90,7 +90,7 @@ In your agent configuration file:
 {
   "mcpServers": {
     "fme-mcp": {
-      "command": "fme-mcp-ultra",
+      "command": "fme-mcp",
       "args": ["serve", "--transport", "stdio"]
     }
   }
