@@ -38,6 +38,14 @@ class MCPConnectorTransformer:
 
     def input(self, feature):
         action = feature.getAttribute("_ai_action") or "INSPECT"
+        try:
+            req_port = int(feature.getAttribute("_ai_bridge_port") or 9877)
+            if req_port != self.port:
+                self.port = req_port
+                self._init_connection()
+        except Exception:
+            pass
+
         feature_type = (
             feature.getFeatureType()
             if hasattr(feature, "getFeatureType")
@@ -154,15 +162,31 @@ def build_fmx_content() -> str:
 #! <GLOBAL_PARAMETER
 #!   GUI_LINE="GUI CHOICE_OR_ATTR AI_ACTION INSPECT%VALIDATE_GEOMETRY%ANALYZE%GEOCODE_AUDIT AI Action:"
 #!   DEFAULT_VALUE="INSPECT"
-#!   IS_STAND_ALONE="false"
+#!   IS_STAND_ALONE="true"
 #! />
 #! <GLOBAL_PARAMETER
 #!   GUI_LINE="GUI INTEGER BRIDGE_PORT Bridge Port (Default 9877):"
 #!   DEFAULT_VALUE="9877"
-#!   IS_STAND_ALONE="false"
+#!   IS_STAND_ALONE="true"
 #! />
 #! </GLOBAL_PARAMETERS>
-#! <USER_PARAMETERS>
+#! <USER_PARAMETERS
+#!   FORM="eyJwYXJhbWV0ZXJzIjpbeyJuYW1lIjoiQUlfQUNUSU9OIiwicHJvbXB0IjoiQUkgQWN0aW9uOiIsInZhbHVlVHlwZSI6InN0cmluZ0VuY29kZWQiLCJkZWZhdWx0VmFsdWUiOiJJTlNQRUNUIiwidHlwZSI6ImNob2ljZSIsInZhbGlkVmFsdWVzIjpbIklOU1BFQ1QiLCJWQUxJREFURV9HRU9NRVRSeSIsIkFOQUxZWkUiLCJHRU9DT0RFX0FVRElUIl19LHsibmFtZSI6IkJSSURHRV9QT1JUIiwicHJvbXB0IjoiQnJpZGdlIFBvcnQgKERlZmF1bHQgOTg3Nyk6IiwidmFsdWVUeXBlIjoiaW50ZWdlciIsImRlZmF1bHRWYWx1ZSI6Ijk4NzciLCJ0eXBlIjoidGV4dCJ9XX0="
+#! >
+#! <PARAMETER_INFO>
+#!     <INFO NAME="AI_ACTION"
+#!   DEFAULT_VALUE="INSPECT"
+#!   SCOPE="DEPENDENT"
+#!   GENERATED_GUI_LINE="true"
+#!   GUI_LINE="GUI CHOICE_OR_ATTR AI_ACTION INSPECT%VALIDATE_GEOMETRY%ANALYZE%GEOCODE_AUDIT AI Action:"
+#! />
+#!     <INFO NAME="BRIDGE_PORT"
+#!   DEFAULT_VALUE="9877"
+#!   SCOPE="DEPENDENT"
+#!   GENERATED_GUI_LINE="true"
+#!   GUI_LINE="GUI INTEGER BRIDGE_PORT Bridge Port (Default 9877):"
+#! />
+#! </PARAMETER_INFO>
 #! </USER_PARAMETERS>
 #! <COMMENTS>
 #! </COMMENTS>
@@ -190,10 +214,55 @@ def build_fmx_content() -> str:
 #!     <XFORM_PARM PARM_NAME="XFORMER_NAME" PARM_VALUE="MCPConnector_Caller"/>
 #! </TRANSFORMER>
 #! </TRANSFORMERS>
+#! <SUBDOCUMENT_IOS>
+#! <SUBDOCUMENT_IO
+#!   IDENTIFIER="10"
+#!   NAME="Input"
+#!   POSITION="100 200"
+#!   BOUNDING_RECT="100 200 431 71"
+#!   COLLAPSED="true"
+#!   PUBLISHED="true"
+#!   IS_SOURCE="true"
+#!   ATTR_MODE="0"
+#! >
+#! </SUBDOCUMENT_IO>
+#! <SUBDOCUMENT_IO
+#!   IDENTIFIER="11"
+#!   NAME="Output"
+#!   POSITION="900 200"
+#!   BOUNDING_RECT="900 200 431 71"
+#!   COLLAPSED="true"
+#!   IS_SOURCE="false"
+#!   ATTR_MODE="0"
+#! >
+#! </SUBDOCUMENT_IO>
+#! </SUBDOCUMENT_IOS>
 #! <FEAT_LINKS>
+#! <FEAT_LINK
+#!   IDENTIFIER="20"
+#!   SOURCE_NODE="10"
+#!   TARGET_NODE="1"
+#!   SOURCE_PORT_DESC="0"
+#!   TARGET_PORT_DESC="fi 0 "
+#!   ENABLED="true"
+#!   EXECUTION_IDX="0"
+#!   HIDDEN="false"
+#! />
+#! <FEAT_LINK
+#!   IDENTIFIER="21"
+#!   SOURCE_NODE="1"
+#!   TARGET_NODE="11"
+#!   SOURCE_PORT_DESC="fo 0 OUTPUT"
+#!   TARGET_PORT_DESC="fi 0 "
+#!   ENABLED="true"
+#!   EXECUTION_IDX="0"
+#!   HIDDEN="false"
+#! />
 #! </FEAT_LINKS>
 #! </TRANSFORMER>
 # ============================================================================
+DEFAULT_MACRO $(MCPConnector_WORKSPACE_NAME)_AI_ACTION INSPECT
+DEFAULT_MACRO $(MCPConnector_WORKSPACE_NAME)_BRIDGE_PORT 9877
 DEFAULT_MACRO WB_CURRENT_CONTEXT
 DEFAULT_MACRO MCPConnector_WORKSPACE_NAME ""
 INCLUDE [puts {{MACRO WB_OLD_CONTEXT_$(MCPConnector_WORKSPACE_NAME) $(WB_CURRENT_CONTEXT)}}; \\
@@ -202,7 +271,9 @@ INCLUDE [puts {{MACRO WB_OLD_CONTEXT_$(MCPConnector_WORKSPACE_NAME) $(WB_CURRENT
 FACTORY_DEF * TeeFactory \\
    FACTORY_NAME "$(MCPConnector_WORKSPACE_NAME)_Input_Splitter" \\
    INPUT FEATURE_TYPE "$(MCPConnector_WORKSPACE_NAME)_Input" \\
-   OUTPUT FEATURE_TYPE "$(MCPConnector_WORKSPACE_NAME)_Input"
+   OUTPUT FEATURE_TYPE "$(MCPConnector_WORKSPACE_NAME)_Input" \\
+   "@EvaluateExpression(ATTR_CREATE_EXPR_PROPAGATE_MISSING_FDIV_TYPED,_ai_action,$($(MCPConnector_WORKSPACE_NAME)_AI_ACTION),UTF8, FEATURE_TYPE)" \\
+   "@EvaluateExpression(ATTR_CREATE_EXPR_PROPAGATE_MISSING_FDIV_TYPED,_ai_bridge_port,$($(MCPConnector_WORKSPACE_NAME)_BRIDGE_PORT),UTF8, FEATURE_TYPE)"
 
 FACTORY_DEF {{*}} PythonFactory \\
    FACTORY_NAME {{ $(MCPConnector_WORKSPACE_NAME)_MCPConnector_Caller }} \\
