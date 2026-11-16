@@ -102,19 +102,32 @@ class MCPConnectorTransformer:
 """
 
 
-def encode_fme_text(text: str) -> str:
-    """Encode python code into FME mapping XML representation."""
-    encoded = text.replace("&", "&amp;")
+def encode_mapping_python(text: str) -> str:
+    """Encode python code for FME mapping file syntax (SOURCE_CODE)."""
+    encoded = text.replace("\\", "<backslash>")
+    encoded = encoded.replace("(", "<openparen>").replace(")", "<closeparen>")
+    encoded = encoded.replace("[", "<openbracket>").replace("]", "<closebracket>")
+    encoded = encoded.replace("{", "<opencurly>").replace("}", "<closecurly>")
+    encoded = encoded.replace(" ", "<space>")
+    encoded = encoded.replace("\n", "<lf>")
+    encoded = encoded.replace(",", "<comma>")
+    encoded = encoded.replace("'", "<apos>")
+    encoded = encoded.replace('"', "<quote>")
+    return encoded
+
+
+def encode_xml_python(text: str) -> str:
+    """Encode python code for XML attribute values (escaped &lt;tags&gt;)."""
+    mapping = encode_mapping_python(text)
+    encoded = mapping.replace("&", "&amp;")
     encoded = encoded.replace("<", "&lt;").replace(">", "&gt;")
-    encoded = encoded.replace("(", "&openparen;").replace(")", "&closeparen;")
-    encoded = encoded.replace(" ", "&lt;space&gt;")
-    encoded = encoded.replace("\\n", "&lt;lf&gt;").replace("\n", "&lt;lf&gt;")
     encoded = encoded.replace('"', "&quot;")
     return encoded
 
 
 def build_fmx_content() -> str:
-    encoded_py = encode_fme_text(FME_PYTHON_SOURCE)
+    mapping_py = encode_mapping_python(FME_PYTHON_SOURCE)
+    xml_py = encode_xml_python(FME_PYTHON_SOURCE)
     guid = "08e5e6b1-4f32-4759-86ab-590d9841f231"
 
     return f"""#! <?xml version="1.0" encoding="UTF-8" ?>
@@ -211,7 +224,7 @@ def build_fmx_content() -> str:
 #!     <XFORM_ATTR ATTR_NAME="_ai_bridge_port" IS_USER_CREATED="false" FEAT_INDEX="0" />
 #!     <XFORM_ATTR ATTR_NAME="_ai_response" IS_USER_CREATED="false" FEAT_INDEX="0" />
 #!     <XFORM_PARM PARM_NAME="NEW_ATTRIBUTES" PARM_VALUE="_mcp_status _ai_action_used _ai_bridge_port _ai_response"/>
-#!     <XFORM_PARM PARM_NAME="PYTHONSOURCE" PARM_VALUE="{encoded_py}"/>
+#!     <XFORM_PARM PARM_NAME="PYTHONSOURCE" PARM_VALUE="{xml_py}"/>
 #!     <XFORM_PARM PARM_NAME="PYTHONSYMBOL" PARM_VALUE="MCPConnectorTransformer"/>
 #!     <XFORM_PARM PARM_NAME="XFORMER_NAME" PARM_VALUE="MCPConnector_Caller"/>
 #! </TRANSFORMER>
@@ -277,13 +290,15 @@ FACTORY_DEF * TeeFactory \\
    "@EvaluateExpression(ATTR_CREATE_EXPR_PROPAGATE_MISSING_FDIV_TYPED,_ai_action,$($(MCPConnector_WORKSPACE_NAME)_AI_ACTION),UTF8, FEATURE_TYPE)" \\
    "@EvaluateExpression(ATTR_CREATE_EXPR_PROPAGATE_MISSING_FDIV_TYPED,_ai_bridge_port,$($(MCPConnector_WORKSPACE_NAME)_BRIDGE_PORT),UTF8, FEATURE_TYPE)"
 
-FACTORY_DEF {{*}} PythonFactory \\
-   FACTORY_NAME {{ $(MCPConnector_WORKSPACE_NAME)_MCPConnector_Caller }} \\
-   FLUSH_WHEN_GROUPS_CHANGE No \\
+FME_PYTHON_PATH "$(FME_MF_DIR)"
+
+FACTORY_DEF * PythonFactory \\
+   FACTORY_NAME $(MCPConnector_WORKSPACE_NAME)_MCPConnector_Caller \\
    INPUT FEATURE_TYPE "$(MCPConnector_WORKSPACE_NAME)_Python_Input" \\
-   SYMBOL_NAME {{ MCPConnectorTransformer }} \\
-   SOURCE_CODE {{ {encoded_py} }} \\
-   OUTPUT {{ PYOUTPUT FEATURE_TYPE "$(MCPConnector_WORKSPACE_NAME)_Python_Output" }}
+   SYMBOL_NAME MCPConnectorTransformer \\
+   PYTHON_NAMESPACE FMEOBJECTS \\
+   SOURCE_CODE {mapping_py} \\
+   OUTPUT PYOUTPUT FEATURE_TYPE "$(MCPConnector_WORKSPACE_NAME)_Python_Output"
 
 FACTORY_DEF * TeeFactory \\
    FACTORY_NAME "$(MCPConnector_WORKSPACE_NAME)_Output_Collector" \\
@@ -304,16 +319,23 @@ def main() -> None:
     fmx_file.write_text(content, encoding="utf-8")
     print(f"Generated: {fmx_file} ({len(content)} bytes)")
 
-    # Also deploy directly to user's FME Transformers folder if present
-    user_fme_dir = Path(os.environ.get("USERPROFILE", "")) / "Documents" / "FME" / "Transformers"
-    if user_fme_dir.exists():
-        target_fmx = user_fme_dir / "MCPConnector.fmx"
-        target_fmx.write_text(content, encoding="utf-8")
-        print(f"Deployed directly to FME User Transformers: {target_fmx}")
-
-    desktop_fmx = Path(os.environ.get("USERPROFILE", "")) / "Desktop" / "MCPConnector.fmx"
-    desktop_fmx.write_text(content, encoding="utf-8")
-    print(f"Copied to Desktop for upload: {desktop_fmx}")
+    # Deploy to FME shared transformer locations
+    user_profile = Path(os.environ.get("USERPROFILE", ""))
+    target_dirs = [
+        user_profile / "Documents" / "FME" / "Transformers",
+        user_profile / "AppData" / "Roaming" / "Safe Software" / "FME" / "FME Store" / "Transformers",
+        user_profile / "AppData" / "Roaming" / "Safe Software" / "FME" / "Packages" / "25810-win64" / "transformers",
+        user_profile / "Desktop",
+        Path(r"C:\Users\mjouini\.gemini\antigravity\brain\7005db7e-620a-4abe-8dd8-8303d3122a32\browser_sandbox\uploads"),
+    ]
+    for d in target_dirs:
+        try:
+            d.mkdir(parents=True, exist_ok=True)
+            target = d / "MCPConnector.fmx"
+            target.write_text(content, encoding="utf-8")
+            print(f"Deployed: {target}")
+        except Exception as err:
+            print(f"Could not deploy to {d}: {err}")
 
 
 if __name__ == "__main__":
