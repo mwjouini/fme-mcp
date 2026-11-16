@@ -111,7 +111,7 @@ def build_fmx_content() -> str:
 
     return f"""#! <?xml version="1.0" encoding="UTF-8" ?>
 #! <TRANSFORMER
-# TRANSFORMER_BEGIN MCPConnector,1,Web,{guid},"Linked Always",Yes,NO_PARALLELISM,,No,25810,YES,No,,No,
+# TRANSFORMER_BEGIN MCPConnector,1,Web,{guid},"Linked Always",Yes,NO_PARALLELISM,,No,18284,YES,No,,No,
 #
 # <p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px;"><b>MCPConnector</b> connects FME Workbench directly to AI Agents &amp; MCP Servers (Claude, Antigravity, Cursor, ChatGPT). Runs entirely within FME Form's embedded Python runtime - no external Python installation required on Windows.</p>
 # TRANSFORMER_END
@@ -123,7 +123,7 @@ def build_fmx_content() -> str:
 #!   DOC_EXTENTS="1200 400"
 #!   DOC_TOP_LEFT="0 0"
 #!   EXPLICIT_BOOKMARK_ORDER="false"
-#!   FME_BUILD_NUM="25810"
+#!   FME_BUILD_NUM="18284"
 #!   FME_DOCUMENT_GUID="{guid}"
 #!   FME_LINKED_TRANSFORMER_VERSION="1"
 #!   FME_NAMES_ENCODING="UTF-8"
@@ -132,9 +132,9 @@ def build_fmx_content() -> str:
 #!   FME_SERVER_SERVICES=""
 #!   FMX_ATTRIBUTE_PROPOGATION_MODE="AUTO"
 #!   FMX_INSERT_MODE="Linked Always"
-#!   LAST_SAVE_BUILD="FME(R) 2025.2.0.0 (20251120 - Build 25810 - WIN64)"
+#!   LAST_SAVE_BUILD="FME(R) 2018.0.0.0 (20180312 - Build 18284 - WIN64)"
 #!   LAST_SAVE_DATE="2026-11-10T15:00:00"
-#!   PYTHON_COMPATIBILITY="310+"
+#!   PYTHON_COMPATIBILITY="38+"
 #!   TITLE="MCPConnector"
 #!   WORKSPACE_VERSION="1"
 #!   XFORM_DEPRECATED="No"
@@ -176,7 +176,7 @@ def build_fmx_content() -> str:
 #!   ORDER="500000000000001"
 #!   PARMS_EDITED="true"
 #!   ENABLED="true"
-#!   LAST_PARM_EDIT="25810"
+#!   LAST_PARM_EDIT="18284"
 #! >
 #!     <OUTPUT_FEAT NAME="OUTPUT"/>
 #!     <FEAT_COLLAPSED COLLAPSED="0"/>
