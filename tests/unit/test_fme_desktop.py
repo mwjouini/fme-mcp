@@ -162,6 +162,30 @@ def test_fme_bridge_loopback_socket():
         assert last_evt["status"] == "SUCCESS"
         assert last_evt["result"]["event"] == "translation_started"
 
+        # Send feature action (as MCPAgentBridge transformer does)
+        with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as sock:
+            sock.connect(("127.0.0.1", port))
+            sock.sendall(
+                (
+                    json.dumps(
+                        {
+                            "action": "VALIDATE_AND_ENRICH",
+                            "feature_type": "AddressRecord",
+                            "attributes": {"address": "10 Rue de la Paix"},
+                        }
+                    )
+                    + "\n"
+                ).encode("utf-8")
+            )
+            feat_resp = json.loads(sock.recv(4096).decode("utf-8"))
+            assert feat_resp["status"] == "SUCCESS"
+            assert feat_resp["action"] == "VALIDATE_AND_ENRICH"
+
+        # Check last_feature command
+        last_feat = client.send_command("last_feature")
+        assert last_feat["status"] == "SUCCESS"
+        assert last_feat["result"]["action"] == "VALIDATE_AND_ENRICH"
+
         # Send invalid command
         bad_resp = client.send_command("non_existent_command")
         assert bad_resp["status"] == "ERROR"

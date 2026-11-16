@@ -33,6 +33,7 @@ class FMEBridgeServer:
         self._server_sock: socket.socket | None = None
         self._thread: threading.Thread | None = None
         self.last_event: dict[str, Any] | None = None
+        self.last_feature: dict[str, Any] | None = None
         self._handlers: dict[str, Callable[[dict[str, Any]], dict[str, Any]]] = {
             "ping": self._handle_ping,
             "diagnose": self._handle_diagnose,
@@ -42,6 +43,7 @@ class FMEBridgeServer:
             "preview_dataset": self._handle_preview_dataset,
             "execute_code": self._handle_execute_code,
             "last_event": self._handle_last_event,
+            "last_feature": self._handle_last_feature,
         }
 
     def start(self) -> None:
@@ -85,15 +87,25 @@ class FMEBridgeServer:
                     return
 
                 req = json.loads(raw_data.decode("utf-8"))
-                if "event" in req:
-                    event_name = req.get("event", "")
-                    self.last_event = req
-                    logger.info(f"FME Bridge received event: '{event_name}'")
-                    response = {"status": "SUCCESS", "event": event_name, "received": True}
-                else:
-                    cmd = req.get("command", "")
-                    params = req.get("params", {})
+                params = req.get("params", {}) if isinstance(req.get("params"), dict) else {}
+                event_name = req.get("event") or params.get("event")
+                action = req.get("action") or params.get("action")
 
+                if event_name or action:
+                    if event_name:
+                        self.last_event = req
+                        logger.info(f"FME Bridge received event: '{event_name}'")
+                    if action:
+                        self.last_feature = req
+                        logger.info(f"FME Bridge received feature action: '{action}'")
+                    response = {
+                        "status": "SUCCESS",
+                        "event": event_name,
+                        "action": action,
+                        "received": True,
+                    }
+                else:
+                    cmd = req.get("command") or req.get("method", "")
                     handler = self._handlers.get(cmd)
                     if handler:
                         resp_payload = handler(params)
@@ -109,6 +121,9 @@ class FMEBridgeServer:
 
     def _handle_last_event(self, params: dict[str, Any]) -> dict[str, Any]:
         return self.last_event or {}
+
+    def _handle_last_feature(self, params: dict[str, Any]) -> dict[str, Any]:
+        return self.last_feature or {}
 
     def _handle_ping(self, params: dict[str, Any]) -> dict[str, Any]:
         return {"pong": True, "timestamp": time.time()}
