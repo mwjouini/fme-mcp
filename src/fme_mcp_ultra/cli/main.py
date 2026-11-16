@@ -1,4 +1,4 @@
-"""CLI Interface for fme-mcp-ultra."""
+"""CLI Interface for fme-mcp."""
 
 from __future__ import annotations
 
@@ -16,7 +16,7 @@ from fme_mcp_ultra.fme.fme_form_client import fme_form_client
 from fme_mcp_ultra.server.mcp_server import mcp_server
 
 cli = typer.Typer(
-    name="fme-mcp-ultra",
+    name="fme-mcp",
     help="Model Context Protocol (MCP) server for Safe Software FME (2018.0 - 2026+).",
     add_completion=False,
 )
@@ -40,7 +40,7 @@ def serve(
     host: str = typer.Option(settings.host, "--host", "-h", help="Host address for HTTP/SSE"),
     port: int = typer.Option(settings.port, "--port", "-p", help="Port for HTTP/SSE"),
 ) -> None:
-    """Launch the fme-mcp-ultra server."""
+    """Launch the fme-mcp server."""
     with contextlib.suppress(Exception):
         fme_bridge_server.start()
 
@@ -48,12 +48,12 @@ def serve(
         mcp_server.run(transport="stdio")
     elif transport == "sse":
         console.print(
-            f"[bold green]Starting fme-mcp-ultra sse server on {host}:{port}[/bold green]"
+            f"[bold green]Starting fme-mcp sse server on {host}:{port}[/bold green]"
         )
         mcp_server.run(transport="sse", host=host, port=port)
     elif transport == "streamable-http":
         console.print(
-            f"[bold green]Starting fme-mcp-ultra streamable-http server on {host}:{port}[/bold green]"
+            f"[bold green]Starting fme-mcp streamable-http server on {host}:{port}[/bold green]"
         )
         mcp_server.run(transport="streamable-http", host=host, port=port)
     else:
@@ -68,7 +68,7 @@ def doctor() -> None:
     """Diagnose FME Form, fmeobjects bindings, and environment readiness."""
     console.print(
         Panel.fit(
-            "[bold blue]fme-mcp-ultra Environment Diagnostic[/bold blue]", border_style="blue"
+            "[bold blue]fme-mcp Environment Diagnostic[/bold blue]", border_style="blue"
         )
     )
 
@@ -78,7 +78,7 @@ def doctor() -> None:
     table.add_column("Details", style="green")
 
     # 1. Server Version
-    table.add_row("fme-mcp-ultra", "OK", f"v{__version__}")
+    table.add_row("fme-mcp", "OK", f"v{__version__}")
 
     # 2. FME Form Local Detection
     info = fme_form_client.get_info()
@@ -152,8 +152,8 @@ def inspect(
 
 @cli.command()
 def version() -> None:
-    """Display fme-mcp-ultra version and build info."""
-    console.print(f"fme-mcp-ultra v{__version__} - Apache-2.0")
+    """Display fme-mcp version and build info."""
+    console.print(f"fme-mcp v{__version__} - Apache-2.0")
 
 
 if __name__ == "__main__":

@@ -1,9 +1,9 @@
 {
   "mcpServers": {
-    "fme-mcp-ultra": {
+    "fme-mcp": {
       "command": "uvx",
       "args": [
-        "fme-mcp-ultra",
+        "fme-mcp",
         "serve",
         "--transport",
         "stdio"

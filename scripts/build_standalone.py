@@ -245,23 +245,6 @@ def build_binary(
     checksum_file = target_path.with_name(f"{target_path.name}.sha256")
     checksum_file.write_text(f"{sha256_hash}  {target_path.name}\n", encoding="utf-8")
 
-    # Also create arch-specific alias (e.g., fme-mcp-ultra-windows-x64.exe or fme-mcp-ultra-linux-x64)
-    arch = (
-        "x64"
-        if platform.machine().lower() in ("amd64", "x86_64", "em64t")
-        else platform.machine().lower()
-    )
-    os_name = "windows" if is_windows else platform.system().lower()
-    suffix = ".exe" if is_windows else ""
-    arch_alias_name = f"{binary_name}-{os_name}-{arch}{suffix}"
-    arch_alias_path = output_dir / arch_alias_name
-
-    if arch_alias_path != target_path:
-        shutil.copy2(target_path, arch_alias_path)
-        arch_checksum = arch_alias_path.with_name(f"{arch_alias_name}.sha256")
-        arch_checksum.write_text(f"{sha256_hash}  {arch_alias_name}\n", encoding="utf-8")
-        print(f"[+] Created platform release alias: {arch_alias_path}")
-
     print("-" * 70)
     print("[+] Standalone binary successfully generated!")
     print(f"    Path:     {target_path}")
@@ -307,8 +290,8 @@ def main() -> None:
         "--binary-name",
         "-n",
         type=str,
-        default="fme-mcp-ultra",
-        help="Base binary name (default: fme-mcp-ultra)",
+        default="fme-mcp",
+        help="Base binary name (default: fme-mcp)",
     )
     parser.add_argument(
         "--clean",

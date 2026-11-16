@@ -23,7 +23,7 @@ from fme_mcp_ultra.tools.workspaces import workspace_tools
 
 # Initialise standard MCP Server
 mcp_server = MCPServer(
-    name="fme-mcp-ultra",
+    name="fme-mcp",
     version=__version__,
     instructions=(
         "Model Context Protocol (MCP) server for Safe Software FME (2018.0 - 2026+). "

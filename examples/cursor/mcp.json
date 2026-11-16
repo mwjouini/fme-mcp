@@ -1,7 +1,7 @@
 {
   "mcpServers": {
-    "fme-mcp-ultra": {
-      "command": "fme-mcp-ultra",
+    "fme-mcp": {
+      "command": "fme-mcp",
       "args": [
         "serve",
         "--transport",
