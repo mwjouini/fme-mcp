@@ -1,6 +1,6 @@
-# MCP FME - Tools Reference Catalogue
+# FME MCP - Tools Reference Catalogue
 
-A complete index of tools exposed by **MCP FME** (`fme-mcp-ultra`), organised by domain.
+A complete index of tools exposed by **FME MCP** (`fme-mcp-ultra`), organised by domain.
 
 ---
 

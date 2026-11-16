@@ -1,4 +1,4 @@
-# MCP FME - Universal 1-Command Installer
+# FME MCP - Universal 1-Command Installer
 # Model Context Protocol Server for Safe Software FME (2018.0 - 2026+)
 # Usage:
 #   irm https://raw.githubusercontent.com/mwjouini/fme-mcp-ultra/main/scripts/install.ps1 | iex
@@ -8,7 +8,7 @@
         [CmdletBinding()]
         param(
             [Parameter(Position = 0)]
-            [string]$InstallDir = "$env:LOCALAPPDATA\mcp-fme\bin",
+            [string]$InstallDir = "$env:LOCALAPPDATA\fme-mcp\bin",
 
             [string]$Repo = "mwjouini/fme-mcp-ultra",
             [string]$Tag = "latest",
@@ -34,11 +34,11 @@
         }
 
         if ($Help) {
-            Write-Host "MCP FME - Universal 1-Command Installer`n"
+            Write-Host "FME MCP - Universal 1-Command Installer`n"
             Write-Host "Usage:"
             Write-Host "    irm https://raw.githubusercontent.com/mwjouini/fme-mcp-ultra/main/scripts/install.ps1 | iex`n"
             Write-Host "Parameters:"
-            Write-Host "    -InstallDir <path>   Destination directory for standalone binary (default: `$env:LOCALAPPDATA\mcp-fme\bin)"
+            Write-Host "    -InstallDir <path>   Destination directory for standalone binary (default: `$env:LOCALAPPDATA\fme-mcp\bin)"
             Write-Host "    -Repo <repo>         GitHub repository owner/repo (default: mwjouini/fme-mcp-ultra)"
             Write-Host "    -Tag <tag>           Release tag to install (default: latest)"
             Write-Host "    -FmeDir <path>       Manual override path for FME Form installation"
@@ -64,7 +64,7 @@
         function Write-Banner {
             Write-Host ""
             Write-Host "==========================================================================" -ForegroundColor Cyan
-            Write-Host "  MCP FME - Universal 1-Command Installer                                " -ForegroundColor White
+            Write-Host "  FME MCP - Universal 1-Command Installer                                " -ForegroundColor White
             Write-Host "  Model Context Protocol Server for Safe Software FME (2018.0 - 2026+)    " -ForegroundColor Gray
             Write-Host "==========================================================================" -ForegroundColor Cyan
             if ($DryRun) {
@@ -285,7 +285,8 @@
             )
 
             $targetExe = Join-Path $TargetDir "fme-mcp-ultra.exe"
-            $aliasExe = Join-Path $TargetDir "mcp-fme.exe"
+            $aliasExe = Join-Path $TargetDir "fme-mcp.exe"
+            $aliasExe2 = Join-Path $TargetDir "mcp-fme.exe"
 
             if (-not $DryRunMode) {
                 if (-not (Test-Path $TargetDir)) {
@@ -293,15 +294,25 @@
                 }
             }
 
-            # Check if existing standalone binary is already installed and valid
-            if ((Test-Path $targetExe) -and (-not $ForceOverwrite)) {
-                Write-Success "Existing standalone binary found at $targetExe (Use -Force to overwrite)"
-                if (-not (Test-Path $aliasExe)) {
-                    try {
-                        Copy-Item -Path $targetExe -Destination $aliasExe -Force -ErrorAction SilentlyContinue
-                    } catch { }
+            # Check if existing standalone binary is already installed in target or legacy directory
+            $prevInstalled = @(
+                $targetExe,
+                "$env:LOCALAPPDATA\fme-mcp\bin\fme-mcp-ultra.exe",
+                "$env:LOCALAPPDATA\mcp-fme\bin\fme-mcp-ultra.exe",
+                "$env:LOCALAPPDATA\fme-mcp-ultra\bin\fme-mcp-ultra.exe"
+            )
+            foreach ($candidate in $prevInstalled) {
+                if ((Test-Path $candidate) -and (-not $ForceOverwrite)) {
+                    if ($candidate -ne $targetExe -and (-not $DryRunMode)) {
+                        try { Copy-Item -Path $candidate -Destination $targetExe -Force } catch { }
+                    }
+                    if (Test-Path $targetExe) {
+                        Write-Success "Existing standalone binary found at $targetExe (Use -Force to overwrite)"
+                        try { Copy-Item -Path $targetExe -Destination $aliasExe -Force -ErrorAction SilentlyContinue } catch { }
+                        try { Copy-Item -Path $targetExe -Destination $aliasExe2 -Force -ErrorAction SilentlyContinue } catch { }
+                        return $targetExe
+                    }
                 }
-                return $targetExe
             }
 
             # If running from local repository build or dist directory, prefer local binary if available
@@ -325,10 +336,9 @@
                     } catch {
                         Write-Warn "Target binary is currently in use by an active MCP client. Keeping active binary."
                     }
-                    try {
-                        Copy-Item -Path $localDistBin -Destination $aliasExe -Force
-                    } catch { }
-                    Write-Success "Installed MCP FME binary to $targetExe"
+                    try { Copy-Item -Path $localDistBin -Destination $aliasExe -Force } catch { }
+                    try { Copy-Item -Path $localDistBin -Destination $aliasExe2 -Force } catch { }
+                    Write-Success "Installed FME MCP binary to $targetExe"
                     return $targetExe
                 }
             }
@@ -353,7 +363,7 @@
                 try {
                     Write-Step "Downloading standalone binary from $url..."
                     $webClient = New-Object System.Net.WebClient
-                    $webClient.Headers.Add("User-Agent", "mcp-fme-installer")
+                    $webClient.Headers.Add("User-Agent", "fme-mcp-installer")
                     $tempFile = [System.IO.Path]::GetTempFileName()
                     $webClient.DownloadFile($url, $tempFile)
 
@@ -363,6 +373,7 @@
                         try {
                             Move-Item -Path $tempFile -Destination $targetExe -Force
                             Copy-Item -Path $targetExe -Destination $aliasExe -Force -ErrorAction SilentlyContinue
+                            Copy-Item -Path $targetExe -Destination $aliasExe2 -Force -ErrorAction SilentlyContinue
                         } catch {
                             Write-Warn "Binary at $targetExe is currently locked by a running process. Retaining active binary."
                         }
@@ -388,10 +399,15 @@
                     
                     $shimLines = @(
                         "@echo off",
-                        "REM MCP FME Launcher Shim",
+                        "REM FME MCP Launcher Shim",
                         "where fme-mcp-ultra >nul 2>&1",
                         "if %ERRORLEVEL% EQU 0 (",
                         "    fme-mcp-ultra %*",
+                        "    exit /b %ERRORLEVEL%",
+                        ")",
+                        "where fme-mcp >nul 2>&1",
+                        "if %ERRORLEVEL% EQU 0 (",
+                        "    fme-mcp %*",
                         "    exit /b %ERRORLEVEL%",
                         ")",
                         "python -m fme_mcp_ultra %* 2>nul",
@@ -401,9 +417,11 @@
                     )
                     $cmdShim = Join-Path $TargetDir "fme-mcp-ultra.cmd"
                     $shimLines | Set-Content -Path $cmdShim -Encoding ASCII
+                    $fmeMcpShim = Join-Path $TargetDir "fme-mcp.cmd"
+                    $shimLines | Set-Content -Path $fmeMcpShim -Encoding ASCII
                     $aliasShim = Join-Path $TargetDir "mcp-fme.cmd"
                     $shimLines | Set-Content -Path $aliasShim -Encoding ASCII
-                    Write-Success "Installed fallback launcher shim: $cmdShim & $aliasShim"
+                    Write-Success "Installed fallback launcher shim: $cmdShim & $fmeMcpShim"
                     return $cmdShim
                 }
             }
@@ -469,7 +487,8 @@
                     $configObj | Add-Member -MemberType NoteProperty -Name "mcpServers" -Value ([PSCustomObject]@{}) -Force
                 }
 
-                # Register both mcp-fme and fme-mcp-ultra for complete interoperability
+                # Register fme-mcp, mcp-fme and fme-mcp-ultra for complete interoperability
+                $configObj.mcpServers | Add-Member -MemberType NoteProperty -Name "fme-mcp" -Value $serverDef -Force
                 $configObj.mcpServers | Add-Member -MemberType NoteProperty -Name "mcp-fme" -Value $serverDef -Force
                 $configObj.mcpServers | Add-Member -MemberType NoteProperty -Name "fme-mcp-ultra" -Value $serverDef -Force
 
@@ -505,13 +524,13 @@
             }
         } else {
             Write-Warn "FME Form was not detected in standard registry or system paths."
-            Write-Detail "Note" "MCP FME will run standalone; FME Form can be linked anytime via FME_DIR."
+            Write-Detail "Note" "FME MCP will run standalone; FME Form can be linked anytime via FME_DIR."
         }
 
         Write-Host ""
 
         # 2. Resolve Runtime / Standalone Binary
-        Write-Step "2/4: Resolving MCP FME runtime (zero dependencies)..."
+        Write-Step "2/4: Resolving FME MCP runtime (zero dependencies)..."
 
         $finalServerCommand = ""
         $finalServerArgs = @("serve", "--transport", "stdio")
@@ -643,7 +662,7 @@
         # 4. Summary & Verification
         Write-Step "4/4: Installation Summary & Next Steps"
         Write-Host "==========================================================================" -ForegroundColor Green
-        Write-Host "  MCP FME INSTALLATION SUMMARY                                            " -ForegroundColor White
+        Write-Host "  FME MCP INSTALLATION SUMMARY                                            " -ForegroundColor White
         Write-Host "==========================================================================" -ForegroundColor Green
         Write-Detail "Server Command" $finalServerCommand
         Write-Detail "Server Args" ($finalServerArgs -join " ")

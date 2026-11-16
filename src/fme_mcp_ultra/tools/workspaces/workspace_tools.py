@@ -681,7 +681,7 @@ def _generate_markdown_docs(
     lines: list[str] = [
         f"# 🗺️ FME Workspace: {title}",
         "",
-        "> **Generated automatically by MCP FME Documentation Engine**  ",
+        "> **Generated automatically by FME MCP Documentation Engine**  ",
         f"> Workspace: `{workspace_path.name}` | Build: `{build}` | Last Saved: `{last_date}`",
         "",
         "## 📋 Overview",

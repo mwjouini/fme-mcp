@@ -1,9 +1,9 @@
 <div align="center">
-  <img src="https://raw.githubusercontent.com/mwjouini/fme-mcp-ultra/main/docs/assets/logo.png" alt="MCP FME logo" width="140" height="140" style="margin-bottom: 12px;" />
-  <h1>MCP FME</h1>
+  <img src="https://raw.githubusercontent.com/mwjouini/fme-mcp-ultra/main/docs/assets/logo.png" alt="FME MCP logo" width="140" height="140" style="margin-bottom: 12px;" />
+  <h1>FME MCP</h1>
 </div>
 
-**MCP FME** (`fme-mcp-ultra`) is the universal, open-source Model Context Protocol (MCP) server for **Safe Software FME (FME Form & FME Flow 2018.0 through 2026+)**, geospatial data, enterprise data pipelines, and AI agents.
+**FME MCP** (`fme-mcp-ultra`) is the universal, open-source Model Context Protocol (MCP) server for **Safe Software FME (FME Form & FME Flow 2018.0 through 2026+)**, geospatial data, enterprise data pipelines, and AI agents.
 
 ---
 

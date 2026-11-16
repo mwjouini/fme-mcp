@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # ==============================================================================
-# MCP FME - Universal 1-Command Installer (Linux & macOS)
+# FME MCP - Universal 1-Command Installer (Linux & macOS)
 # Zero-dependency Model Context Protocol Server for Safe Software FME
 #
 # Usage:
@@ -13,7 +13,7 @@ set -e
 # Default configurations
 REPO="mwjouini/fme-mcp-ultra"
 TAG="latest"
-INSTALL_DIR="${HOME}/.local/share/mcp-fme/bin"
+INSTALL_DIR="${HOME}/.local/share/fme-mcp/bin"
 FME_DIR_OVERRIDE=""
 DRY_RUN=false
 FORCE=false
@@ -34,7 +34,7 @@ COLOR_MAGENTA="\033[1;35m"
 print_banner() {
     echo ""
     echo -e "${COLOR_CYAN}==========================================================================${COLOR_RESET}"
-    echo -e "${COLOR_WHITE}  MCP FME - Universal 1-Command Installer (Linux / macOS)                 ${COLOR_RESET}"
+    echo -e "${COLOR_WHITE}  FME MCP - Universal 1-Command Installer (Linux / macOS)                 ${COLOR_RESET}"
     echo -e "${COLOR_GRAY}  Model Context Protocol Server for Safe Software FME (2018.0 - 2026+)    ${COLOR_RESET}"
     echo -e "${COLOR_CYAN}==========================================================================${COLOR_RESET}"
     if [ "$DRY_RUN" = true ]; then
@@ -106,7 +106,7 @@ while [[ $# -gt 0 ]]; do
             echo "  --force               Overwrite existing binary or configs"
             echo "  --configure-all       Configure all clients even if not detected"
             echo "  --prefer-fme-python   Prefer FME bundled python if available"
-            echo "  --install-dir <path>  Target binary directory (default: ~/.local/share/mcp-fme/bin)"
+            echo "  --install-dir <path>  Target binary directory (default: ~/.local/share/fme-mcp/bin)"
             echo "  --fme-dir <path>      FME Form installation directory"
             echo "  --tag <tag>           Release tag (default: latest)"
             echo "  --help                Show this help message"
@@ -184,16 +184,17 @@ if [ -n "$FME_DIR" ]; then
     fi
 else
     print_warn "FME Form was not detected in standard Linux / macOS paths."
-    print_detail "Note" "MCP FME will run standalone; FME Form can be linked anytime via FME_DIR."
+    print_detail "Note" "FME MCP will run standalone; FME Form can be linked anytime via FME_DIR."
 fi
 
 echo ""
 
 # --- Step 2: Resolve Standalone Binary Runtime ---
-print_step "2/4: Resolving MCP FME runtime (zero dependencies)..."
+print_step "2/4: Resolving FME MCP runtime (zero dependencies)..."
 
 TARGET_EXE="${INSTALL_DIR}/fme-mcp-ultra"
-ALIAS_EXE="${INSTALL_DIR}/mcp-fme"
+ALIAS_EXE="${INSTALL_DIR}/fme-mcp"
+ALIAS_EXE2="${INSTALL_DIR}/mcp-fme"
 OS_TYPE=$(uname -s | tr '[:upper:]' '[:lower:]')
 ARCH_TYPE=$(uname -m)
 
@@ -222,6 +223,7 @@ else
     if [ -f "$TARGET_EXE" ] && [ "$FORCE" = false ]; then
         print_success "Existing standalone binary found at $TARGET_EXE (Use --force to overwrite)"
         [ ! -f "$ALIAS_EXE" ] && cp -f "$TARGET_EXE" "$ALIAS_EXE" 2>/dev/null || true
+        [ ! -f "$ALIAS_EXE2" ] && cp -f "$TARGET_EXE" "$ALIAS_EXE2" 2>/dev/null || true
     else
         DOWNLOAD_OK=false
         TMP_FILE=$(mktemp)
@@ -229,12 +231,12 @@ else
         for url in "$PRIMARY_URL" "$FALLBACK_URL"; do
             print_step "Downloading standalone binary from $url..."
             if command -v curl >/dev/null 2>&1; then
-                if curl -fsSL -A "mcp-fme-installer" "$url" -o "$TMP_FILE" 2>/dev/null; then
+                if curl -fsSL -A "fme-mcp-installer" "$url" -o "$TMP_FILE" 2>/dev/null; then
                     DOWNLOAD_OK=true
                     break
                 fi
             elif command -v wget >/dev/null 2>&1; then
-                if wget -q -U "mcp-fme-installer" "$url" -O "$TMP_FILE" 2>/dev/null; then
+                if wget -q -U "fme-mcp-installer" "$url" -O "$TMP_FILE" 2>/dev/null; then
                     DOWNLOAD_OK=true
                     break
                 fi
@@ -246,7 +248,9 @@ else
             chmod +x "$TARGET_EXE"
             cp -f "$TARGET_EXE" "$ALIAS_EXE" 2>/dev/null || true
             chmod +x "$ALIAS_EXE" 2>/dev/null || true
-            print_success "Successfully installed MCP FME standalone binary to $TARGET_EXE"
+            cp -f "$TARGET_EXE" "$ALIAS_EXE2" 2>/dev/null || true
+            chmod +x "$ALIAS_EXE2" 2>/dev/null || true
+            print_success "Successfully installed FME MCP standalone binary to $TARGET_EXE"
         else
             rm -f "$TMP_FILE"
             print_warn "Prebuilt release binary could not be fetched from GitHub (network offline or release pending)."
@@ -256,6 +260,8 @@ else
 #!/usr/bin/env bash
 if command -v fme-mcp-ultra >/dev/null 2>&1; then
     exec fme-mcp-ultra "$@"
+elif command -v fme-mcp >/dev/null 2>&1; then
+    exec fme-mcp "$@"
 elif command -v mcp-fme >/dev/null 2>&1; then
     exec mcp-fme "$@"
 elif command -v python3 >/dev/null 2>&1 && python3 -c "import fme_mcp_ultra" 2>/dev/null; then
@@ -263,13 +269,15 @@ elif command -v python3 >/dev/null 2>&1 && python3 -c "import fme_mcp_ultra" 2>/
 elif command -v uvx >/dev/null 2>&1; then
     exec uvx fme-mcp-ultra "$@"
 else
-    echo "[!] mcp-fme is not yet available in PATH." >&2
+    echo "[!] fme-mcp is not yet available in PATH." >&2
     exit 1
 fi
 EOF
             chmod +x "$TARGET_EXE"
             cp -f "$TARGET_EXE" "$ALIAS_EXE" 2>/dev/null || true
             chmod +x "$ALIAS_EXE" 2>/dev/null || true
+            cp -f "$TARGET_EXE" "$ALIAS_EXE2" 2>/dev/null || true
+            chmod +x "$ALIAS_EXE2" 2>/dev/null || true
             print_success "Installed fallback launcher shim: $TARGET_EXE"
         fi
     fi
@@ -334,6 +342,7 @@ server_entry = {
 if fme_dir:
     server_entry["env"]["FME_DIR"] = fme_dir
 
+data["mcpServers"]["fme-mcp"] = server_entry
 data["mcpServers"]["mcp-fme"] = server_entry
 data["mcpServers"]["fme-mcp-ultra"] = server_entry
 
@@ -345,6 +354,14 @@ PYEOF
         cat << JSONEOF > "$config_file"
 {
   "mcpServers": {
+    "fme-mcp": {
+      "command": "$server_cmd",
+      "args": ["serve", "--transport", "stdio"],
+      "env": {
+        "PYTHONIOENCODING": "utf-8",
+        "PYTHONUNBUFFERED": "1"$([ -n "$fme_dir_val" ] && echo -e ",\n        \"FME_DIR\": \"$fme_dir_val\"")
+      }
+    },
     "mcp-fme": {
       "command": "$server_cmd",
       "args": ["serve", "--transport", "stdio"],
@@ -435,7 +452,7 @@ echo ""
 # --- Step 4: Summary & Verification ---
 print_step "4/4: Installation Summary & Next Steps"
 echo -e "${COLOR_GREEN}==========================================================================${COLOR_RESET}"
-echo -e "${COLOR_WHITE}  MCP FME INSTALLATION SUMMARY                                            ${COLOR_RESET}"
+echo -e "${COLOR_WHITE}  FME MCP INSTALLATION SUMMARY                                            ${COLOR_RESET}"
 echo -e "${COLOR_GREEN}==========================================================================${COLOR_RESET}"
 print_detail "Server Command" "$TARGET_EXE"
 print_detail "Server Args" "serve --transport stdio"

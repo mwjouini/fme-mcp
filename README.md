@@ -1,6 +1,6 @@
 <div align="center">
-  <img src="https://raw.githubusercontent.com/mwjouini/fme-mcp-ultra/main/docs/assets/logo.png" alt="MCP FME logo" width="160" height="160" style="margin-bottom: 12px;" />
-  <h1>MCP FME</h1>
+  <img src="https://raw.githubusercontent.com/mwjouini/fme-mcp-ultra/main/docs/assets/logo.png" alt="FME MCP logo" width="160" height="160" style="margin-bottom: 12px;" />
+  <h1>FME MCP</h1>
   <p><strong>Universal, secure, production-grade Model Context Protocol (MCP) server for Safe Software FME (2018.0 – 2026+), FME Form, FME Flow, and spatial data engineering.</strong></p>
 
   <p>
@@ -24,7 +24,7 @@ Usable by any standard MCP client: **Claude Desktop, Claude Code, Cursor, VS Cod
 
 Safe Software introduced native Model Context Protocol (MCP) support in FME 2026 (`safe.mcp` / `MCPCaller` in 2026.1 and native Flow MCP Server in 2026.2). However, many teams run on **FME 2018.0 through 2025**, which previously lacked any way to connect LLMs and AI agents with their spatial data pipelines.
 
-**MCP FME** (`fme-mcp-ultra`) bridges this gap:
+**FME MCP** (`fme-mcp-ultra`) bridges this gap:
 1. **Works with All FME Releases (2018.0 to 2026+)**: Works locally with FME Form (`fme.exe` and `fmeobjects` bindings) and remotely with FME Flow REST APIs (v3 & v4).
 2. **Dynamic Workspace Tools**: Discovers `.fmw` workspaces, extracts published parameters, and exposes them as typed MCP tools for your AI assistant.
 3. **Desktop Interactivity**: Live environment diagnostics, XML canvas topology inspection, detached GUI launching (`FME Workbench`, `FME Data Inspector`), and dataset feature previews.
@@ -44,7 +44,7 @@ flowchart TB
         C3["AI Agents SDK / LangChain"]
     end
 
-    subgraph CoreServer["MCP FME Server"]
+    subgraph CoreServer["FME MCP Server"]
         subgraph Transports["Transports"]
             T1["Standard I/O (stdio)"]
             T2["Streamable HTTP / SSE"]
@@ -95,7 +95,7 @@ flowchart TB
 
 ## ⚡ 1-Command Universal Installation (Recommended)
 
-Get up and running immediately with **MCP FME** — **ZERO dependencies** (no Python, no `uv`, and no `uvx` needed)!
+Get up and running immediately with **FME MCP** — **ZERO dependencies** (no Python, no `uv`, and no `uvx` needed)!
 
 The universal installer automatically discovers your local **FME Form** installation, hooks into its native engine runtime or fetches the pre-built standalone binary, and **automatically configures Claude Desktop, Cursor, Antigravity, VS Code, and Windsurf**:
 
@@ -148,7 +148,7 @@ Add this to `%APPDATA%\Claude\claude_desktop_config.json` (Windows) or `~/Librar
 ```json
 {
   "mcpServers": {
-    "mcp-fme": {
+    "fme-mcp": {
       "command": "uvx",
       "args": ["fme-mcp-ultra", "serve", "--transport", "stdio"]
     }
@@ -160,7 +160,7 @@ Add this to `%APPDATA%\Claude\claude_desktop_config.json` (Windows) or `~/Librar
 ```json
 {
   "mcpServers": {
-    "mcp-fme": {
+    "fme-mcp": {
       "command": "py",
       "args": ["-m", "fme_mcp_ultra.cli.main", "serve", "--transport", "stdio"]
     }
@@ -172,7 +172,7 @@ Add this to `%APPDATA%\Claude\claude_desktop_config.json` (Windows) or `~/Librar
 ```json
 {
   "mcpServers": {
-    "mcp-fme": {
+    "fme-mcp": {
       "command": "C:\\Program Files\\FME\\fme.exe",
       "args": ["python", "-m", "fme_mcp_ultra.cli.main", "serve", "--transport", "stdio"]
     }
@@ -186,7 +186,7 @@ Add to your client's MCP configuration settings:
 ```json
 {
   "mcpServers": {
-    "mcp-fme": {
+    "fme-mcp": {
       "command": "fme-mcp-ultra",
       "args": ["serve", "--transport", "stdio"]
     }
@@ -231,7 +231,7 @@ To allow FME Workbench to report live translation events (status, duration, feat
 
 ## 🛡️ Enterprise Security Model
 
-**MCP FME** is engineered with a strict **Default-Deny** security posture:
+**FME MCP** is engineered with a strict **Default-Deny** security posture:
 
 - **PathGuard**: Enforces canonical path resolution (`os.path.realpath`) and verifies containment within `FME_ALLOWED_DIRS`. Traversal escapes (`..`) and null bytes are rejected.
 - **CommandGuard**: Zero shell invocations (`shell=False`). Executable names and arguments are validated against an authorised binary whitelist, blocking metacharacter injection (`|`, `;`, `&`, `$`).
@@ -243,7 +243,7 @@ To allow FME Workbench to report live translation events (status, duration, feat
 
 ## 📊 FME Version Compatibility
 
-**MCP FME** is compatible with all versions of Safe Software FME from **2018.0 through 2026+**:
+**FME MCP** is compatible with all versions of Safe Software FME from **2018.0 through 2026+**:
 
 | FME Version | Compatibility | FME Form (Desktop) | FME Flow (Server) | How it works |
 | :--- | :---: | :---: | :---: | :--- |
