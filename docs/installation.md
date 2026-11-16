@@ -34,7 +34,7 @@ The 1-command installer automates the complete setup lifecycle in seconds:
 
 1. **Zero External Dependencies**:
    - You do **NOT** need Python, `uv`, `pip`, or git pre-installed.
-   - Everything runs in user-space (`%LOCALAPPDATA%\fme-mcp\bin` or `%LOCALAPPDATA%\mcp-fme\bin` on Windows, `~/.local/bin` on Linux/macOS) — **no administrator / UAC elevation required**.
+   - Everything runs in user-space (`%LOCALAPPDATA%\fme-mcp\bin` on Windows or `~/.local/bin` on Linux/macOS) — **no administrator / UAC elevation required**.
 
 2. **Native FME Form Engine Detection**:
    - Automatically queries the Windows Registry (`HKLM` and `HKCU` Safe Software keys), environment variables (`FME_HOME`, `FME_DIR`), and standard installation paths (`C:\Program Files\FME`, `/opt/fme`).
