@@ -1,6 +1,6 @@
 # FME Spatial Data Engineer — AI Agent Skill
 
-This directory contains the packaged AI Agent Skill for **Safe Software FME (2018.0 - 2026+)** powered by `fme-mcp-ultra`.
+This directory contains the packaged AI Agent Skill for **Safe Software FME (2018.0 - 2026+)** powered by `fme-mcp`.
 
 Compatible with:
 - **Agensi.io Marketplace**
@@ -26,5 +26,5 @@ Compatible with:
    - **Category**: *Developer Tools / Geospatial & GIS / Automation*
    - **Description**: *Connect your AI agent to Safe Software FME Form & Flow (2018.0 - 2026+). Automate workspace discovery, parameter introspection, translation execution, coordinate reprojection, and spatial data contracts.*
    - **Supported Agents**: Claude Code, Cursor, Copilot, Antigravity, Windsurf.
-   - **Associated MCP Server**: `fme-mcp-ultra` ([PyPI](https://pypi.org/project/fme-mcp-ultra/) / [GitHub](https://github.com/mwjouini/fme-mcp-ultra)).
+   - **Associated MCP Server**: `fme-mcp` ([PyPI](https://pypi.org/project/fme-mcp/) / [GitHub](https://github.com/mwjouini/fme-mcp)).
    - **Manifest**: Upload or paste [`fme-spatial-engineer/SKILL.md`](fme-spatial-engineer/SKILL.md).

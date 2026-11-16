@@ -8,9 +8,9 @@ Safe Software introduced Model Context Protocol (MCP) support in FME 2026:
 
 ## Feature Comparison
 
-`fme-mcp-ultra` supports both server and client capabilities in a single runtime, while also adding desktop client support and backward compatibility:
+`fme-mcp` supports both server and client capabilities in a single runtime, while also adding desktop client support and backward compatibility:
 
-| Capability | FME 2026 Official | `fme-mcp-ultra` |
+| Capability | FME 2026 Official | `fme-mcp` |
 | :--- | :---: | :---: |
 | **Server Mode (Expose Workspaces)** | ✅ Flow Only (2026.2+) | ✅ Form (Local) & Flow (Remote) |
 | **Client Mode (MCP Caller)** | ✅ Via Hub Package | ✅ Built-in Federation Client |

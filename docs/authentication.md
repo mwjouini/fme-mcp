@@ -1,6 +1,6 @@
 # Authentication & Authorisation
 
-`fme-mcp-ultra` supports multiple enterprise authentication and authorisation mechanisms to ensure that all tool operations are properly governed.
+`fme-mcp` supports multiple enterprise authentication and authorisation mechanisms to ensure that all tool operations are properly governed.
 
 ---
 
@@ -18,7 +18,7 @@ X-API-Key: <your-api-key>
 ```
 
 ### B. OAuth 2.1 / OIDC
-In enterprise environments, `fme-mcp-ultra` integrates with standard OAuth 2.1 identity providers (Keycloak, Okta, Microsoft Entra ID) using JWT Bearer tokens:
+In enterprise environments, `fme-mcp` integrates with standard OAuth 2.1 identity providers (Keycloak, Okta, Microsoft Entra ID) using JWT Bearer tokens:
 ```http
 Authorization: Bearer eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9...
 ```

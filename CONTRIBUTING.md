@@ -1,6 +1,6 @@
-# Contributing to `fme-mcp-ultra`
+# Contributing to `fme-mcp`
 
-Thank you for your interest in contributing to **`fme-mcp-ultra`**. We welcome community contributions, bug reports, feature requests, and documentation improvements.
+Thank you for your interest in contributing to **`fme-mcp`**. We welcome community contributions, bug reports, feature requests, and documentation improvements.
 
 Documentation and code comments are maintained in English. Contributions in any clear, standard English are warmly welcomed.
 
@@ -21,8 +21,8 @@ All contributors and maintainers must abide by our [Code of Conduct](CODE_OF_CON
 
 ### Initialising the Environment
 ```bash
-git clone https://github.com/mwjouini/fme-mcp-ultra.git
-cd fme-mcp-ultra
+git clone https://github.com/mwjouini/fme-mcp.git
+cd fme-mcp
 python -m venv .venv
 source .venv/bin/activate  # On Windows: .\.venv\Scripts\Activate.ps1
 pip install -e ".[dev,docs]"

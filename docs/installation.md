@@ -1,6 +1,6 @@
 # FME MCP - Installation & Setup Guide
 
-**FME MCP** (`fme-mcp-ultra`) is designed for instant, frictionless deployment across enterprise GIS environments, developer workstations, and cloud infrastructure.
+**FME MCP** (`fme-mcp`) is designed for instant, frictionless deployment across enterprise GIS environments, developer workstations, and cloud infrastructure.
 
 Whether you have a full Python development environment or a locked-down enterprise workstation with only Safe Software FME Form installed, **FME MCP** works immediately out of the box.
 

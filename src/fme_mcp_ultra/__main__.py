@@ -1,4 +1,4 @@
-"""Main entry point for running fme-mcp-ultra as a module."""
+"""Main entry point for running fme-mcp as a module."""
 
 from __future__ import annotations
 

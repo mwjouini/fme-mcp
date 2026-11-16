@@ -1,6 +1,6 @@
 # Project Roadmap
 
-This document outlines the strategic evolution of **`fme-mcp-ultra`**.
+This document outlines the strategic evolution of **`fme-mcp`**.
 
 ---
 

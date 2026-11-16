@@ -1,9 +1,9 @@
 # Docker Deployment Guide
 
-`fme-mcp-ultra` is packaged as an OCI-compliant container image published on GitHub Container Registry:
+`fme-mcp` is packaged as an OCI-compliant container image published on GitHub Container Registry:
 
 ```bash
-docker pull ghcr.io/mwjouini/fme-mcp-ultra:latest
+docker pull ghcr.io/mwjouini/fme-mcp:latest
 ```
 
 ## Quick Start with Docker
@@ -14,7 +14,7 @@ To run the containerised MCP server exposing Streamable HTTP on port `8000`:
 
 ```bash
 docker run -d \
-  --name fme-mcp-ultra \
+  --name fme-mcp \
   -p 8000:8000 \
   -e FME_MCP_TRANSPORT=streamable_http \
   -e FME_MCP_HOST=0.0.0.0 \
@@ -23,7 +23,7 @@ docker run -d \
   -e FME_FLOW_URL="https://fme-flow.internal.acme.org" \
   -e FME_FLOW_TOKEN="fme-flow-api-token" \
   -v fme_data:/data \
-  ghcr.io/mwjouini/fme-mcp-ultra:latest
+  ghcr.io/mwjouini/fme-mcp:latest
 ```
 
 ### 2. Multi-Container Orchestration with Docker Compose
@@ -35,8 +35,8 @@ version: "3.8"
 
 services:
   fme-mcp:
-    image: ghcr.io/mwjouini/fme-mcp-ultra:latest
-    container_name: fme-mcp-ultra
+    image: ghcr.io/mwjouini/fme-mcp:latest
+    container_name: fme-mcp
     restart: unless-stopped
     ports:
       - "8000:8000"

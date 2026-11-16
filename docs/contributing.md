@@ -1,6 +1,6 @@
-# Contributing to fme-mcp-ultra
+# Contributing to fme-mcp
 
-Thank you for your interest in contributing to `fme-mcp-ultra`! We welcome contributions from geospatial specialists, software engineers, security researchers, and data practitioners worldwide.
+Thank you for your interest in contributing to `fme-mcp`! We welcome contributions from geospatial specialists, software engineers, security researchers, and data practitioners worldwide.
 
 ## Code Standards & Guidelines
 
@@ -12,11 +12,11 @@ Thank you for your interest in contributing to `fme-mcp-ultra`! We welcome contr
 
 ## Development Workflow
 
-1. Fork the repository on GitHub: `https://github.com/mwjouini/fme-mcp-ultra`.
+1. Fork the repository on GitHub: `https://github.com/mwjouini/fme-mcp`.
 2. Clone your fork locally:
    ```bash
-   git clone https://github.com/<your-username>/fme-mcp-ultra.git
-   cd fme-mcp-ultra
+   git clone https://github.com/<your-username>/fme-mcp.git
+   cd fme-mcp
    ```
 3. Install dependencies in an isolated virtual environment:
    ```bash

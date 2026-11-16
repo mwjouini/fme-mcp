@@ -3,7 +3,7 @@
 Copy and paste this script into FME Workbench:
 Navigator -> Workspace Parameters -> Scripting -> Startup / Shutdown Python Script.
 
-This sends non-blocking notifications to the local `fme-mcp-ultra` bridge server
+This sends non-blocking notifications to the local `fme-mcp` bridge server
 (127.0.0.1:9877) when you run translations in FME Workbench. If the bridge server
 is not active, it fails silently and has zero effect on your translation.
 """
@@ -16,7 +16,7 @@ BRIDGE_PORT = 9877
 
 
 def send_bridge_event(event_type: str, details: dict | None = None) -> None:
-    """Send a lightweight JSON event to fme-mcp-ultra over local loopback socket."""
+    """Send a lightweight JSON event to fme-mcp over local loopback socket."""
     payload = {
         "event": event_type,
         "details": details or {},
@@ -35,7 +35,7 @@ def send_bridge_event(event_type: str, details: dict | None = None) -> None:
 # 1. STARTUP HOOK (Paste into 'Startup Python Script')
 # ==============================================================================
 def on_workspace_startup() -> None:
-    """Notify fme-mcp-ultra that an FME translation has started."""
+    """Notify fme-mcp that an FME translation has started."""
     try:
         import fme  # Built-in FME Python module
 
@@ -50,7 +50,7 @@ def on_workspace_startup() -> None:
 # 2. SHUTDOWN HOOK (Paste into 'Shutdown Python Script')
 # ==============================================================================
 def on_workspace_shutdown() -> None:
-    """Notify fme-mcp-ultra of translation outcome and statistics."""
+    """Notify fme-mcp of translation outcome and statistics."""
     details = {}
     try:
         import fme

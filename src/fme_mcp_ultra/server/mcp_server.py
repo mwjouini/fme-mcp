@@ -392,13 +392,13 @@ def fme_execute_python(code: str, timeout_seconds: int = 120) -> dict[str, Any]:
 
 @mcp_server.tool()
 def util_ping() -> dict[str, Any]:
-    """Health check ping verifying that fme-mcp-ultra server is active and responsive."""
+    """Health check ping verifying that fme-mcp server is active and responsive."""
     return util_tools.util_ping()
 
 
 @mcp_server.tool()
 def util_version() -> dict[str, Any]:
-    """Retrieve current version and licensing metadata of fme-mcp-ultra."""
+    """Retrieve current version and licensing metadata of fme-mcp."""
     return util_tools.util_version()
 
 

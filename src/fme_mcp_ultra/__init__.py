@@ -1,4 +1,4 @@
-"""fme-mcp-ultra: Model Context Protocol server for Safe Software FME (2018.0 - 2026+).
+"""fme-mcp: Model Context Protocol server for Safe Software FME (2018.0 - 2026+).
 
 Designed for Safe Software FME Form and FME Flow integration with AI agents.
 """

@@ -1,4 +1,4 @@
-# Smithery configuration for fme-mcp-ultra
+# Smithery configuration for fme-mcp
 # Enables 1-click installation on Smithery, Cursor, and Claude Desktop
 startCommand:
   type: stdio
@@ -21,7 +21,7 @@ startCommand:
     |
     (config) => ({
       command: 'uvx',
-      args: ['fme-mcp-ultra', 'serve', '--transport', 'stdio'],
+      args: ['fme-mcp', 'serve', '--transport', 'stdio'],
       env: {
         ...(config.fmeDir ? { FME_MCP_FME_DIR: config.fmeDir } : {}),
         ...(config.allowedDirs ? { FME_MCP_ALLOWED_DIRS: config.allowedDirs } : {}),

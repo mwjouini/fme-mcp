@@ -6,7 +6,7 @@ from typing import Any
 
 
 class FMEMCPError(Exception):
-    """Base exception for all fme-mcp-ultra errors."""
+    """Base exception for all fme-mcp errors."""
 
     def __init__(
         self,

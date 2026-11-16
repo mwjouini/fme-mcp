@@ -29,7 +29,7 @@ def is_bridge_running(host: str = DEFAULT_HOST, port: int = DEFAULT_PORT) -> boo
 
 
 def ensure_bridge_started(host: str = DEFAULT_HOST, port: int = DEFAULT_PORT) -> bool:
-    """Ensure the fme-mcp-ultra server is active; launch if offline."""
+    """Ensure the fme-mcp server is active; launch if offline."""
     if is_bridge_running(host, port):
         return True
 

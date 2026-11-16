@@ -4,8 +4,8 @@
 # Paste this entire script into FME Workbench:
 # Navigator -> Workspace Parameters -> Scripting -> Shutdown Python Script
 #
-# Notifies fme-mcp-ultra when translation finishes (status, features read/written).
-# If fme-mcp-ultra is not running, it fails silently with 0 overhead.
+# Notifies fme-mcp when translation finishes (status, features read/written).
+# If fme-mcp is not running, it fails silently with 0 overhead.
 # ==============================================================================
 
 import json

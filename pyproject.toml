@@ -3,7 +3,7 @@ requires = ["hatchling"]
 build-backend = "hatchling.build"
 
 [project]
-name = "fme-mcp-ultra"
+name = "fme-mcp"
 version = "1.1.0"
 description = "Universal, secure, extensible Model Context Protocol (MCP) server for Safe Software FME 2018.0 - 2026+, FME Form, FME Flow, and spatial data engineering."
 readme = "README.md"

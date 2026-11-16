@@ -1,6 +1,6 @@
 # syntax=docker/dockerfile:1.4
 # ==============================================================================
-# FME-MCP-ULTRA CONTAINER IMAGE
+# FME-MCP CONTAINER IMAGE
 # Multi-stage secure build with non-root unprivileged execution
 # ==============================================================================
 
@@ -22,11 +22,11 @@ RUN pip install --no-cache-dir --upgrade pip && \
 # Final runtime image
 FROM python:3.11-slim-bookworm AS runtime
 
-LABEL org.opencontainers.image.title="fme-mcp-ultra" \
+LABEL org.opencontainers.image.title="fme-mcp" \
       org.opencontainers.image.description="Model Context Protocol (MCP) server for Safe Software FME (2018.0 - 2026+)" \
       org.opencontainers.image.authors="Mohamed Wael JOUINI <mohamed.wael.jouini@gmail.com>" \
       org.opencontainers.image.licenses="Apache-2.0" \
-      org.opencontainers.image.source="https://github.com/mwjouini/fme-mcp-ultra"
+      org.opencontainers.image.source="https://github.com/mwjouini/fme-mcp"
 
 WORKDIR /app
 
@@ -56,6 +56,6 @@ EXPOSE 8000
 HEALTHCHECK --interval=30s --timeout=5s --start-period=5s --retries=3 \
     CMD python -c "import urllib.request; urllib.request.urlopen('http://127.0.0.1:8000/health').read()" || exit 1
 
-ENTRYPOINT ["fme-mcp-ultra"]
+ENTRYPOINT ["fme-mcp"]
 CMD ["serve", "--transport", "streamable-http", "--host", "0.0.0.0", "--port", "8000"]
 

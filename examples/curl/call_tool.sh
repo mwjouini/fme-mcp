@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Example cURL request invoking fme-mcp-ultra HTTP/SSE endpoint
+# Example cURL request invoking fme-mcp HTTP/SSE endpoint
 
 curl -X POST "http://localhost:8000/tools/call" \
   -H "Content-Type: application/json" \

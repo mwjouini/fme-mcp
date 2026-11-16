@@ -1,6 +1,6 @@
 # Security Architecture & Threat Model
 
-`fme-mcp-ultra` applies an enterprise **Default-Deny** security posture.
+`fme-mcp` applies an enterprise **Default-Deny** security posture.
 
 ---
 

@@ -24,7 +24,7 @@ class JSONFormatter(logging.Formatter):
         return json.dumps(log_obj)
 
 
-def get_logger(name: str = "fme-mcp-ultra") -> logging.Logger:
+def get_logger(name: str = "fme-mcp") -> logging.Logger:
     """Retrieve a configured JSON logger."""
     logger = logging.getLogger(name)
     if not logger.handlers:

@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Build Standalone Executable for FME MCP.
 
-Bundles FME MCP (fme-mcp-ultra) into a single, self-contained standalone executable
+Bundles FME MCP (fme-mcp) into a single, self-contained standalone executable
 using PyInstaller. Requires zero Python installation on the target machine.
 
 Usage:
@@ -68,7 +68,7 @@ def create_entrypoint(temp_dir: Path) -> Path:
     """Generate a clean standalone entrypoint script."""
     entrypoint_path = temp_dir / "_standalone_entrypoint.py"
     code = (
-        "# Auto-generated standalone entrypoint for FME MCP (fme-mcp-ultra)\n"
+        "# Auto-generated standalone entrypoint for FME MCP (fme-mcp)\n"
         "import sys\n"
         "from fme_mcp_ultra.cli.main import cli\n\n"
         "if __name__ == '__main__':\n"
@@ -113,7 +113,7 @@ def build_binary(
     # Generate temporary clean entrypoint
     entrypoint = create_entrypoint(build_dir)
 
-    # Core hidden imports required by fme-mcp-ultra and its dependencies
+    # Core hidden imports required by fme-mcp and its dependencies
     hidden_imports = [
         "fme_mcp_ultra",
         "fme_mcp_ultra.cli",
@@ -277,7 +277,7 @@ def build_binary(
 def main() -> None:
     """CLI interface for building standalone executables."""
     parser = argparse.ArgumentParser(
-        description="Bundle FME MCP (fme-mcp-ultra) into a single self-contained standalone executable."
+        description="Bundle FME MCP (fme-mcp) into a single self-contained standalone executable."
     )
     parser.add_argument(
         "--output-dir",

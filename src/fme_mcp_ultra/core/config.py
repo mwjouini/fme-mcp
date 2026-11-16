@@ -1,4 +1,4 @@
-"""Configuration management for fme-mcp-ultra."""
+"""Configuration management for fme-mcp."""
 
 from __future__ import annotations
 
@@ -10,7 +10,7 @@ from pydantic_settings import BaseSettings, SettingsConfigDict
 
 
 class Settings(BaseSettings):
-    """Global configuration settings for fme-mcp-ultra."""
+    """Global configuration settings for fme-mcp."""
 
     model_config = SettingsConfigDict(
         env_prefix="FME_MCP_",

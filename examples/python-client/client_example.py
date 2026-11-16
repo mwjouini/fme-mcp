@@ -1,4 +1,4 @@
-"""Demonstration Python client calling fme-mcp-ultra."""
+"""Demonstration Python client calling fme-mcp."""
 
 import asyncio
 
@@ -6,7 +6,7 @@ from fme_mcp_ultra.server.mcp_server import mcp_server
 
 
 async def main():
-    print("Querying fme-mcp-ultra tools...")
+    print("Querying fme-mcp tools...")
     tools = await mcp_server.list_tools()
     print(f"Total tools discovered: {len(tools)}")
 

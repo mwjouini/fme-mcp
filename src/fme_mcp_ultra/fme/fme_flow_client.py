@@ -32,7 +32,7 @@ class FMEFlowClient:
         return {
             "Authorization": f"fmetoken token={self.token}",
             "Accept": "application/json",
-            "User-Agent": "fme-mcp-ultra/1.0.0",
+            "User-Agent": "fme-mcp/1.0.0",
         }
 
     async def get_health(self) -> dict[str, Any]:

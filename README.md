@@ -4,14 +4,14 @@
   <p><strong>Universal, secure, production-grade Model Context Protocol (MCP) server for Safe Software FME (2018.0 – 2026+), FME Form, FME Flow, and spatial data engineering.</strong></p>
 
   <p>
-    <a href="https://pypi.org/project/fme-mcp-ultra/"><img src="https://img.shields.io/pypi/v/fme-mcp-ultra.svg" alt="PyPI version" /></a>
-    <a href="https://pypi.org/project/fme-mcp-ultra/"><img src="https://img.shields.io/pypi/dm/fme-mcp-ultra.svg" alt="PyPI Downloads" /></a>
+    <a href="https://pypi.org/project/fme-mcp/"><img src="https://img.shields.io/pypi/v/fme-mcp.svg" alt="PyPI version" /></a>
+    <a href="https://pypi.org/project/fme-mcp/"><img src="https://img.shields.io/pypi/dm/fme-mcp.svg" alt="PyPI Downloads" /></a>
     <a href="https://github.com/mwjouini/fme-mcp/actions/workflows/ci.yml"><img src="https://github.com/mwjouini/fme-mcp/actions/workflows/ci.yml/badge.svg" alt="CI" /></a>
     <a href="https://github.com/mwjouini/fme-mcp/actions/workflows/security.yml"><img src="https://github.com/mwjouini/fme-mcp/actions/workflows/security.yml/badge.svg" alt="Security Audit" /></a>
     <a href="https://opensource.org/licenses/Apache-2.0"><img src="https://img.shields.io/badge/Licence-Apache_2.0-blue.svg" alt="Licence: Apache-2.0" /></a>
     <a href="https://www.python.org/"><img src="https://img.shields.io/badge/Python-3.10%20%7C%203.11%20%7C%203.12%20%7C%203.13-blue.svg" alt="Python: 3.10+" /></a>
     <a href="https://modelcontextprotocol.io/"><img src="https://img.shields.io/badge/MCP-2025--2026_Compliant-green.svg" alt="Model Context Protocol" /></a>
-    <a href="https://glama.ai/mcp/servers/mwjouini/fme-mcp-ultra"><img src="https://glama.ai/mcp/servers/mwjouini/fme-mcp-ultra/badge" alt="Glama" /></a>
+    <a href="https://glama.ai/mcp/servers/mwjouini/fme-mcp"><img src="https://glama.ai/mcp/servers/mwjouini/fme-mcp/badge" alt="Glama" /></a>
     <a href="https://www.safe.com/"><img src="https://img.shields.io/badge/Safe_Software_FME-2018.0%20--%202026%2B%20(Form%20%26%20Flow)-orange.svg" alt="FME Compatibility" /></a>
   </p>
 </div>
@@ -24,7 +24,7 @@ Usable by any standard MCP client: **Claude Desktop, Claude Code, Cursor, VS Cod
 
 Safe Software introduced native Model Context Protocol (MCP) support in FME 2026 (`safe.mcp` / `MCPCaller` in 2026.1 and native Flow MCP Server in 2026.2). However, many teams run on **FME 2018.0 through 2025**, which previously lacked any way to connect LLMs and AI agents with their spatial data pipelines.
 
-**FME MCP** (`fme-mcp-ultra`) bridges this gap:
+**FME MCP** (`fme-mcp`) bridges this gap:
 1. **Works with All FME Releases (2018.0 to 2026+)**: Works locally with FME Form (`fme.exe` and `fmeobjects` bindings) and remotely with FME Flow REST APIs (v3 & v4).
 2. **Dynamic Workspace Tools**: Discovers `.fmw` workspaces, extracts published parameters, and exposes them as typed MCP tools for your AI assistant.
 3. **Desktop Interactivity**: Live environment diagnostics, XML canvas topology inspection, detached GUI launching (`FME Workbench`, `FME Data Inspector`), and dataset feature previews.

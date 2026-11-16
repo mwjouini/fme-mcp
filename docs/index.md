@@ -3,7 +3,7 @@
   <h1>FME MCP</h1>
 </div>
 
-**FME MCP** (`fme-mcp-ultra`) is the universal, open-source Model Context Protocol (MCP) server for **Safe Software FME (FME Form & FME Flow 2018.0 through 2026+)**, geospatial data, enterprise data pipelines, and AI agents.
+**FME MCP** (`fme-mcp`) is the universal, open-source Model Context Protocol (MCP) server for **Safe Software FME (FME Form & FME Flow 2018.0 through 2026+)**, geospatial data, enterprise data pipelines, and AI agents.
 
 ---
 
@@ -20,7 +20,7 @@
 
 ## 🚀 Getting Started
 
-Explore our guides to install, configure, and integrate `fme-mcp-ultra` with your favourite MCP client:
+Explore our guides to install, configure, and integrate `fme-mcp` with your favourite MCP client:
 
 - [Installation Guide](installation.md)
 - [Configuration](configuration.md)

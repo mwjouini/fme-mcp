@@ -4,8 +4,8 @@
 # Paste this entire script into FME Workbench:
 # Navigator -> Workspace Parameters -> Scripting -> Startup Python Script
 #
-# This sends an interactive event to the local fme-mcp-ultra bridge (127.0.0.1:9877).
-# If fme-mcp-ultra is not running, it fails silently with 0 overhead.
+# This sends an interactive event to the local fme-mcp bridge (127.0.0.1:9877).
+# If fme-mcp is not running, it fails silently with 0 overhead.
 # ==============================================================================
 
 import json

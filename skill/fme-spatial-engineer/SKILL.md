@@ -3,7 +3,7 @@ name: fme-spatial-engineer
 description: Professional spatial data engineering skill for Safe Software FME (2018.0 - 2026+), FME Form, FME Flow, and GIS ETL pipelines. Automates workspace discovery, parameter introspection, headless execution, CRS reprojection, geometry validation, and data quality scoring.
 version: 1.1.0
 author: Mohamed Wael JOUINI
-homepage: https://github.com/mwjouini/fme-mcp-ultra
+homepage: https://github.com/mwjouini/fme-mcp
 license: Apache-2.0
 tags:
   - fme
@@ -18,7 +18,7 @@ tags:
 
 # FME Spatial Data Engineer Skill
 
-Expert AI agent skill to automate, inspect, and execute spatial data transformation pipelines using **Safe Software FME** (compatible with FME Form & FME Flow from 2018.0 through 2026+) via the `fme-mcp-ultra` Model Context Protocol (MCP) server.
+Expert AI agent skill to automate, inspect, and execute spatial data transformation pipelines using **Safe Software FME** (compatible with FME Form & FME Flow from 2018.0 through 2026+) via the `fme-mcp` Model Context Protocol (MCP) server.
 
 ---
 
@@ -35,7 +35,7 @@ Activate this skill whenever the user asks to:
 
 ## 🔌 Required MCP Server Connection
 
-This skill connects to the `fme-mcp-ultra` MCP server.
+This skill connects to the `fme-mcp` MCP server.
 
 ### Client Configuration (Claude Desktop, Cursor, Antigravity, Copilot)
 
@@ -52,7 +52,7 @@ Add to your agent's MCP configuration:
 }
 ```
 
-*(On Windows machines without `uvx`, replace `"command": "uvx"` with `"command": "py"` and `"args": ["-m", "fme_mcp_ultra.cli.main", "serve", "--transport", "stdio"]`)*.
+*(On Windows machines without `uvx`, replace `"command": "uvx"` with `"command": "py"` and `"args": ["-m", "fme_mcp.cli.main", "serve", "--transport", "stdio"]`)*.
 
 ---
 
@@ -103,8 +103,8 @@ When evaluating datasets (CSV, Excel, GeoPackage, Shapefile):
 
 - **Non-Destructive Execution**: Always confirm destination overwrite parameters before executing translations on production files.
 - **Path Resolution**: Use absolute paths or forward slashes (`/`) for cross-platform compatibility across Windows and Linux.
-- **Redaction Awareness**: Never echo sensitive credentials or FME Flow API tokens in conversational outputs (`fme-mcp-ultra` automatically masks Bearer tokens and private keys).
-- **Graceful Fallbacks**: If `fmeobjects` is not compiled for the local Python version, `fme-mcp-ultra` seamlessly falls back to `fme.exe` subprocess execution. Continue normally.
+- **Redaction Awareness**: Never echo sensitive credentials or FME Flow API tokens in conversational outputs (`fme-mcp` automatically masks Bearer tokens and private keys).
+- **Graceful Fallbacks**: If `fmeobjects` is not compiled for the local Python version, `fme-mcp` seamlessly falls back to `fme.exe` subprocess execution. Continue normally.
 
 ---
 

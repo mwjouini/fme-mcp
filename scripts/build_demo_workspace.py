@@ -156,7 +156,7 @@ FACTORY_DEF {{*}} PythonFactory \\
 
 
 def main() -> None:
-    demo_file = Path("e:/fme_mcp/fme-mcp-ultra/examples/workbench/MCPAgentBridge_Demo.fmw")
+    demo_file = Path(__file__).resolve().parent.parent / "examples" / "workbench" / "MCPAgentBridge_Demo.fmw"
     content = build_demo_fmw()
     demo_file.write_text(content, encoding="utf-8")
     print(f"Generated demo workspace: {demo_file} ({len(content)} bytes)")

@@ -8,7 +8,7 @@ from fme_mcp_ultra.core.errors import SecurityError
 
 
 class Role(str, Enum):
-    """Authorisation roles for fme-mcp-ultra."""
+    """Authorisation roles for fme-mcp."""
 
     PLATFORM_ADMIN = "platform_admin"
     TENANT_ADMIN = "tenant_admin"

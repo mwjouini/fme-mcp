@@ -2,7 +2,7 @@
 
 ## Overview
 
-`fme-mcp-ultra` is an open-source project managed under an open and transparent governance model.
+`fme-mcp` is an open-source project managed under an open and transparent governance model.
 
 ## Maintainers
 

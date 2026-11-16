@@ -295,7 +295,7 @@
             # Check if existing standalone binary is already installed
             if ((Test-Path $targetExe) -and (-not $ForceOverwrite)) {
                 # Clean up any leftover legacy binaries
-                $legacyFiles = @((Join-Path $TargetDir "fme-mcp-ultra.exe"), (Join-Path $TargetDir "mcp-fme.exe"))
+                $legacyFiles = @((Join-Path $TargetDir "mcp-fme.exe"))
                 foreach ($lf in $legacyFiles) {
                     if (Test-Path $lf) { try { Remove-Item -Path $lf -Force -ErrorAction SilentlyContinue } catch { } }
                 }
@@ -303,13 +303,10 @@
                 return $targetExe
             }
 
-            # Check if legacy binary (fme-mcp-ultra.exe or mcp-fme.exe) exists and upgrade to fme-mcp.exe
+            # Check if legacy binary (mcp-fme.exe) exists and upgrade to fme-mcp.exe
             $legacyCandidates = @(
-                (Join-Path $TargetDir "fme-mcp-ultra.exe"),
                 (Join-Path $TargetDir "mcp-fme.exe"),
-                "$env:LOCALAPPDATA\fme-mcp\bin\fme-mcp-ultra.exe",
-                "$env:LOCALAPPDATA\mcp-fme\bin\fme-mcp-ultra.exe",
-                "$env:LOCALAPPDATA\fme-mcp-ultra\bin\fme-mcp-ultra.exe"
+                "$env:LOCALAPPDATA\mcp-fme\bin\mcp-fme.exe"
             )
             foreach ($candidate in $legacyCandidates) {
                 if ((Test-Path $candidate) -and (-not $ForceOverwrite)) {
@@ -485,12 +482,9 @@
                     $configObj | Add-Member -MemberType NoteProperty -Name "mcpServers" -Value ([PSCustomObject]@{}) -Force
                 }
 
-                # Remove legacy entries (mcp-fme, fme-mcp-ultra) if present
+                # Remove legacy entries (mcp-fme) if present
                 if ($configObj.mcpServers.PSObject.Properties["mcp-fme"]) {
                     $configObj.mcpServers.PSObject.Properties.Remove("mcp-fme")
-                }
-                if ($configObj.mcpServers.PSObject.Properties["fme-mcp-ultra"]) {
-                    $configObj.mcpServers.PSObject.Properties.Remove("fme-mcp-ultra")
                 }
 
                 # Register exclusively fme-mcp
@@ -548,7 +542,7 @@
         }
 
         if ($PreferFmePython -and $detectedFmePython) {
-            Write-Step "Checking FME bundled Python for fme-mcp-ultra..."
+            Write-Step "Checking FME bundled Python for fme-mcp..."
             $fmeHasPackage = $false
             try {
                 $check = & $detectedFmePython -c "import fme_mcp_ultra; print('OK')" 2>$null
@@ -560,7 +554,7 @@
                 $finalServerCommand = $detectedFmePython
                 $finalServerArgs = @("-m", "fme_mcp_ultra", "serve", "--transport", "stdio")
             } else {
-                Write-Warn "fme-mcp-ultra is not installed inside FME Python. Proceeding with Standalone Binary."
+                Write-Warn "fme-mcp is not installed inside FME Python. Proceeding with Standalone Binary."
                 $finalServerCommand = Install-StandaloneBinary -TargetDir $InstallDir -Repository $Repo -ReleaseTag $Tag -DryRunMode:$DryRun -ForceOverwrite:$Force
             }
         } else {

@@ -1,6 +1,6 @@
 # Deployment Overview
 
-`fme-mcp-ultra` can be deployed across several topologies depending on your operational requirements:
+`fme-mcp` can be deployed across several topologies depending on your operational requirements:
 
 1. **Local Desktop Stdio Mode**: Directly coupled with AI clients like Claude Desktop, Cursor, or Antigravity on a workstation with local FME Form installed.
 2. **Containerised Streamable HTTP Server**: Deployed via Docker or cloud container runtimes adjacent to an enterprise FME Flow cluster or spatial database.
@@ -13,12 +13,12 @@
 ```mermaid
 flowchart TD
     subgraph Workstation["Developer Workstation"]
-        Client1["Claude Desktop / Cursor"] --> |stdio| LocalServer["fme-mcp-ultra (Local)"]
+        Client1["Claude Desktop / Cursor"] --> |stdio| LocalServer["fme-mcp (Local)"]
         LocalServer --> FMEForm["FME Form Engine (2018.0 - 2026+)"]
     end
 
     subgraph EnterpriseCloud["Enterprise Cloud / Kubernetes"]
-        Client2["Enterprise AI Copilots"] --> |HTTPS / SSE| CloudServer["fme-mcp-ultra (Pod)"]
+        Client2["Enterprise AI Copilots"] --> |HTTPS / SSE| CloudServer["fme-mcp (Pod)"]
         CloudServer --> FMEFlow["FME Flow Engine Pool"]
         CloudServer --> PostGIS["PostGIS / Spatial DB"]
     end

@@ -2,7 +2,7 @@
 
 Step-by-step configuration for leading Model Context Protocol clients.
 
-`fme-mcp-ultra` features zero-configuration auto-detection for FME Form installations (`C:\Program Files\FME`, `/opt/fme`, or system `PATH`) and automatically grants access to the user's working and home directories.
+`fme-mcp` features zero-configuration auto-detection for FME Form installations (`C:\Program Files\FME`, `/opt/fme`, or system `PATH`) and automatically grants access to the user's working and home directories.
 
 ---
 
@@ -32,7 +32,7 @@ For Windows users with Python installed (uses the built-in Windows `py` launcher
   "mcpServers": {
     "fme-mcp": {
       "command": "py",
-      "args": ["-m", "fme_mcp_ultra.cli.main", "serve", "--transport", "stdio"]
+      "args": ["-m", "fme_mcp.cli.main", "serve", "--transport", "stdio"]
     }
   }
 }
@@ -45,7 +45,7 @@ Uses FME Form's own embedded Python runtime directly without requiring external 
   "mcpServers": {
     "fme-mcp": {
       "command": "C:\\Program Files\\FME\\fme.exe",
-      "args": ["python", "-m", "fme_mcp_ultra.cli.main", "serve", "--transport", "stdio"]
+      "args": ["python", "-m", "fme_mcp.cli.main", "serve", "--transport", "stdio"]
     }
   }
 }

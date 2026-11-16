@@ -1,6 +1,6 @@
 # Product Roadmap
 
-This document outlines the strategic development milestones and feature releases planned for `fme-mcp-ultra`.
+This document outlines the strategic development milestones and feature releases planned for `fme-mcp`.
 
 ## Version 1.0.0 (Released — November 2026) ✅
 

@@ -210,7 +210,6 @@ esac
 
 PRIMARY_URL="https://github.com/${REPO}/releases/download/${TAG}/fme-mcp-linux-${ARCH}"
 FALLBACK_URL="https://github.com/${REPO}/releases/latest/download/fme-mcp"
-FALLBACK_URL_LEGACY="https://github.com/${REPO}/releases/latest/download/fme-mcp-ultra"
 
 if [ "$DRY_RUN" = true ]; then
     print_detail "Target Binary" "$TARGET_EXE"
@@ -221,15 +220,11 @@ else
 
     if [ -f "$TARGET_EXE" ] && [ "$FORCE" = false ]; then
         print_success "Existing standalone binary found at $TARGET_EXE (Use --force to overwrite)"
-    elif [ -f "${INSTALL_DIR}/fme-mcp-ultra" ] && [ "$FORCE" = false ]; then
-        cp -f "${INSTALL_DIR}/fme-mcp-ultra" "$TARGET_EXE"
-        chmod +x "$TARGET_EXE"
-        print_success "Upgraded standalone binary to $TARGET_EXE"
     else
         DOWNLOAD_OK=false
         TMP_FILE=$(mktemp)
 
-        for url in "$PRIMARY_URL" "$FALLBACK_URL" "$FALLBACK_URL_LEGACY"; do
+        for url in "$PRIMARY_URL" "$FALLBACK_URL"; do
             print_step "Downloading standalone binary from $url..."
             if command -v curl >/dev/null 2>&1; then
                 if curl -fsSL -A "fme-mcp-installer" "$url" -o "$TMP_FILE" 2>/dev/null; then
@@ -335,9 +330,8 @@ server_entry = {
 if fme_dir:
     server_entry["env"]["FME_DIR"] = fme_dir
 
-# Remove legacy entries (mcp-fme, fme-mcp-ultra) if present
+# Remove legacy entries (mcp-fme) if present
 data["mcpServers"].pop("mcp-fme", None)
-data["mcpServers"].pop("fme-mcp-ultra", None)
 
 # Register exclusively fme-mcp
 data["mcpServers"]["fme-mcp"] = server_entry

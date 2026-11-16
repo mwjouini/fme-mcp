@@ -16,7 +16,7 @@ We provide security patches and vulnerability remediations for the following rel
 
 **Please do not report security vulnerabilities through public GitHub issues.**
 
-If you discover a security vulnerability in `fme-mcp-ultra`, please report it privately via GitHub Private Vulnerability Reporting or by emailing the project maintainer:
+If you discover a security vulnerability in `fme-mcp`, please report it privately via GitHub Private Vulnerability Reporting or by emailing the project maintainer:
 
 - **Security Contact**: Mohamed Wael JOUINI (`mohamed.wael.jouini@gmail.com`)
 - **PGP Key**: Available on request.
@@ -35,7 +35,7 @@ Please include:
 
 ## Security Architecture Highlights
 
-`fme-mcp-ultra` implements enterprise-grade DevSecOps controls:
+`fme-mcp` implements enterprise-grade DevSecOps controls:
 - **Default Deny**: All tool invocations require explicit authentication and authorisation.
 - **PathGuard**: Strict sandboxing preventing directory traversal attacks (`..`).
 - **CommandGuard**: Zero shell invocations (`shell=False`) protecting against command injection.

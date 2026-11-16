@@ -1,6 +1,6 @@
 # Observability & Monitoring
 
-`fme-mcp-ultra` integrates enterprise observability out-of-the-box, supporting OpenTelemetry standards, Prometheus metrics, structured JSON logs, and immutable audit trails.
+`fme-mcp` integrates enterprise observability out-of-the-box, supporting OpenTelemetry standards, Prometheus metrics, structured JSON logs, and immutable audit trails.
 
 ## Metrics & Health Probes
 
