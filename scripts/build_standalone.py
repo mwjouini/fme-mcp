@@ -262,6 +262,16 @@ def build_binary(
         arch_checksum.write_text(f"{sha256_hash}  {arch_alias_name}\n", encoding="utf-8")
         print(f"[+] Created platform release alias: {arch_alias_path}")
 
+    # Also generate backward compatibility aliases if building primary fme-mcp binary
+    if binary_name == "fme-mcp":
+        for legacy_base in ("fme-mcp-ultra",):
+            legacy_target = output_dir / f"{legacy_base}{suffix}"
+            if legacy_target != target_path:
+                shutil.copy2(target_path, legacy_target)
+            legacy_arch = output_dir / f"{legacy_base}-{os_name}-{arch}{suffix}"
+            if legacy_arch != target_path:
+                shutil.copy2(target_path, legacy_arch)
+
     print("-" * 70)
     print("[+] Standalone binary successfully generated!")
     print(f"    Path:     {target_path}")

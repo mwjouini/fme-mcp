@@ -21,12 +21,12 @@ jobs:
         include:
           - os: windows-latest
             arch: x64
-            binary_name: fme-mcp-ultra.exe
-            platform_alias: fme-mcp-ultra-windows-x64.exe
+            binary_name: fme-mcp.exe
+            platform_alias: fme-mcp-windows-x64.exe
           - os: ubuntu-latest
             arch: x64
-            binary_name: fme-mcp-ultra
-            platform_alias: fme-mcp-ultra-linux-x64
+            binary_name: fme-mcp
+            platform_alias: fme-mcp-linux-x64
 
     steps:
       - name: Checkout Repository
