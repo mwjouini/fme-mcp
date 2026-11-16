@@ -17,7 +17,7 @@ Locate your configuration file:
 ```json
 {
   "mcpServers": {
-    "fme-mcp-ultra": {
+    "fme-mcp": {
       "command": "uvx",
       "args": ["fme-mcp-ultra", "serve", "--transport", "stdio"]
     }
@@ -30,7 +30,7 @@ For Windows users with Python installed (uses the built-in Windows `py` launcher
 ```json
 {
   "mcpServers": {
-    "fme-mcp-ultra": {
+    "fme-mcp": {
       "command": "py",
       "args": ["-m", "fme_mcp_ultra.cli.main", "serve", "--transport", "stdio"]
     }
@@ -43,7 +43,7 @@ Uses FME Form's own embedded Python runtime directly without requiring external 
 ```json
 {
   "mcpServers": {
-    "fme-mcp-ultra": {
+    "fme-mcp": {
       "command": "C:\\Program Files\\FME\\fme.exe",
       "args": ["python", "-m", "fme_mcp_ultra.cli.main", "serve", "--transport", "stdio"]
     }
@@ -56,7 +56,7 @@ If FME is installed in a non-standard path, or if you wish to restrict/allow exp
 ```json
 {
   "mcpServers": {
-    "fme-mcp-ultra": {
+    "fme-mcp": {
       "command": "uvx",
       "args": ["fme-mcp-ultra", "serve", "--transport", "stdio"],
       "env": {
@@ -75,7 +75,7 @@ If FME is installed in a non-standard path, or if you wish to restrict/allow exp
 ## 2. Cursor & Windsurf
 
 In Cursor Settings (`Features -> MCP Servers`), add:
-- **Name**: `fme-mcp-ultra`
+- **Name**: `fme-mcp`
 - **Type**: `command`
 - **Command**: `uvx fme-mcp-ultra serve --transport stdio`
 
@@ -89,7 +89,7 @@ In your agent configuration file:
 ```json
 {
   "mcpServers": {
-    "fme-mcp-ultra": {
+    "fme-mcp": {
       "command": "fme-mcp-ultra",
       "args": ["serve", "--transport", "stdio"]
     }

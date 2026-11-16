@@ -44,7 +44,7 @@ Add to your agent's MCP configuration:
 ```json
 {
   "mcpServers": {
-    "fme-mcp-ultra": {
+    "fme-mcp": {
       "command": "uvx",
       "args": ["fme-mcp-ultra", "serve", "--transport", "stdio"]
     }

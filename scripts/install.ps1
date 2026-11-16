@@ -489,10 +489,16 @@
                     $configObj | Add-Member -MemberType NoteProperty -Name "mcpServers" -Value ([PSCustomObject]@{}) -Force
                 }
 
-                # Register fme-mcp, mcp-fme and fme-mcp-ultra for complete interoperability
+                # Remove legacy entries (mcp-fme, fme-mcp-ultra) if present
+                if ($configObj.mcpServers.PSObject.Properties["mcp-fme"]) {
+                    $configObj.mcpServers.PSObject.Properties.Remove("mcp-fme")
+                }
+                if ($configObj.mcpServers.PSObject.Properties["fme-mcp-ultra"]) {
+                    $configObj.mcpServers.PSObject.Properties.Remove("fme-mcp-ultra")
+                }
+
+                # Register exclusively fme-mcp
                 $configObj.mcpServers | Add-Member -MemberType NoteProperty -Name "fme-mcp" -Value $serverDef -Force
-                $configObj.mcpServers | Add-Member -MemberType NoteProperty -Name "mcp-fme" -Value $serverDef -Force
-                $configObj.mcpServers | Add-Member -MemberType NoteProperty -Name "fme-mcp-ultra" -Value $serverDef -Force
 
                 $jsonOutput = $configObj | ConvertTo-Json -Depth 10
                 Set-Content -Path $ConfigFilePath -Value $jsonOutput -Encoding UTF8 -Force

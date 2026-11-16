@@ -342,9 +342,12 @@ server_entry = {
 if fme_dir:
     server_entry["env"]["FME_DIR"] = fme_dir
 
+# Remove legacy entries (mcp-fme, fme-mcp-ultra) if present
+data["mcpServers"].pop("mcp-fme", None)
+data["mcpServers"].pop("fme-mcp-ultra", None)
+
+# Register exclusively fme-mcp
 data["mcpServers"]["fme-mcp"] = server_entry
-data["mcpServers"]["mcp-fme"] = server_entry
-data["mcpServers"]["fme-mcp-ultra"] = server_entry
 
 with open(path, "w", encoding="utf-8") as f:
     json.dump(data, f, indent=2)
@@ -355,22 +358,6 @@ PYEOF
 {
   "mcpServers": {
     "fme-mcp": {
-      "command": "$server_cmd",
-      "args": ["serve", "--transport", "stdio"],
-      "env": {
-        "PYTHONIOENCODING": "utf-8",
-        "PYTHONUNBUFFERED": "1"$([ -n "$fme_dir_val" ] && echo -e ",\n        \"FME_DIR\": \"$fme_dir_val\"")
-      }
-    },
-    "mcp-fme": {
-      "command": "$server_cmd",
-      "args": ["serve", "--transport", "stdio"],
-      "env": {
-        "PYTHONIOENCODING": "utf-8",
-        "PYTHONUNBUFFERED": "1"$([ -n "$fme_dir_val" ] && echo -e ",\n        \"FME_DIR\": \"$fme_dir_val\"")
-      }
-    },
-    "fme-mcp-ultra": {
       "command": "$server_cmd",
       "args": ["serve", "--transport", "stdio"],
       "env": {
