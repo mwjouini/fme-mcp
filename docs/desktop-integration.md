@@ -31,6 +31,14 @@ To enable this across all workspaces automatically on your workstation:
    - **Linux**: `~/.fme/Plugins/Python`
 2. Create an `fme_mcp_bridge.py` module containing the notification logic to hook into custom transformers or default runners.
 
+### Option C: Custom Transformer (MCPConnector)
+
+For feature-by-feature inspection and real-time AI validation directly on the FME canvas:
+1. Download or install the custom transformer **[`MCPConnector.fmx`](https://github.com/mwjouini/fme-mcp/blob/main/transformers/MCPConnector.fmx)** (also available on [FME Hub](https://hub.safe.com/publishers/mwjouini/transformers/mcpconnector)).
+2. Drop `MCPConnector` into your workspace.
+3. Configure `_ai_action` (`INSPECT`, `VALIDATE_GEOMETRY`, `ANALYZE`, `GEOCODE_AUDIT`).
+4. Inspect the interactive demo workspace in [`examples/workbench/MCPConnector_Demo.fmw`](https://github.com/mwjouini/fme-mcp/blob/main/examples/workbench/MCPConnector_Demo.fmw).
+
 ---
 
 ## 🔍 Diagnostic Verification
