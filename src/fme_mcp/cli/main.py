@@ -47,9 +47,7 @@ def serve(
     if transport == "stdio":
         mcp_server.run(transport="stdio")
     elif transport == "sse":
-        console.print(
-            f"[bold green]Starting fme-mcp sse server on {host}:{port}[/bold green]"
-        )
+        console.print(f"[bold green]Starting fme-mcp sse server on {host}:{port}[/bold green]")
         mcp_server.run(transport="sse", host=host, port=port)
     elif transport == "streamable-http":
         console.print(
@@ -67,9 +65,7 @@ def serve(
 def doctor() -> None:
     """Diagnose FME Form, fmeobjects bindings, and environment readiness."""
     console.print(
-        Panel.fit(
-            "[bold blue]fme-mcp Environment Diagnostic[/bold blue]", border_style="blue"
-        )
+        Panel.fit("[bold blue]fme-mcp Environment Diagnostic[/bold blue]", border_style="blue")
     )
 
     table = Table(title="Diagnostic Checks")

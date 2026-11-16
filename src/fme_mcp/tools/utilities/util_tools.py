@@ -51,9 +51,7 @@ def fme_execute_python(code: str, timeout_seconds: int = 120) -> dict[str, Any]:
 
 def util_ping() -> dict[str, Any]:
     """Health check ping verifying that fme-mcp server is active and responsive."""
-    return MCPToolResponse(
-        success=True, data={"status": "pong", "server": "fme-mcp"}
-    ).to_dict()
+    return MCPToolResponse(success=True, data={"status": "pong", "server": "fme-mcp"}).to_dict()
 
 
 def util_version() -> dict[str, Any]:
