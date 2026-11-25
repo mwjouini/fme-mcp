@@ -13,6 +13,9 @@
     <a href="https://modelcontextprotocol.io/"><img src="https://img.shields.io/badge/MCP-2025--2026_Compliant-green.svg" alt="Model Context Protocol" /></a>
     <a href="https://www.safe.com/"><img src="https://img.shields.io/badge/Safe_Software_FME-2018.0%20--%202026%2B%20(Form%20%26%20Flow)-orange.svg" alt="FME Compatibility" /></a>
   </p>
+
+[![mwjouini/fme-mcp MCP server](https://glama.ai/mcp/servers/mwjouini/fme-mcp/badges/score.svg)](https://glama.ai/mcp/servers/mwjouini/fme-mcp)
+
 </div>
 
 Usable by any standard MCP client: **Claude Desktop, Claude Code, Cursor, VS Code, Antigravity, Windsurf, LangChain, and OpenAI Agents SDK.**
