@@ -319,23 +319,36 @@ def main() -> None:
     fmx_file.write_text(content, encoding="utf-8")
     print(f"Generated: {fmx_file} ({len(content)} bytes)")
 
-    # Deploy to FME shared transformer locations
-    user_profile = Path(os.environ.get("USERPROFILE", ""))
-    target_dirs = [
-        user_profile / "Documents" / "FME" / "Transformers",
-        user_profile / "AppData" / "Roaming" / "Safe Software" / "FME" / "FME Store" / "Transformers",
-        user_profile / "AppData" / "Roaming" / "Safe Software" / "FME" / "Packages" / "25810-win64" / "transformers",
-        user_profile / "Desktop",
-        Path(r"C:\Users\mjouini\.gemini\antigravity\brain\7005db7e-620a-4abe-8dd8-8303d3122a32\browser_sandbox\uploads"),
-    ]
-    for d in target_dirs:
-        try:
-            d.mkdir(parents=True, exist_ok=True)
-            target = d / "MCPConnector.fmx"
-            target.write_text(content, encoding="utf-8")
-            print(f"Deployed: {target}")
-        except Exception as err:
-            print(f"Could not deploy to {d}: {err}")
+    # Deploy to FME shared transformer locations on Windows when USERPROFILE exists
+    user_profile_env = os.environ.get("USERPROFILE", "")
+    if user_profile_env:
+        user_profile = Path(user_profile_env)
+        target_dirs = [
+            user_profile / "Documents" / "FME" / "Transformers",
+            user_profile
+            / "AppData"
+            / "Roaming"
+            / "Safe Software"
+            / "FME"
+            / "FME Store"
+            / "Transformers",
+            user_profile
+            / "AppData"
+            / "Roaming"
+            / "Safe Software"
+            / "FME"
+            / "Packages"
+            / "25810-win64"
+            / "transformers",
+        ]
+        for d in target_dirs:
+            try:
+                d.mkdir(parents=True, exist_ok=True)
+                target = d / "MCPConnector.fmx"
+                target.write_text(content, encoding="utf-8")
+                print(f"Deployed: {target}")
+            except Exception as err:
+                print(f"Could not deploy to {d}: {err}")
 
 
 if __name__ == "__main__":
